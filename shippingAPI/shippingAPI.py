@@ -1,5 +1,6 @@
 #!/usr/bin/python
 
+from datetime import datetime
 import csv
 import sys
 
@@ -39,3 +40,35 @@ def readData(filename):
 	# Ports should be in alphabetical order
 	ports.sort()
 
+def findPrices(grain, startDate, endDate):
+	# Iterate through dates that this grain is shipped on
+	for date in dataDict[grain]:
+		if isInRange(startDate, endDate, date):
+			sys.stdout.write(date + ',' + grain + ',')
+
+			# Find all ports that ship this grain on this date
+			for port in ports:
+				if 'CY1' in dataDict[grain][date]:
+					if port in dataDict[grain][date]['CY1']:
+						sys.stdout.write(dataDict[grain][date]['CY1'][port])
+					
+				sys.stdout.write(',')
+
+				if 'CY2' in dataDict[grain][date]:
+					if port in dataDict[grain][date]['CY2']:
+						sys.stdout.write(dataDict[grain][date]['CY2'][port])
+
+				sys.stdout.write(',')
+
+			# TODO: Insert code to print price averages
+
+			print # Print new line
+
+
+def isInRange(startDate, endDate, dateToCompare):
+	start = datetime.strptime(startDate, "%d/%b/%y")
+	end = datetime.strptime(endDate, "%d/%b/%y")
+	date = datetime.strptime(dateToCompare, "%d/%b/%y")
+
+	if date < start or date > end: return False
+	return True
