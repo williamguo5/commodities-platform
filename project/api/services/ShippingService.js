@@ -1,10 +1,16 @@
-
 module.exports = {
-	prices: function(grainType, startDate, endDate, next) {
-		Shipping.find({grain: grainType, date: {'>=': new Date(startDate), '<=': new Date(endDate) } })
-			.exec(function(err, prices) {
-				if (err) throw err;
-				next(prices);
-		});
-	}
-}
+  prices: function(grain, startDate, endDate, next) {
+    Shipping.find({grain: grain, date: {'>=': new Date(startDate), '<=': new Date(endDate)} })
+        .populate('portY1')
+        .populate('portY2')
+        .exec(function(err,prices) {
+        if (err) throw err;
+
+        // for (price in prices) {
+          // console.log(price); 
+        // }
+
+        next(prices);
+    });
+  }
+};
