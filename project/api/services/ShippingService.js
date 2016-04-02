@@ -6,19 +6,18 @@ module.exports = {
 	        .exec(function(err, prices) {
 		        if (err) throw err;
 
-		        for (var i = 0; i < prices.length(); i++) {
-		        	console.log(price[i].id);
-		        }
-		    	next(prices);
+				next(prices);
 	    	}
 	    );
-	}
+	},
 
-	// createRecord: function(port, grain, year, date, price, next) {
-	// 	Shiping.create()
-	// 		.exec(function(err, record)) {
-	// 			if (err) throw err;
-	// 			next(record);
-	// 		}
-	// }
+	createRecord: function(port, grain, year, date, price, next) {
+		Shiping.create()
+			.exec(function(err, record){
+				if (err) throw err;
+				next(record);
+
+			}
+		); 		
+	}
 };
