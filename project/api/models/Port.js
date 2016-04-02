@@ -7,15 +7,23 @@
 
 module.exports = {
 
-  attributes: {
-    name : { type: 'string' },
+	attributes: {
+		name : { 
+			type: 'string' 
+		},
 
-    price : { type: 'float' },
+		price : { 
+			type: 'float' 
+		},
 
-    ownerPortY1 : { model: 'shipping' },
+		ownerPortY1 : { 
+			model: 'shipping' 
+		},
 
-    ownerPortY2 : { model: 'shipping' }
+		ownerPortY2 : { 
+			model: 'shipping' 
+		}
 
-  }
+	}
 };
 
