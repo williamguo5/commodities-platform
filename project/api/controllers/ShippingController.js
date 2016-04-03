@@ -37,7 +37,7 @@ module.exports = {
 			}
 
 			ShippingService.createRecord(fileContents, function(success)) {
-				res.json(succes);
+				res.json(success);
 			}
 			
 			return res.json({
