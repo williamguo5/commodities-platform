@@ -11,7 +11,7 @@ module.exports = {
 	    );
 	},
 
-	createRecord: function(port, grain, year, date, price, next) {
+	createRecord: function(fileContents, next) {
 		Shiping.create()
 			.exec(function(err, record){
 				if (err) throw err;
