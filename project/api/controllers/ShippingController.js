@@ -29,20 +29,29 @@ module.exports = {
 			var SkipperDisk = require('skipper-disk');
 			var fileAdapter = SkipperDisk(/* optional opts */);
 
-			var fileContents = new Array();
-			for (u in uploadedFiles) {
-				var fs = require('fs');
-				fileContents.push(fs.readFileSync(uploadedFiles[u].fd, 'utf-8').toString());
+            var fs = require('fs');
+			var fileContents = fs.readFileSync(uploadedFiles[u].fd, 'utf-8').toString();
 
-			}
+            fileContents = fileContents.split('\n');
+            for (var i = 0; i < fileContents.length; i++) {
+                line = fileContents[i].split(',');
 
-			ShippingService.createRecord(fileContents, function(success)) {
-				res.json(success);
-			}
+                var RIC = line[0].split('-');
+                var port = RIC[0];
+                var grain = RIC[1];
+                var year = RIC[2];
+
+                var date = line[1];
+                var price = line[6];
+
+                ShippingService.createRecord(port, grain, year, date, price, function(success)) {
+                    res.json(success);
+                }
+            }
 			
 			return res.json({
-				message: uploadedFiles.length + ' file(s) uploaded successfully!',
-				files: uploadedFiles
+				message: 'File uploaded successfully!',
+				//files: uploadedFiles
 			});
 		});
 	}
