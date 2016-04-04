@@ -16,7 +16,7 @@ module.exports = {
 		});
 	},
 
-	createRecord: function(req, res) {
+	createRecords: function(req, res) {
 		// var port = req.query.port;
 		// var grain = req.query.grain;
 		// var year = req.query.year;
@@ -44,14 +44,14 @@ module.exports = {
                 var date = line[1];
                 var price = line[6];
 
-                ShippingService.createRecord(port, grain, year, date, price, function(success)) {
-                    res.json(success);
-                }
+                // ShippingService.createRecord(port, grain, year, date, price, function(success)) {
+                    // res.json(success);
+                // }
             }
 			
 			return res.json({
 				message: 'File uploaded successfully!',
-				//files: uploadedFiles
+				files: uploadedFiles
 			});
 		});
 	}

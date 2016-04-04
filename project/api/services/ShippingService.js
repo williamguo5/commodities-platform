@@ -11,13 +11,13 @@ module.exports = {
 	    );
 	},
 
-	createRecord: function(fileContents, next) {
-		Shiping.create()
-			.exec(function(err, record){
-				if (err) throw err;
-				next(record);
+	// createRecord: function(fileContents, next) {
+		// Shiping.create()
+			// .exec(function(err, record){
+				// if (err) throw err;
+				// next(record);
 
-			}
-		); 		
-	}
+			// }
+		// ); 		
+	// }
 };
