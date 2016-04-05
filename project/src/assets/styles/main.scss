@@ -1,0 +1,59 @@
+section {
+    padding: 20px 10px;
+    min-height: 300px;
+}
+
+a {
+    text-decoration: none;
+    transition: color .1s;
+}
+
+#sectionTitle {
+    height: 500px;
+}
+
+#sectionTitle img {
+    border-radius: 50%;
+    height: 140px;
+    border: 6px solid white;
+    margin: 10px;
+    transition: box-shadow .25s;
+}
+#sectionTitle img:hover {
+    box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.center-text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+}
+
+.bg-blue {
+    background-color: #3498db;
+}
+
+.bg-green {
+    background-color: #27ae60;
+}
+
+.bg-red {
+    background-color: #e74c3c;
+}
+
+.bg-blue,
+.bg-green,
+.bg-red {
+    color: #fff;
+}
+
+.white-text {
+    color: #fff;
+}
+
+.api-section {
+    margin-top: 20px;
+    margin-bottom: 80px;
+}

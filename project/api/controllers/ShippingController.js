@@ -30,7 +30,7 @@ module.exports = {
 			var fileAdapter = SkipperDisk(/* optional opts */);
 
             var fs = require('fs');
-			var fileContents = fs.readFileSync(uploadedFiles[u].fd, 'utf-8').toString();
+			var fileContents = fs.readFileSync(uploadedFiles.fd, 'utf-8').toString();
 
             fileContents = fileContents.split('\n');
             for (var i = 0; i < fileContents.length; i++) {
@@ -45,7 +45,7 @@ module.exports = {
                 var price = line[6];
 
                 // ShippingService.createRecord(port, grain, year, date, price, function(success)) {
-                    // res.json(success);
+                //     res.json(success);
                 // }
             }
 			
