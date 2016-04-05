@@ -51,7 +51,7 @@ module.exports = {
 			
 			return res.json({
 				message: 'File uploaded successfully!',
-				// files: uploadedFiles
+				files: uploadedFiles
 			});
 		});
 	}
