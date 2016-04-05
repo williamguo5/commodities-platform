@@ -30,7 +30,7 @@ module.exports = {
 			var fileAdapter = SkipperDisk(/* optional opts */);
 
             var fs = require('fs');
-			var fileContents = fs.readFileSync(uploadedFiles[u].fd, 'utf-8').toString();
+			var fileContents = fs.readFileSync(uploadedFiles[0].fd, 'utf-8').toString();
 
             fileContents = fileContents.split('\n');
             for (var i = 0; i < fileContents.length; i++) {
@@ -51,7 +51,7 @@ module.exports = {
 			
 			return res.json({
 				message: 'File uploaded successfully!',
-				files: uploadedFiles
+				// files: uploadedFiles
 			});
 		});
 	}
