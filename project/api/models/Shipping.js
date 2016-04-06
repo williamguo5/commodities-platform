@@ -9,6 +9,13 @@ module.exports = {
 	autoCreatedAt: false,
 	autoUpdatedAt: false,
 	attributes: {
+
+		// identifier who it belongs to
+		userID: { 
+			type: 'string',
+			required: true
+		},
+
 		grain: {
 			type: 'string',
 			defaultsTo: '',

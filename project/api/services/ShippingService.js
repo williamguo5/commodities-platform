@@ -1,10 +1,10 @@
 module.exports = {
-	getPrices: function(grain, startDate, endDate, next) {
-		Shipping.find({grain: grain, date: {'>=': new Date(startDate), '<=': new Date(endDate)} })
+	getPrices: function(userID, grain, startDate, endDate, next) {
+		Shipping.find({userID: userID, grain: grain, date: {'>=': new Date(startDate), '<=': new Date(endDate)} })
         	.populate('portY1')
         	.populate('portY2')
         	.exec(function(err, prices) {
-				sails.log.error(err);
+				sails.log.error(err + "-" + grain + " not found in given dates");
 	        	
 
 				next(prices);
@@ -12,10 +12,10 @@ module.exports = {
 	    );
 	},
 
-	createRecord: function(port, grain, year, date, price) {
+	createRecord: function(userID, port, grain, year, date, price) {
 		var id;
 		
-		Shipping.findOrCreate({grain: grain, date: new Date(date)})
+		Shipping.findOrCreate({userID: userID, grain: grain, date: new Date(date)})
 			.exec(function(err, record) {
 				sails.log.error(err);
 				
@@ -36,7 +36,7 @@ module.exports = {
 
 				Port.create({name:port, price: price, ownerPortY1: ownerPortY1, ownerPortY2: ownerPortY2})
 					.exec(function(err, record) {
-						sails.log.error(err);
+						sails.log.error(err + " - could not create new record");
 						console.log(record);
 					}
 				);

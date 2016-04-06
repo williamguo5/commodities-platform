@@ -7,16 +7,18 @@
 
 module.exports = {
 	getPrices: function(req, res) {
+		var userID = req.query.userID;
 		var grain = req.query.grain;
 		var startDate = req.query.startDate;
 		var endDate = req.query.endDate;
 
-		ShippingService.getPrices(grain, startDate, endDate, function(prices) {
+		ShippingService.getPrices(userID, grain, startDate, endDate, function(prices) {
 			res.json(prices);
 		});
 	},
 
 	createRecords: function(req, res) {
+		var userID = req.query.userID; // need to somehow get user ID
 		// var port = req.query.port;
 		// var grain = req.query.grain;
 		// var year = req.query.year;
@@ -46,7 +48,7 @@ module.exports = {
 
                 var price = line[6];
 
-                ShippingService.createRecord(port, grain, year, date, price);
+                ShippingService.createRecord(userID, port, grain, year, date, price);
                 
 
             }
