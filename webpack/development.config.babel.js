@@ -1,24 +1,18 @@
-import { CONFIG, APP_PATH } from './config';
+import { CONFIG, ROOT_PATH } from './config';
+import webpack from 'webpack';
 import merge from './helpers/merge';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
+import CompressionPlugin from 'compression-webpack-plugin';
 
-// Export function so we can access it in other modules (see ES6)
 export default merge({
-  debug: true,
-  devtool: 'source-map',
+  output: {
+    path: `${ ROOT_PATH }/.tmp/public`,
+    publicPath: '/',
+    filename: 'bundle-[hash].js'
+  },
 
   plugins: [
-    new ExtractTextPlugin('bundle.css')
-  ],
-
-  devServer: {
-    info: true,
-    hot: false,
-    inline: true,
-    stats: {
-      colors: true
-    },
-    port: 9999,
-    historyApiFallback: true
-  }
+    new ExtractTextPlugin('bundle-[hash].css'),
+    new CompressionPlugin({ asset: '{file}.gz', algorithm: 'gzip' })
+  ]
 }, CONFIG);
