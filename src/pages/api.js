@@ -77,6 +77,10 @@ Content-Type: application/json
   "data-key": "43feda98129cb7a7"
 }`}
               </Codeblock>
+              <p>You can upload the file below to get a <i>data-key</i>:</p>
+              <div>
+                <Filedrop />
+              </div>
               <br/>
               <h5>Sample Requests</h5>
               <b>cURL</b>
@@ -88,7 +92,7 @@ Content-Type: application/json
               {`var request = require('superagent');
 request.post('http://asmallmilliondollarloan.herokuapp.com/shipping/createRecords')
   .attach('inputData', file)
-  .end((err, res) => {
+  .end(function(err, res){
     // Calling the end function will send the request
   }
 );`}

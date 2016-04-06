@@ -1,18 +1,19 @@
 import './filedrop.scss';
 import React from 'react';
 import Dropzone from 'react-dropzone';
-var request = require('superagent');
+import Request from 'superagent';
 
 export default class Filedrop extends React.Component {
   onDrop(files) {
     console.log('Received files: ', files);
 
-    request.post('/shipping/createRecords')
+    Request.post('/shipping/createRecords')
       .attach('inputData', files[0])
       .end((err, res) => {
         // Calling the end function will send the request
         console.log('err: ', err);
-        console.log('res: ', res);
+        console.log('res: ', JSON.stringify(res.body));
+        window.alert(res.body.message);
       }
     );
   };
