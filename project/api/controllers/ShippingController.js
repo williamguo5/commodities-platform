@@ -33,7 +33,8 @@ module.exports = {
 			var fileContents = fs.readFileSync(uploadedFiles[0].fd, 'utf-8').toString();
 
             fileContents = fileContents.split('\n');
-            for (var i = 0; i < fileContents.length; i++) {
+            console.log(fileContents);
+            for (var i = 1; i < fileContents.length - 1; i++) {
                 line = fileContents[i].split(',');
 
                 var RIC = line[0].split('-');
@@ -42,11 +43,12 @@ module.exports = {
                 var year = RIC[2];
 
                 var date = line[1];
+
                 var price = line[6];
 
-                // ShippingService.createRecord(port, grain, year, date, price, function(success)) {
-                    // res.json(success);
-                // }
+                ShippingService.createRecord(port, grain, year, date, price);
+                
+
             }
 			
 			return res.json({

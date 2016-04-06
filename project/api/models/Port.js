@@ -14,7 +14,8 @@ module.exports = {
 		},
 
 		price : { 
-			type: 'float' 
+			type: 'float',
+			defaultsTo: 0.00 
 		},
 
 		ownerPortY1 : { 
