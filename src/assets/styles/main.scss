@@ -54,6 +54,20 @@ a {
 }
 
 .api-section {
-    margin-top: 20px;
-    margin-bottom: 80px;
+    margin-top: 40px;
+    margin-bottom: 120px;
+}
+.tag-orange {
+    background-color: #FF9B00;
+    padding: 4px 6px;
+    color: white;
+    font-weight: 900;
+    border-radius: 5px;
+    font-size: 90%;
+}
+
+pre {
+    > code {
+        overflow: auto;
+    }
 }
