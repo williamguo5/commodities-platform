@@ -7,11 +7,12 @@
 
 module.exports = {
 	getPrices: function(req, res) {
+		var userID = req.query.userID;
 		var grain = req.query.grain;
 		var startDate = req.query.startDate;
 		var endDate = req.query.endDate;
 
-		ShippingService.getPrices(grain, startDate, endDate, function(prices) {
+		ShippingService.getPrices(userID, grain, startDate, endDate, function(prices) {
 			res.json(prices);
 		});
 	},
