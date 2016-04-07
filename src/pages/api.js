@@ -36,10 +36,10 @@ Host: asmallmilliondollarloan.herokuapp.com`}
               {`HTTP/1.1 200 OK
 Content-Type: application/json
 
-{
-  "prices": [
-    "date": "9/07/2015",
+[
+  {
     "grain_type": "AGP1",
+    "date": "9-7-2015",
     "price_port1_Y1": "393",
     "price_port1_Y2": "231",
     "price_port2_Y1": "393",
@@ -47,8 +47,19 @@ Content-Type: application/json
     ...
     "average_Y1": "289.75",
     "average_Y1": "275"
-  ]
-}`}
+  },
+  {
+    "grain_type": "AGP1",
+    "date": "1-7-2015",
+    "price_port1_Y1": "393",
+    "price_port1_Y2": "231",
+    "price_port2_Y1": "393",
+    "price_port2_Y2": "231",
+    ...
+    "average_Y1": "289.75",
+    "average_Y1": "275"
+  }
+]`}
               </Codeblock>
             </div>
             <div className="api-section">
