@@ -34,7 +34,7 @@ Host: asmallmilliondollarloan.herokuapp.com`}
               <Codeblock>
               {`http://asmallmilliondollarloan.herokuapp.com/shipping/getPrices?grain=AGP1&startDate=27-Jul-15&endDate=31-Dec-15`}
               </Codeblock>
-              <b>cURL<b>
+              <b>cURL</b>
               <Codeblock>
               {`curl "http://asmallmilliondollarloan.herokuapp.com/shipping/getPrices?grain=AGP1&startDate=27-Jul-15&endDate=31-Dec-15"`}
               </Codeblock>
