@@ -48,6 +48,7 @@ Content-Type: application/json
     "average_Y1": "289.75",
     "average_Y1": "275"
   },
+  ...
   {
     "grain_type": "AGP1",
     "date": "1-7-2015",
