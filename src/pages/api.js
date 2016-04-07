@@ -21,14 +21,14 @@ export default class Api extends React.Component {
               <p>no</p>
               <h5>Parameters</h5>
               <ul>
-                <li>Grain Type - 4 character code</li>
-                <li>Start Date - DD/MMM/YYYY</li>
-                <li>End Date - DD/MMM/YYYY</li>
+                <li>Grain Type: 4 character code</li>
+                <li>Start Date: DD-MMM-YY</li>
+                <li>End Date: DD-MMM-YY</li>
               </ul>
               <h5>Sample JSON request & response</h5>
               <b>Request</b>
               <Codeblock>
-              {`GET /shipping/getPrices?grain=AGP1&startDate=27-Jul-15&endDate=31-Dec-15 HTTP/1.1
+              {`GET /shipping/getPrices?grain=AGP1&startDate=27-Jul-13&endDate=31-Dec-15 HTTP/1.1
 Host: asmallmilliondollarloan.herokuapp.com`}
               </Codeblock>
               <b>Response</b>
@@ -71,12 +71,12 @@ Content-Type: application/json
               <p>no</p>
               <h5>Parameters</h5>
               <ul>
-                <li>inputData - file to upload <span className="tag-orange">required</span></li>
+                <li>inputData: CSV file to upload <span className="tag-orange">required</span></li>
               </ul>
               <h5>Sample JSON request & response</h5>
               <b>Request</b>
               <Codeblock>
-              {`GET /shipping/getPrices?grain=AGP1&startDate=27-Jul-15&endDate=31-Dec-15 HTTP/1.1
+              {`POST /shipping/createRecords HTTP/1.1
 Host: asmallmilliondollarloan.herokuapp.com`}
               </Codeblock>
               <b>Response</b>
@@ -85,7 +85,7 @@ Host: asmallmilliondollarloan.herokuapp.com`}
 Content-Type: application/json
 
 {
-  "data-key": "43feda98129cb7a7"
+  "message": "File uploaded successfully!"
 }`}
               </Codeblock>
               <p>You can upload the file below to get a <i>data-key</i>:</p>

@@ -44,9 +44,8 @@
   },
   "scripts": {
     "clean": "node_modules/.bin/rimraf assets/",
-    "clean-dev": "node_modules/.bin/rimraf .tmp/",
     "build": "npm run clean && node_modules/.bin/webpack --config webpack/production.config.babel.js",
-    "build-dev": "npm run clean-dev && node_modules/.bin/webpack --config webpack/development.config.babel.js",
+    "build-dev": "npm run clean && node_modules/.bin/webpack --config webpack/development.config.babel.js",
     "debug": "node debug app.js",
     "start": "npm run build && sails lift",
     "dev-server": "npm run build-dev && sails lift"
