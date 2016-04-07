@@ -6,9 +6,21 @@
  */
 
 module.exports = {
+
+	adore: function (req, res) {
+    	res.send("I adore pets!");
+  	},
+
 	genID: function(req, res) {
-		// to do
 		// creates new user ID then servse up to client
+		var key = UserService.randomKey();
+
+		// TODO: create new key if already taken
+
+		return res.json({
+			userID: key,
+		});
+		
 	},
 	
 	clean: function(req, res) {
