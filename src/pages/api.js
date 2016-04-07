@@ -21,15 +21,22 @@ export default class Api extends React.Component {
               <p>no</p>
               <h5>Parameters</h5>
               <ul>
-                <li>Grain Type: 4 character code</li>
+                <li>Grain Type: 2-4 character code</li>
                 <li>Start Date: DD-MMM-YY</li>
                 <li>End Date: DD-MMM-YY</li>
               </ul>
               <h5>Sample JSON request & response</h5>
               <b>Request</b>
               <Codeblock>
-              {`GET /shipping/getPrices?grain=AGP1&startDate=27-Jul-13&endDate=31-Dec-15 HTTP/1.1
+              {`GET /shipping/getPrices?grain=AGP1&startDate=27-Jul-15&endDate=31-Dec-15 HTTP/1.1
 Host: asmallmilliondollarloan.herokuapp.com`}
+              </Codeblock>
+              <Codeblock>
+              {`http://asmallmilliondollarloan.herokuapp.com/shipping/getPrices?grain=AGP1&startDate=27-Jul-15&endDate=31-Dec-15`}
+              </Codeblock>
+              <b>cURL<b>
+              <Codeblock>
+              {`curl "http://asmallmilliondollarloan.herokuapp.com/shipping/getPrices?grain=AGP1&startDate=27-Jul-15&endDate=31-Dec-15"`}
               </Codeblock>
               <b>Response</b>
               <Codeblock>
