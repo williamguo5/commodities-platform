@@ -9,8 +9,8 @@ module.exports = {
 	genID: function(req, res) {
 		// to do
 		// creates new user ID then servse up to client
-	}
-
+	},
+	
 	clean: function(req, res) {
 		// to do
 		// removes all records user input
