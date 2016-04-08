@@ -21,16 +21,26 @@ module.exports = {
 
 		var userID = req.query.userID;
 
-			// return res.json({
-			// 	message: userID
-			// });
-
-		// option where userID not specified generate key THEN add files
+		// if ID not specified generate ID and add to user
 		if (!userID) {
-			return res.json({
-				message: "OMG no key!"
-			});
-		} 
+			userID = UserService.randomKey();
+			// make user -- hopefully it hasn't been made yet, sanity check needed
+			User.create({userID: userID})
+				.exec(function(err, record) {
+					// sails.log.error(err);
+					if (err) throw err;
+					// console.log(record);
+				}
+			);
+
+		}
+
+		// testing without file
+			// 		return res.json({
+			// 	message: 'File uploaded successfully!',
+			// 	// files: uploadedFiles.length
+			// 	userID: userID,
+			// }); 
 
 		req.file('inputData').upload(function(err, uploadedFiles) {
 			if (err) return res.send(500, err);
@@ -63,6 +73,7 @@ module.exports = {
 			return res.json({
 				message: 'File uploaded successfully!',
 				// files: uploadedFiles.length
+				userID: userID,
 			});
 		});
 
