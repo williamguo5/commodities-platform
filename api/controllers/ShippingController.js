@@ -18,6 +18,20 @@ module.exports = {
 	},
 
 	createRecords: function(req, res) {
+
+		var userID = req.query.userID;
+
+			// return res.json({
+			// 	message: userID
+			// });
+
+		// option where userID not specified generate key THEN add files
+		if (!userID) {
+			return res.json({
+				message: "OMG no key!"
+			});
+		} 
+
 		req.file('inputData').upload(function(err, uploadedFiles) {
 			if (err) return res.send(500, err);
 			
@@ -41,7 +55,7 @@ module.exports = {
 
 					var price = line[6];
 
-					ShippingService.createRecord(port, grain, year, date, price);
+					ShippingService.createRecord(userID, port, grain, year, date, price);
 					
 					
 			}
@@ -51,6 +65,7 @@ module.exports = {
 				// files: uploadedFiles.length
 			});
 		});
+
 	}
 };
 

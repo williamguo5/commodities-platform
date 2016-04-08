@@ -28,7 +28,6 @@ module.exports = {
 
 		return res.json({
 			userID: key,
-			message: "Success"
 		});
 		
 	},
@@ -36,7 +35,7 @@ module.exports = {
 	clean: function(req, res) {
 		// TODO:
 		// removes all records user input
-	}
+	},
 
 	deleteUser: function(req, res) {
 		// TODO:
