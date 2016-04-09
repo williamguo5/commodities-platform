@@ -7,10 +7,6 @@
 
 module.exports = {
 
-	adore: function (req, res) {
-    	res.send("I adore pets!");
-  	},
-
 	genID: function(req, res) {
 		// creates new user ID then servse up to client
 		var key = UserService.randomKey();

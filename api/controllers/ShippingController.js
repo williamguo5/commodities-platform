@@ -20,7 +20,7 @@ module.exports = {
 	createRecords: function(req, res) {
 
 		var userID = req.query.userID;
-		// var status = '' // for testing user is made
+		// var status = '' // for testing user is made test 1
 
 		// if ID not specified generate ID and add to user
 		if (!userID) {
@@ -33,12 +33,12 @@ module.exports = {
 					// console.log(record);
 				}
 			);
-			// delete status check if not req.
+			// delete status check if not req. test 1
 			// status = "new user created"
 
 		}
 
-		// testing without file
+		// testing without file test 1
 			// return res.json({
 			// 	userID: userID,
 			// 	message: 'File uploaded successfully!',
