@@ -59,6 +59,10 @@ module.exports = {
 		Port.destroy({}).exec(function(err){
 			if (err) throw err;
 		});
+
+		return res.json({
+				message: 'All records deleted successfully!',
+			});
 	}
 };
 
