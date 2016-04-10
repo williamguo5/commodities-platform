@@ -21,15 +21,22 @@ export default class Api extends React.Component {
               <p>no</p>
               <h5>Parameters</h5>
               <ul>
-                <li>Grain Type - 4 character code</li>
-                <li>Start Date - DD/MMM/YYYY</li>
-                <li>End Date - DD/MMM/YYYY</li>
+                <li>Grain Type: 2-4 character code</li>
+                <li>Start Date: DD-MMM-YY</li>
+                <li>End Date: DD-MMM-YY</li>
               </ul>
               <h5>Sample JSON request & response</h5>
               <b>Request</b>
               <Codeblock>
               {`GET /shipping/getPrices?grain=AGP1&startDate=27-Jul-15&endDate=31-Dec-15 HTTP/1.1
 Host: asmallmilliondollarloan.herokuapp.com`}
+              </Codeblock>
+              <Codeblock>
+              {`http://asmallmilliondollarloan.herokuapp.com/shipping/getPrices?grain=AGP1&startDate=27-Jul-15&endDate=31-Dec-15`}
+              </Codeblock>
+              <b>cURL</b>
+              <Codeblock>
+              {`curl "http://asmallmilliondollarloan.herokuapp.com/shipping/getPrices?grain=AGP1&startDate=27-Jul-15&endDate=31-Dec-15"`}
               </Codeblock>
               <b>Response</b>
               <Codeblock>
@@ -48,6 +55,7 @@ Content-Type: application/json
     "average_Y1": "289.75",
     "average_Y1": "275"
   },
+  ...
   {
     "grain_type": "AGP1",
     "date": "1-7-2015",
@@ -71,12 +79,12 @@ Content-Type: application/json
               <p>no</p>
               <h5>Parameters</h5>
               <ul>
-                <li>inputData - file to upload <span className="tag-orange">required</span></li>
+                <li>inputData: CSV file to upload <span className="tag-orange">required</span></li>
               </ul>
               <h5>Sample JSON request & response</h5>
               <b>Request</b>
               <Codeblock>
-              {`GET /shipping/getPrices?grain=AGP1&startDate=27-Jul-15&endDate=31-Dec-15 HTTP/1.1
+              {`POST /shipping/createRecords HTTP/1.1
 Host: asmallmilliondollarloan.herokuapp.com`}
               </Codeblock>
               <b>Response</b>
@@ -85,7 +93,7 @@ Host: asmallmilliondollarloan.herokuapp.com`}
 Content-Type: application/json
 
 {
-  "data-key": "43feda98129cb7a7"
+  "message": "File uploaded successfully!"
 }`}
               </Codeblock>
               <p>You can upload the file below to get a <i>data-key</i>:</p>

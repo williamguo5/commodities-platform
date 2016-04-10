@@ -13,7 +13,7 @@ export default class Filedrop extends React.Component {
         // Calling the end function will send the request
         console.log('err: ', err);
         console.log('res: ', JSON.stringify(res.body));
-        window.alert(res.body.message);
+        alert(res.body.message);
       }
     );
   };
@@ -21,7 +21,7 @@ export default class Filedrop extends React.Component {
   render() {
     return (
       <Dropzone onDrop={this.onDrop} accept="text/csv" className="file-drop">
-        <div>Try dropping a CSV file here, or click to select a file to upload.</div>
+        <div>{'Try dropping a CSV file here, or click to select a file to upload.'}</div>
       </Dropzone>
     );
   }
