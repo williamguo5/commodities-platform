@@ -50,6 +50,15 @@ module.exports = {
 				// files: uploadedFiles.length
 			});
 		});
+	},
+
+	deleteRecords: function(req, res) {
+		Shipping.destroy({}).exec(function(err){
+			if (err) throw err;
+		});
+		Port.destroy({}).exec(function(err){
+			if (err) throw err;
+		});
 	}
 };
 
