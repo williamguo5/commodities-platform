@@ -12,7 +12,7 @@ module.exports = {
 					record = prices[price];
 					portPrices = {};
 					portPrices["grain_type"] = record.grain;
-					portPrices["date"] = (sudorecord.date.getDate() - 1) + "-" + 
+					portPrices["date"] = (record.date.getDate() - 1) + "-" + 
 										  (record.date.getMonth() + 1) + "-" + 
 										  record.date.getFullYear();
 					var sum = 0; 
