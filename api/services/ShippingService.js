@@ -62,38 +62,44 @@ module.exports = {
 	},
 
 	createRecord: function(userID, port, grain, year, date, price) {
-		var id;
-		
-		Shipping.findOrCreate({userID: userID, grain: grain, date: new Date(date)})
+		Shipping.create({grain: grain, date: new Date(date), port: port, price: price})
 			.exec(function(err, record) {
-				// sails.log.error(err);
-				if (err) throw err;
+				if (err) {
+					sails.log.error(err);
+				}
+			});
+		// var id;
+		
+		// Shipping.findOrCreate({userID: userID, grain: grain, date: new Date(date)})
+		// 	.exec(function(err, record) {
+		// 		// sails.log.error(err);
+		// 		if (err) throw err;
 				
 
-				id = record.id;
+		// 		id = record.id;
 
-				var ownerPortY1;
-				var ownerPortY2;
-				if (year == "CY1") {
-					ownerPortY1 = id;
-				} else {
-					ownerPortY2 = id;
-				}
+		// 		var ownerPortY1;
+		// 		var ownerPortY2;
+		// 		if (year == "CY1") {
+		// 			ownerPortY1 = id;
+		// 		} else {
+		// 			ownerPortY2 = id;
+		// 		}
 
-				if (price == '') {
-					price = 0;
-				}
+		// 		if (price == '') {
+		// 			price = 0;
+		// 		}
 
-				Port.create({name:port, price: price, ownerPortY1: ownerPortY1, ownerPortY2: ownerPortY2})
-					.exec(function(err, record) {
-						// sails.log.error(err);
-						if (err) throw err;
+		// 		Port.create({name:port, price: price, ownerPortY1: ownerPortY1, ownerPortY2: ownerPortY2})
+		// 			.exec(function(err, record) {
+		// 				// sails.log.error(err);
+		// 				if (err) throw err;
 
-						// console.log(record);
-					}
-				);
-			}
-		);
+		// 				// console.log(record);
+		// 			}
+		// 		);
+		// 	}
+		// );
 
 
 		
