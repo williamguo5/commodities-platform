@@ -62,7 +62,7 @@ module.exports = {
 	},
 
 	createRecord: function(userID, port, grain, year, date, price) {
-		Shipping.create({grain: grain, date: new Date(date), port: port, price: price})
+		Shipping.create({userID: userID, grain: grain, date: new Date(date), port: port, price: price})
 			.exec(function(err, record) {
 				if (err) {
 					sails.log.error(err);
