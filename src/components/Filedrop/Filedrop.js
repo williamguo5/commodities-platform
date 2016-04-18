@@ -7,7 +7,7 @@ export default class Filedrop extends React.Component {
   onDrop(files) {
     console.log('Received files: ', files);
 
-    Request.post('/shipping/createRecords')
+    Request.post('/shipping/upload') // TODO change to controller that handles post request
       .attach('inputData', files[0])
       .end((err, res) => {
         // Calling the end function will send the request

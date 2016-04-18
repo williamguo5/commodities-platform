@@ -6,7 +6,7 @@ import CompressionPlugin from 'compression-webpack-plugin';
 
 export default merge({
   output: {
-    path: `${ ROOT_PATH }/assets`,
+    path: `${ ROOT_PATH }/public`,
     publicPath: '/',
     filename: 'bundle-[hash].js'
   },
