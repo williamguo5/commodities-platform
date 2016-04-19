@@ -52,12 +52,15 @@ def findPrices(grain, startDate, endDate):
 		priceSumCY2 = 0
 		numPortsCY1 = 0
 		numPortsCY2 = 0
-
+		sys.stdout.write('{')
 		if isInRange(startDate, endDate, date):
-			sys.stdout.write(date + ',' + grain + ',')
+			# sys.stdout.write(date + ',' + grain + ',')
+			sys.stdout.write('"date":"' + date + '","' + 'grain":"' + grain + '","')
 
 			# Find all ports that ship this grain on this date
 			for port in ports:
+				sys.stdout.write(port + '_Y1":"')
+				
 				if 'CY1' in dataDict[grain][date]:
 					if port in dataDict[grain][date]['CY1']:
 						priceCY1 = dataDict[grain][date]['CY1'][port]
@@ -66,8 +69,10 @@ def findPrices(grain, startDate, endDate):
 
 						if priceCY1 != '0':
 							sys.stdout.write(priceCY1)
-					
-				sys.stdout.write(',')
+							
+				sys.stdout.write('","')
+				
+				sys.stdout.write(port + '_Y2":"')
 
 				if 'CY2' in dataDict[grain][date]:
 					if port in dataDict[grain][date]['CY2']:
@@ -78,17 +83,20 @@ def findPrices(grain, startDate, endDate):
 						if priceCY2 != '0':
 							sys.stdout.write(priceCY2)
 
-				sys.stdout.write(',')
+
+				sys.stdout.write('","')
 
 			# Print averages
+			sys.stdout.write('average_Y1":"')
 			if numPortsCY1 != 0 and priceSumCY2 != 0:
 				sys.stdout.write(str(priceSumCY1 / numPortsCY1))
 
-			sys.stdout.write(',')
-
+			sys.stdout.write('","')
+			sys.stdout.write('average_Y2":"')
 			if numPortsCY2 != 0 and priceSumCY2 != 0:
 				sys.stdout.write(str(priceSumCY2 / numPortsCY2))
-
+							
+			sys.stdout.write('"}')
 			print # Print new line
 
 
@@ -106,6 +114,13 @@ startDate = sys.argv[3]
 endDate = sys.argv[4]
 
 readData(fileName)
+
+# sys.stdout.write("Date,GrainType,")
+# for port in ports:
+	# sys.stdout.write(port+"_Y1," + port+"_Y2,")
+
+# sys.stdout.write("average_Y1, average_Y2")
+# print
 findPrices(grain, startDate, endDate)
 
 #query = raw_input("Enter a query of the form 'GRAIN START_DATE END_DATE' or press q to quit: ")
