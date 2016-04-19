@@ -8,10 +8,16 @@ export default class Api extends React.Component {
       <main>
         <section className="center-text bg-green">
           <h1>Commodities API</h1>
-          <p>Version 0.0.1</p>
+          <p>Version 0.0.2</p>
         </section>
         <section>
+
           <div className="container">
+            <div className="api-section">
+              <p><b>Change Log</b></p>
+              <p>v0.0.2:<br></br>Users now receive a dataKey when they upload their file.</p>
+              <p>v0.0.1:<br></br>In this version of the api we have implemented only the core features. A single user can upload a data-file and query against that set of data once it has successfully uploaded. In future versions multiple users will be able to use the API at the same time.</p>
+            </div>
             <div className="api-section">
               <h2>shipping/getPrices</h2>
               <p>List of grain shipping prices at applicable ports</p>
