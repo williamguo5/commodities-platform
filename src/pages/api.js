@@ -28,15 +28,15 @@ export default class Api extends React.Component {
               <h5>Sample JSON request & response</h5>
               <b>Request</b>
               <Codeblock>
-              {`GET /shipping/getPrices?grain=AGP1&startDate=27-Jul-15&endDate=31-Dec-15 HTTP/1.1
+              {`GET /shipping/getPrices?grain=AGP1&startDate=27-Jul-2015&endDate=31-Dec-2015&userID=datakey HTTP/1.1
 Host: asmallmilliondollarloan.herokuapp.com`}
               </Codeblock>
               <Codeblock>
-              {`http://asmallmilliondollarloan.herokuapp.com/shipping/getPrices?grain=AGP1&startDate=27-Jul-15&endDate=31-Dec-15`}
+              {`http://asmallmilliondollarloan.herokuapp.com/shipping/getPrices?grain=AGP1&startDate=27-Jul-2015&endDate=31-Dec-2015&userID=datakey`}
               </Codeblock>
               <b>cURL</b>
               <Codeblock>
-              {`curl "http://asmallmilliondollarloan.herokuapp.com/shipping/getPrices?grain=AGP1&startDate=27-Jul-15&endDate=31-Dec-15"`}
+              {`curl "http://asmallmilliondollarloan.herokuapp.com/shipping/getPrices?grain=AGP1&startDate=27-Jul-2015&endDate=31-Dec-2015&userID=datakey"`}
               </Codeblock>
               <b>Response</b>
               <Codeblock>
@@ -71,8 +71,8 @@ Content-Type: application/json
               </Codeblock>
             </div>
             <div className="api-section">
-              <h2>shipping/createRecords</h2>
-              <p>Create shipping records</p>
+              <h2>shipping/upload</h2>
+              <p>Upload csv File</p>
               <h5>HTTP Method(s)</h5>
               <p>POST</p>
               <h5>Auth required</h5>
@@ -84,7 +84,7 @@ Content-Type: application/json
               <h5>Sample JSON request & response</h5>
               <b>Request</b>
               <Codeblock>
-              {`POST /shipping/createRecords HTTP/1.1
+              {`POST /shipping/upload HTTP/1.1
 Host: asmallmilliondollarloan.herokuapp.com`}
               </Codeblock>
               <b>Response</b>
@@ -104,12 +104,12 @@ Content-Type: application/json
               <h5>Sample Requests</h5>
               <b>cURL</b>
               <Codeblock>
-              {`curl -X POST -F "inputData=@test.csv" http://asmallmilliondollarloan.herokuapp.com/shipping/createRecords`}
+              {`curl -X POST -F "inputData=@test.csv" http://asmallmilliondollarloan.herokuapp.com/shipping/upload`}
               </Codeblock>
               <b>Javascript</b>
               <Codeblock>
               {`var request = require('superagent');
-request.post('http://asmallmilliondollarloan.herokuapp.com/shipping/createRecords')
+request.post('http://asmallmilliondollarloan.herokuapp.com/shipping/upload')
   .attach('inputData', file)
   .end(function(err, res){
     // Calling the end function will send the request

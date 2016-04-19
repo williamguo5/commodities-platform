@@ -63,10 +63,10 @@ router.get('/getPrices', function(req, res, next) {
 router.post('/upload', upload.array('inputData', 1), function(req, res) {
 	// console.log(req.files[0]);
 	var dataKey = req.files[0].filename;
-	files[req.files[0].filename] = true;
+	files[dataKey] = true;
 	//TODO - delete uploaded files that are over 24 hours old.
 	res.json({
-		"data-key": dataKey,
+		"dataKey": dataKey,
 		"message": "File uploaded successfully"
 	});
 });

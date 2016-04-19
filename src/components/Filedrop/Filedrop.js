@@ -13,7 +13,7 @@ export default class Filedrop extends React.Component {
         // Calling the end function will send the request
         console.log('err: ', err);
         console.log('res: ', JSON.stringify(res.body));
-        alert(res.body.message);
+        alert(res.body.message + '\nYour userID is: ' + res.body.dataKey);
       }
     );
   };

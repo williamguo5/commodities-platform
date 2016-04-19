@@ -49,6 +49,7 @@
     "build": "npm run clean && node_modules/.bin/webpack --config webpack/production.config.babel.js",
     "build-dev": "npm run clean && node_modules/.bin/webpack --config webpack/development.config.babel.js",
     "debug": "DEBUG=seng3011 ./bin/www",
+    "dev": "node-dev ./bin/www",
     "start": "npm run build && node ./bin/www",
     "dev-server": "npm run build-dev && npm run debug"
   },
