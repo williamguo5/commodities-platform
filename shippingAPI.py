@@ -30,6 +30,10 @@ def readData(filename):
 			if not year in dataDict[grain][date]:
 				dataDict[grain][date][year] = {}
 
+			# Make sure price string isn't empty
+			if price == '':
+				price = '0'
+
 			# Create entry in dictionary
 			dataDict[grain][date][year][port] = price
 
@@ -59,7 +63,9 @@ def findPrices(grain, startDate, endDate):
 						priceCY1 = dataDict[grain][date]['CY1'][port]
 						priceSumCY1 += int(priceCY1)
 						numPortsCY1 += 1
-						sys.stdout.write(priceCY1)
+
+						if priceCY1 != '0':
+							sys.stdout.write(priceCY1)
 					
 				sys.stdout.write(',')
 
@@ -68,17 +74,19 @@ def findPrices(grain, startDate, endDate):
 						priceCY2 = dataDict[grain][date]['CY2'][port]
 						priceSumCY2 += int(priceCY2)
 						numPortsCY2 += 1
-						sys.stdout.write(priceCY2)
+
+						if priceCY2 != '0':
+							sys.stdout.write(priceCY2)
 
 				sys.stdout.write(',')
 
 			# Print averages
-			if numPortsCY1 != 0:
+			if numPortsCY1 != 0 and priceSumCY2 != 0:
 				sys.stdout.write(str(priceSumCY1 / numPortsCY1))
 
 			sys.stdout.write(',')
 
-			if numPortsCY2 != 0:
+			if numPortsCY2 != 0 and priceSumCY2 != 0:
 				sys.stdout.write(str(priceSumCY2 / numPortsCY2))
 
 			print # Print new line
@@ -92,15 +100,20 @@ def isInRange(startDate, endDate, dateToCompare):
 	if date < start or date > end: return False
 	return True
 
-fileName = sys.argv[-1] # Last argument given
+fileName = sys.argv[1]
+grain = sys.argv[2]
+startDate = sys.argv[3]
+endDate = sys.argv[4]
+
 readData(fileName)
+findPrices(grain, startDate, endDate)
 
-query = raw_input("Enter a query of the form 'GRAIN START_DATE END_DATE' or press q to quit: ")
+#query = raw_input("Enter a query of the form 'GRAIN START_DATE END_DATE' or press q to quit: ")
 
-while query != 'q':
-	query = query.split(' ');
-	grain = query[0]
-	startDate = query[1]
-	endDate = query[2]
-	findPrices(grain, startDate, endDate)
-	query = raw_input("Enter a query or press q to quit: ")
+# while query != 'q':
+# 	query = query.split(' ');
+# 	grain = query[0]
+# 	startDate = query[1]
+# 	endDate = query[2]
+# 	findPrices(grain, startDate, endDate)
+# 	query = raw_input("Enter a query or press q to quit: ")
