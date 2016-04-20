@@ -1,0 +1,49 @@
+$trump-color: #E3A165;
+$nav-background-color: #333;
+$nav-height: 64px;
+$nav-text-color: #fff;
+.nav-wrapper {
+    ul {
+        margin: 0;
+    }
+    li {
+        margin: 0;
+        list-style: none;
+        display: inline-block;
+        a:hover {
+            background-color: $trump-color;
+            color: $nav-background-color;
+        }
+    }
+    a {
+        display: block;
+        color: $nav-text-color;
+        height: $nav-height;
+        padding: 0 20px;
+        transition: all .25s;
+    }
+    img {
+        height: 40px;
+        padding: 12px 0;
+    }
+}
+
+nav {
+    background-color: $nav-background-color;
+    height: $nav-height;
+    line-height: $nav-height;
+    //
+    // Sticky header
+    position: fixed;
+    width: 100%;
+    z-index: 9999;
+    top:0;
+}
+
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
+}

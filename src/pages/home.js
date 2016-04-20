@@ -15,7 +15,7 @@ export default class Home extends React.Component {
           <div className="container">
             <h2>Software Releases</h2>
               <ul>
-                <li><Link to="api">Commodities API v0.0.1</Link></li>
+                <li><Link to="api">Commodities API</Link></li>
               </ul>
           </div>
         </section>

@@ -2,17 +2,23 @@ import { CONFIG, ROOT_PATH } from './config';
 import webpack from 'webpack';
 import merge from './helpers/merge';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
-import CompressionPlugin from 'compression-webpack-plugin';
 
 export default merge({
-  output: {
-    path: `${ ROOT_PATH }/public`,
-    publicPath: '/',
-    filename: 'bundle-[hash].js'
-  },
+  debug: true,
+  devtool: 'source-map',
 
   plugins: [
-    new ExtractTextPlugin('bundle-[hash].css'),
-    new CompressionPlugin({ asset: '{file}.gz', algorithm: 'gzip' })
-  ]
+    new ExtractTextPlugin('bundle.css')
+  ],
+
+  devServer: {
+    info: true,
+    hot: false,
+    inline: true,
+    stats: {
+      colors: true
+    },
+    port: 9999,
+    historyApiFallback: true
+  }
 }, CONFIG);
