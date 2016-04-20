@@ -10,9 +10,12 @@ $nav-text-color: #fff;
         margin: 0;
         list-style: none;
         display: inline-block;
-        a:hover {
+        a:hover,a.active {
             background-color: $trump-color;
             color: $nav-background-color;
+        }
+        a:active {
+            background-color: lighten($trump-color, 20%);
         }
     }
     a {

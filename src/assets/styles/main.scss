@@ -1,13 +1,19 @@
+* {
+    font-family: 'Roboto', sans-serif;
+}
+
 section {
-    padding: 20px 10px;
+    padding: 40px 10px;
     min-height: 320px;
 }
-.container {
-    max-width: 1280px;
-}
+
 a {
     text-decoration: none;
     transition: color .1s;
+}
+
+.container {
+    max-width: 1280px;
 }
 
 h1,
@@ -60,6 +66,9 @@ h6 {
 .bg-red {
     background-color: #e74c3c;
 }
+.bg-grey {
+    background-color: #f1f1f1;
+}
 
 .bg-blue,
 .bg-green,
@@ -86,7 +95,7 @@ h6 {
 }
 
 .divider {
-    margin: 15vh auto;
+    margin: 12vh auto;
     border: 1px solid #E3A165;
     width: 40%;
 }
@@ -96,3 +105,20 @@ pre {
         overflow: auto;
     }
 }
+
+input[type=date] {
+    height: 38px;
+    padding: 6px 10px;
+    background-color: #fff;
+    border: 1px solid #D1D1D1;
+    border-radius: 4px;
+    box-shadow: none;
+    box-sizing: border-box;
+}
+
+// .card {
+//     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+//     padding: 20px;
+//     margin: 16px;
+//     display: inline-block;
+// }

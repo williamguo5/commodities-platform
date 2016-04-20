@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import { Router, Route, IndexRoute, Link, browserHistory } from 'react-router';
 import Home from 'pages/home';
 import Api from 'pages/api';
+import Analytics from 'pages/analytics';
 import Layout from 'pages/layout';
 import NotFound from 'pages/notFound';
 
@@ -13,6 +14,7 @@ ReactDOM.render((
     <Route path="/" component={Layout}>
       <IndexRoute component={Home}/>
       <Route path="api" component={Api}/>
+      <Route path="analytics" component={Analytics}/>
     </Route>
     <Route path="*" component={NotFound} />
   </Router>

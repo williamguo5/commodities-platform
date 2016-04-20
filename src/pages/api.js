@@ -24,7 +24,7 @@ export default class Api extends React.Component {
               <tbody>
                 <tr>
                   <td>v0.0.2</td>
-                  <td>Users now receive a dataKey when they upload their file.</td>
+                  <td>Users now receive a data-key when they upload their file.</td>
                 </tr>
                 <tr>
                   <td>v0.0.1</td>
@@ -40,9 +40,10 @@ export default class Api extends React.Component {
               <h5>HTTP Method(s)</h5>
               <p>GET</p>
               <h5>Auth required</h5>
-              <p>no</p>
+              <p>yes (data-key)</p>
               <h5>Parameters</h5>
               <ul>
+                <li>Data Key: unique hash code identifying data set</li>
                 <li>Grain Type: 2-4 character code</li>
                 <li>Start Date: DD-MMM-YYYY</li>
                 <li>End Date: DD-MMM-YYYY</li>
@@ -92,14 +93,16 @@ Content-Type: application/json
             <div className="divider"></div>
             <div className="api-section">
               <h2>shipping/upload</h2>
-              <p>Upload csv File</p>
+              <p>Upload csv file to use as the data-set in other method/s.</p>
               <h5>HTTP Method(s)</h5>
               <p>POST</p>
               <h5>Auth required</h5>
               <p>no</p>
               <h5>Parameters</h5>
               <ul>
-                <li>inputData: CSV file to upload <span className="tag-orange">required</span></li>
+                <li>inputData: CSV file to upload
+                  <span className="tag-orange">required</span>
+                </li>
               </ul>
               <h5>Sample JSON request & response</h5>
               <b>Request</b>
