@@ -16,7 +16,7 @@ export default merge({
     new webpack.optimize.UglifyJsPlugin({
       compress: {
         warnings: false,
-        drop_console: true,
+        drop_console: false,
         drop_debugger: true
       },
       output: {

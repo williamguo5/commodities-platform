@@ -39,8 +39,8 @@ router.get('/getPrices', function(req, res, next) {
 
 		PythonShell.run('shippingAPI_v1.py', options, function (err, results) {
   			if (err) throw err;
-  			// results is an array consisting of messages collected during execution 
-  			console.log(results);
+  			// results is an array consisting of messages collected during execution
+  			// console.log(results);
   			var jsonArr = [];
   			for (i in results) {
   				jsonArr[i] = JSON.parse(results[i]);
@@ -56,12 +56,12 @@ router.get('/getPrices', function(req, res, next) {
 		// /shipping/getPrices?grain=AGP1&startDate=27-Jul-2015&endDate=31-Dec-2015
 		// res.send(req.query);
 
-		// TODO - run python script with the given params and return json.	
+		// TODO - run python script with the given params and return json.
 	} else {
 		res.send('Invalid date format. Enter date in the format dd-MMM-YYYY\n');
 	}
 
-	
+
 
 
 
@@ -82,29 +82,27 @@ module.exports = router;
 
 function isValidDate(dateString) {
     // First check for the pattern
-    if(!/^\d{1,2}\-[a-zA-Z]{3}\-\d{4}$/.test(dateString))
+    if(!/^\d{1,2}\-[a-zA-Z]{3}\-\d{4}$/.test(dateString)){
         return false;
-
+    }
     // Parse the date parts to integers
     var parts = dateString.split("-");
     var day = parseInt(parts[0], 10);
     var month = parts[1];
     var year = parseInt(parts[2], 10);
-
     // Check the ranges of month and year
-    
-    var monthLength = [ 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 ];
 
-    months = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC']
+    var monthLength = [ 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 ];
+    const months = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
 
     var index = months.indexOf(month.toUpperCase());
-    if (!index) {
+    if (index < 0 || index > 11) {
     	return false;
     }
-
     // Adjust for leap years
-    if(year % 400 == 0 || (year % 100 != 0 && year % 4 == 0))
+    if(year % 400 == 0 || (year % 100 != 0 && year % 4 == 0)) {
         monthLength[1] = 29;
+    }
 
     // Check the range of the day
     return day > 0 && day <= monthLength[index];

@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Filedrop from '../components/Filedrop/Filedrop';
 import Request from 'superagent';
+var Griddle = require('griddle-react');
 
 var AnalyticsGetSection = React.createClass({
   getInitialState: function() {
@@ -26,7 +27,6 @@ var AnalyticsGetSection = React.createClass({
         sDate = new Date(ReactDOM.findDOMNode(this.refs.startDate).value),
         eDate = new Date(ReactDOM.findDOMNode(this.refs.endDate).value);
 
-    console.log(sDate);
     var startDateString = sDate.getDate() + '-' +
                           monthNames[sDate.getMonth()] + '-' +
                           sDate.getFullYear();
@@ -35,15 +35,14 @@ var AnalyticsGetSection = React.createClass({
                         eDate.getFullYear();
 
     Request.get('/shipping/getPrices')
-      .query({ userID: dataKey})
       .query({ grain: grainType})
       .query({ startDate: startDateString})
       .query({ endDate: endDateString})
+      .query({ userID: dataKey})
       .end((err, res) => {
-        // Calling the end function will send the request
-        console.log('err: ', err);
-        console.log('res: ', JSON.stringify(res.body));
-        alert('FUCK');
+        this.setState({ message: ''});
+        console.log(JSON.stringify(res.body));
+        this.props.updateResults(res.body);
       }
     );
 
@@ -84,7 +83,24 @@ var AnalyticsGetSection = React.createClass({
 });
 
 export default class Analytics extends React.Component {
+  constructor() {
+    super();
+    this.render = this.render.bind(this);
+    this.updateResults = this.updateResults.bind(this);
+    this.state = { resultsData: [] };
+  }
+
+  updateResults(val) {
+    console.log(val);
+    this.setState({
+      resultsData: val
+    });
+  }
+
   render() {
+    if (this.state.resultsData) {
+      var resultsTable = <Griddle results={this.state.resultsData} showFilter={true} showSettings={true}/>;
+    }
     return (
       <main>
         <section className="center-text bg-red">
@@ -105,7 +121,15 @@ export default class Analytics extends React.Component {
               <h2>2. QUERY</h2>
               <p>Now that your data is uploaded, you're ready to start using our analysis tools.</p>
             </div>
-            <AnalyticsGetSection/>
+            <AnalyticsGetSection updateResults={this.updateResults}/>
+          </div>
+        </section>
+        <section className="api-section">
+          <div className="container">
+            <div className="center-text api-section">
+              <h2>3. RESULTS</h2>
+            </div>
+            {resultsTable}
           </div>
         </section>
       </main>
