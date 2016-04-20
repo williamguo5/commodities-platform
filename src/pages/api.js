@@ -64,27 +64,27 @@ Content-Type: application/json
 
 [
   {
-    "grain_type": "AGP1",
-    "date": "9-7-2015",
-    "price_port1_Y1": "393",
-    "price_port1_Y2": "231",
-    "price_port2_Y1": "393",
-    "price_port2_Y2": "231",
+    "grain": "AGP1",
+    "date": "9-FEB-2015",
+    "port1_Y1": "393",
+    "port1_Y2": "231",
+    "port2_Y1": "393",
+    "port2_Y2": "231",
     ...
     "average_Y1": "289.75",
-    "average_Y1": "275"
+    "average_Y2": "275"
   },
   ...
   {
-    "grain_type": "AGP1",
-    "date": "1-7-2015",
-    "price_port1_Y1": "393",
-    "price_port1_Y2": "231",
-    "price_port2_Y1": "393",
-    "price_port2_Y2": "231",
+    "grain": "AGP1",
+    "date": "1-JUL-2015",
+    "port1_Y1": "393",
+    "port1_Y2": "231",
+    "port2_Y1": "393",
+    "port2_Y2": "231",
     ...
     "average_Y1": "289.75",
-    "average_Y1": "275"
+    "average_Y2": "275"
   }
 ]`}
               </Codeblock>
