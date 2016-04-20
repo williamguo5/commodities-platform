@@ -118,8 +118,6 @@ else:
 	startDate = sys.argv[3]
 	endDate = sys.argv[4]
 
-	readData(fileName)
-
 	# Make sure the dates are correctly formatted
 	try:
 		start = datetime.strptime(startDate, "%d-%b-%Y")
@@ -127,6 +125,8 @@ else:
 		date = datetime.strptime(dateToCompare, "%d-%b-%Y")
 
 		findPrices(grain, startDate, endDate)
+
+		readData(fileName)
 
 	except ValueError:
 		print "Incorrect date format."
