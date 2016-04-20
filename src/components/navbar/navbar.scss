@@ -19,12 +19,13 @@ $nav-text-color: #fff;
         display: block;
         color: $nav-text-color;
         height: $nav-height;
-        padding: 0 20px;
+        padding: 0 15px;
         transition: all .25s;
     }
     img {
-        height: 40px;
-        padding: 12px 0;
+        display: inline-block;
+        height: 55%;
+        vertical-align: middle;
     }
 }
 
@@ -32,12 +33,16 @@ nav {
     background-color: $nav-background-color;
     height: $nav-height;
     line-height: $nav-height;
-    //
-    // Sticky header
-    position: fixed;
-    width: 100%;
-    z-index: 9999;
-    top:0;
+}
+
+.nav-fixed {
+    height: $nav-height;
+    nav {
+        position: fixed;
+        width: 100%;
+        z-index: 9999;
+        top: 0;
+    }
 }
 
 .left {

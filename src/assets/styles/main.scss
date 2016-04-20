@@ -1,8 +1,10 @@
 section {
     padding: 20px 10px;
-    min-height: 300px;
+    min-height: 320px;
 }
-
+.container {
+    max-width: 1280px;
+}
 a {
     text-decoration: none;
     transition: color .1s;
@@ -86,7 +88,7 @@ h6 {
 .divider {
     margin: 15vh auto;
     border: 1px solid #E3A165;
-    width: 70%;
+    width: 40%;
 }
 
 pre {

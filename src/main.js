@@ -5,6 +5,7 @@ import { Router, Route, IndexRoute, Link, browserHistory } from 'react-router';
 import Home from 'pages/home';
 import Api from 'pages/api';
 import Layout from 'pages/layout';
+import NotFound from 'pages/notFound';
 
 
 ReactDOM.render((
@@ -13,6 +14,7 @@ ReactDOM.render((
       <IndexRoute component={Home}/>
       <Route path="api" component={Api}/>
     </Route>
+    <Route path="*" component={NotFound} />
   </Router>
   ), document.getElementById('root')
 );

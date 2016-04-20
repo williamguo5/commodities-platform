@@ -5,11 +5,11 @@ import Footer from '../components/footer/footer';
 export default class Layout extends React.Component {
   render() {
     return (
-      <main>
+      <div>
         <Navbar/>
         {this.props.children}
         <Footer/>
-      </main>
+      </div>
     );
   }
 }
