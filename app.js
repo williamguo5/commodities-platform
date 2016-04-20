@@ -24,9 +24,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 //routes
-app.use('/', routes);
-app.use('/shipping', shipping);
 
+app.use('/shipping', shipping);
+app.use('*', routes);
 
 
 // catch 404 and forward to error handler
