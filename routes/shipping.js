@@ -19,8 +19,10 @@ router.get('/getPrices', function(req, res, next) {
 	var startDate = req.query.startDate;
 	var endDate = req.query.endDate;
 
-	if (files[userID] != true) {
-		res.send('No userID was supplied\n');
+	if (userID == undefined) {
+		res.send('No userID provided\n');
+	} else if (files[userID] != true) {
+		res.send('invalid userID\n');
 	} else {
 		var PythonShell = require('python-shell');
 		userID = 'public/uploads/' + userID

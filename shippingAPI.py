@@ -52,8 +52,8 @@ def findPrices(grain, startDate, endDate):
 		priceSumCY2 = 0
 		numPortsCY1 = 0
 		numPortsCY2 = 0
-		sys.stdout.write('{')
 		if isInRange(startDate, endDate, date):
+			sys.stdout.write('{')
 			# sys.stdout.write(date + ',' + grain + ',')
 			sys.stdout.write('"date":"' + date + '","' + 'grain":"' + grain + '","')
 
@@ -122,8 +122,7 @@ else:
 	try:
 		start = datetime.strptime(startDate, "%d-%b-%Y")
 		end = datetime.strptime(endDate, "%d-%b-%Y")
-		date = datetime.strptime(dateToCompare, "%d-%b-%Y")
-
+		
 		findPrices(grain, startDate, endDate)
 
 		readData(fileName)
