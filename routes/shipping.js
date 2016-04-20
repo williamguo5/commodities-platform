@@ -35,7 +35,7 @@ router.get('/getPrices', function(req, res, next) {
 		PythonShell.run('shippingAPI_v1.py', options, function (err, results) {
   			if (err) throw err;
   			// results is an array consisting of messages collected during execution 
-  			// console.log(results);
+  			console.log(results);
   			var jsonArr = [];
   			for (i in results) {
   				jsonArr[i] = JSON.parse(results[i]);

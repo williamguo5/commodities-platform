@@ -52,9 +52,9 @@ def findPrices(grain, startDate, endDate):
 		priceSumCY2 = 0
 		numPortsCY1 = 0
 		numPortsCY2 = 0
-		sys.stdout.write('{')
 		if isInRange(startDate, endDate, date):
 			# sys.stdout.write(date + ',' + grain + ',')
+			sys.stdout.write('{')
 			sys.stdout.write('"date":"' + date + '","' + 'grain":"' + grain + '","')
 
 			# Find all ports that ship this grain on this date
