@@ -108,27 +108,25 @@ def isInRange(startDate, endDate, dateToCompare):
 	if date < start or date > end: return False
 	return True
 
-fileName = sys.argv[1]
-grain = sys.argv[2]
-startDate = sys.argv[3]
-endDate = sys.argv[4]
 
-readData(fileName)
+if len(sys.argv) != 5:
+	print "Not enough arguments supplied."
 
-# sys.stdout.write("Date,GrainType,")
-# for port in ports:
-	# sys.stdout.write(port+"_Y1," + port+"_Y2,")
+else:
+	fileName = sys.argv[1]
+	grain = sys.argv[2]
+	startDate = sys.argv[3]
+	endDate = sys.argv[4]
 
-# sys.stdout.write("average_Y1, average_Y2")
-# print
-findPrices(grain, startDate, endDate)
+	readData(fileName)
 
-#query = raw_input("Enter a query of the form 'GRAIN START_DATE END_DATE' or press q to quit: ")
+	# Make sure the dates are correctly formatted
+	try:
+		start = datetime.strptime(startDate, "%d-%b-%Y")
+		end = datetime.strptime(endDate, "%d-%b-%Y")
+		date = datetime.strptime(dateToCompare, "%d-%b-%Y")
 
-# while query != 'q':
-# 	query = query.split(' ');
-# 	grain = query[0]
-# 	startDate = query[1]
-# 	endDate = query[2]
-# 	findPrices(grain, startDate, endDate)
-# 	query = raw_input("Enter a query or press q to quit: ")
+		findPrices(grain, startDate, endDate)
+
+	except ValueError:
+		print "Incorrect date format."
