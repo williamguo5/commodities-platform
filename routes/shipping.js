@@ -19,14 +19,16 @@ router.get('/getPrices', function(req, res, next) {
 	var startDate = req.query.startDate;
 	var endDate = req.query.endDate;
 
-	var startDateArr = startDate.split("-");
-	var endDateArr = endDate.split("-");
-
+	
 	if (userID == undefined) {
 		res.send('No userID provided\n');
 	} else if (files[userID] != true) {
 		res.send('Invalid userID\n');
+	} else if (grain == undefined) {
+		res.send('No grain provided\n');
 	} else if (isValidDate(startDate) && isValidDate(endDate)){
+		grain = grain.toUpperCase();
+
 		var PythonShell = require('python-shell');
 		userID = 'public/uploads/' + userID
 		var options = {
