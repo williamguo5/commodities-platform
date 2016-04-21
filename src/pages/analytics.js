@@ -10,18 +10,19 @@ var AnalyticsGetSection = React.createClass({
       message: ''
     };
   },
+  handleChange: function(event) {
+    this.props.updateDataKey(event.target.value);
+  },
 
   handleSubmit: function (event) {
     event.preventDefault();
-    // Scroll to the top of the page to show the status message.
     this.setState({ message: 'Sending...' }, this.sendFormData);
-    alert('OFF');
   },
+
   sendFormData: function () {
     // Prepare form data for submitting it.
-    var monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
-    ];
+    var monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
     var dataKey = ReactDOM.findDOMNode(this.refs.dataKey).value,
         grainType = ReactDOM.findDOMNode(this.refs.grainType).value,
         sDate = new Date(ReactDOM.findDOMNode(this.refs.startDate).value),
@@ -58,7 +59,7 @@ var AnalyticsGetSection = React.createClass({
         <div className="row">
           <div className="six columns">
             <label htmlFor="dataKey">Data Key</label>
-            <input className="u-full-width" type="text" name="dataKey" ref="dataKey"/>
+            <input className="u-full-width" type="text" name="dataKey" ref="dataKey" onChange={this.handleChange} value={this.props.dataKey}/>
           </div>
           <div className="six columns">
             <label htmlFor="grainType">Grain Type</label>
@@ -87,47 +88,58 @@ export default class Analytics extends React.Component {
     super();
     this.render = this.render.bind(this);
     this.updateResults = this.updateResults.bind(this);
-    this.state = { resultsData: [] };
-  }
+    this.updateDataKey = this.updateDataKey.bind(this);
+    this.state = { resultsData: [], dataKey: '' };
+  };
 
   updateResults(val) {
     console.log(val);
     this.setState({
       resultsData: val
     });
-  }
+  };
+
+  updateDataKey(key) {
+    console.log(key);
+    this.setState({
+      dataKey: key
+    });
+  };
 
   render() {
     if (this.state.resultsData) {
       var resultsTable = <Griddle results={this.state.resultsData} showFilter={true} showSettings={true}/>;
     }
+
     return (
       <main>
         <section className="center-text bg-red">
           <h1>Analytics Platform</h1>
+          <p>Version 0.0.1</p>
         </section>
         <section className="api-section">
           <div className="container center-text">
             <div className="api-section">
               <h2>1. UPLOAD DATA</h2>
-              <p>Before you can begin, you need to upload a data-set to use in your analysis.<br/>Have one already? Go straight to step 2 then!</p>
+              <p>Before you can begin, you need to upload a data-set to use in your analysis.<br/>Have one already? Go straight to step 2 then and paste your key in!</p>
             </div>
-            <Filedrop />
+            <Filedrop updateDataKey={this.updateDataKey}/>
           </div>
         </section>
         <section className="api-section bg-grey">
           <div className="container">
             <div className="center-text api-section">
               <h2>2. QUERY</h2>
-              <p>Now that your data is uploaded, you're ready to start using our analysis tools.</p>
+              <p>Now that your data is uploaded, you're ready to start using some basic analysis tools.</p>
             </div>
-            <AnalyticsGetSection updateResults={this.updateResults}/>
+            <AnalyticsGetSection updateResults={this.updateResults} updateDataKey={this.updateDataKey} dataKey={this.state.dataKey}/>
           </div>
         </section>
         <section className="api-section">
           <div className="container">
             <div className="center-text api-section">
               <h2>3. RESULTS</h2>
+              <p>You can see the data matching your query in the table below. Feel free to change the query to update the table, or filter out results under "settings".</p>
             </div>
             {resultsTable}
           </div>
