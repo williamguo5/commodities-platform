@@ -44,7 +44,9 @@ router.get('/getPrices', function(req, res, next) {
   			// results is an array consisting of messages collected during execution
   			// console.log(results);
   			// console.log(results)
-  			if (results[0] == 'Invalid grain!') {
+
+
+  			if (results != null && results[0] == 'Invalid grain!') {
   				res.send('Invalid grain!\n');
 			} else {
 				var jsonArr = [];
