@@ -47,7 +47,7 @@ router.get('/getPrices', function(req, res, next) {
 
 
   			if (results != null && results[0] == 'Invalid grain!') {
-  				res.send('Invalid grain!\n');
+  				res.json([]);
 			} else {
 				var jsonArr = [];
 	  			for (i in results) {
