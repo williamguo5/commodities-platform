@@ -10,6 +10,9 @@ section {
 a {
     text-decoration: none;
     transition: color .1s;
+    &:hover {
+        cursor: pointer;
+    }
 }
 
 .container {

@@ -1,4 +1,6 @@
 #!/bin/python
+# arguments: <number of entries> <start date> <end date>
+# example: 1000 1/Jan/15 1/Dec/15
 
 import sys, random, csv
 from random import randint
@@ -14,8 +16,8 @@ grains = ['APH2', 'H1', 'H2', 'APW1',
 
 years = ['CY1', 'CY2']
 
-months = [(1,'JAN'), (2,'FEB'), (3,'MAR'), (4,'APR'), 
-      (5,'MAY'), (6,'JUN'), (7,'JUL'), (8,'AUG'), 
+months = [(1,'JAN'), (2,'FEB'), (3,'MAR'), (4,'APR'),
+      (5,'MAY'), (6,'JUN'), (7,'JUL'), (8,'AUG'),
       (9,'SEP'), (10,'OCT'), (11,'NOV'), (12,'DEC')]
 
 if (len(sys.argv) != 4):
@@ -24,7 +26,7 @@ if (len(sys.argv) != 4):
 def getRandomDay(month):
   if (month == 'FEB'):
     return random.randint(1,28)
-  
+
   elif (month == 'APR' or
        month == 'JUN' or
        month == 'SEP' or
@@ -40,7 +42,7 @@ start = sys.argv[2]
 end = sys.argv[3]
 
 # RCI = []
-# dates = []  
+# dates = []
 # prices = []
 
 startDate = datetime.strptime(start, "%d/%b/%y")
@@ -63,7 +65,7 @@ file.write('#RIC,Date[G],Time[G],GMT Offset,Type,Ex/Cntrb.ID,Price,Volume,Market
 file.write('\n')
 for i in range(0, int(entries)):
   string = random.choice(ports) + '-' + random.choice(grains) + '-' + random.choice(years)
-  
+
   month = random.choice(monthRange)
   day = getRandomDay(month)
   year = startDate.year
@@ -75,6 +77,6 @@ for i in range(0, int(entries)):
   file.write(string +',' + date + ',,,,,' + str(price) +',,,,,,,,,,,,,,,,,,')
   file.write('\n')
   print (string +',' + date + ',,,,,' + str(price) +',,,,,,,,,,,,,,,,,,')
-  
+
 
 

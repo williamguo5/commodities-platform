@@ -43,20 +43,16 @@ export default class Api extends React.Component {
               <p>yes (data-key)</p>
               <h5>Parameters</h5>
               <ul>
-                <li>Data Key: unique hash code identifying data set</li>
-                <li>Grain Type: 2-4 character code</li>
-                <li>Start Date: DD-MMM-YYYY</li>
-                <li>End Date: DD-MMM-YYYY</li>
+                <li>Data Key: unique hash code identifying data set <span className="tag-orange">required</span></li>
+                <li>Grain Type: 2-4 character code <span className="tag-orange">required</span></li>
+                <li>Start Date: DD-MMM-YYYY <span className="tag-orange">required</span></li>
+                <li>End Date: DD-MMM-YYYY <span className="tag-orange">required</span></li>
               </ul>
               <h5>Sample JSON request & response</h5>
               <b>Request</b>
               <Codeblock>
               {`GET /shipping/getPrices?grain=AGP1&startDate=27-Jul-2015&endDate=31-Dec-2015&userID=datakey HTTP/1.1
 Host: asmallmilliondollarloan.herokuapp.com`}
-              </Codeblock>
-              <b>cURL</b>
-              <Codeblock>
-              {`curl "http://asmallmilliondollarloan.herokuapp.com/shipping/getPrices?grain=AGP1&startDate=27-Jul-2015&endDate=31-Dec-2015&userID=datakey"`}
               </Codeblock>
               <b>Response</b>
               <Codeblock>
@@ -89,6 +85,25 @@ Content-Type: application/json
   }
 ]`}
               </Codeblock>
+              <h5>Code samples</h5>
+              <p>As a demonstration of how to use this method of our api we have provided some example code to get you started.</p>
+              <b>cURL</b>
+              <Codeblock>
+              {`curl "http://asmallmilliondollarloan.herokuapp.com/shipping/getPrices?grain=AGP1&startDate=27-Jul-2015&endDate=31-Dec-2015&userID=10996a1a9374a21719e0f94015168fe5"`}
+              </Codeblock>
+              <b>Javascript</b>
+              <Codeblock>
+              {`var request = require('superagent');
+request.get('/shipping/getPrices')
+  .query({ grain: grainType})
+  .query({ startDate: startDateString})
+  .query({ endDate: endDateString})
+  .query({ userID: dataKey})
+  .end((err, res) => {
+    // You can handle any errors and the response returned here
+  }
+);`}
+              </Codeblock>
             </div>
             <div className="divider"></div>
             <div className="api-section">
@@ -100,9 +115,7 @@ Content-Type: application/json
               <p>no</p>
               <h5>Parameters</h5>
               <ul>
-                <li>inputData: CSV file to upload
-                  <span className="tag-orange">required</span>
-                </li>
+                <li>inputData: CSV file to upload <span className="tag-orange">required</span></li>
               </ul>
               <h5>Sample JSON request & response</h5>
               <b>Request</b>
@@ -126,7 +139,7 @@ Content-Type: application/json
                 <Filedrop />
               </div>
               <br/>
-              <h5>Sample Requests</h5>
+              <h5>Code samples</h5>
               <p>As a demonstration of how to use this method of our api we have provided some example code to get you started.</p>
               <b>cURL</b>
               <Codeblock>
@@ -149,4 +162,7 @@ request.post('http://asmallmilliondollarloan.herokuapp.com/shipping/upload')
     );
   }
 }
+
+
+
 
