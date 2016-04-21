@@ -113,6 +113,7 @@ grain = sys.argv[2]
 startDate = sys.argv[3]
 endDate = sys.argv[4]
 
+
 readData(fileName)
 
 # sys.stdout.write("Date,GrainType,")
@@ -121,7 +122,10 @@ readData(fileName)
 
 # sys.stdout.write("average_Y1, average_Y2")
 # print
-findPrices(grain, startDate, endDate)
+if grain not in dataDict:
+	print "Invalid grain!"
+else:
+	findPrices(grain, startDate, endDate)
 
 #query = raw_input("Enter a query of the form 'GRAIN START_DATE END_DATE' or press q to quit: ")
 
