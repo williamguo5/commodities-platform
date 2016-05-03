@@ -71,10 +71,9 @@ def findPrices(grain, startDate, endDate):
 				if 'CY1' in dataDict[grain][date]:
 					if port in dataDict[grain][date]['CY1']:
 						priceCY1 = dataDict[grain][date]['CY1'][port]
-						priceSumCY1 += float(priceCY1)
-						numPortsCY1 += 1
-
 						if priceCY1 != '0':
+							priceSumCY1 += float(priceCY1)
+							numPortsCY1 += 1
 							sys.stdout.write(priceCY1)
 							
 				sys.stdout.write('","')
@@ -84,18 +83,18 @@ def findPrices(grain, startDate, endDate):
 				if 'CY2' in dataDict[grain][date]:
 					if port in dataDict[grain][date]['CY2']:
 						priceCY2 = dataDict[grain][date]['CY2'][port]
-						priceSumCY2 += float(priceCY2)
-						numPortsCY2 += 1
-
 						if priceCY2 != '0':
+							priceSumCY2 += float(priceCY2)
+							numPortsCY2 += 1
 							sys.stdout.write(priceCY2)
 
 
 				sys.stdout.write('","')
 
 			# Print averages
+			
 			sys.stdout.write('average_Y1":"')
-			if numPortsCY1 != 0 and priceSumCY2 != 0:
+			if numPortsCY1 != 0 and priceSumCY1 != 0:
 				sys.stdout.write(str(float("{0:.2f}".format(priceSumCY1 / numPortsCY1))))
 
 			sys.stdout.write('","')
