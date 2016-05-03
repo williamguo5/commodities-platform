@@ -59,21 +59,21 @@ var AnalyticsGetSection = React.createClass({
         <div className="row">
           <div className="six columns">
             <label htmlFor="dataKey">Data Key</label>
-            <input className="u-full-width" type="text" name="dataKey" ref="dataKey" onChange={this.handleChange} value={this.props.dataKey}/>
+            <input className="u-full-width" type="text" name="dataKey" ref="dataKey" onChange={this.handleChange} value={this.props.dataKey} autoComplete="off" required/>
           </div>
           <div className="six columns">
             <label htmlFor="grainType">Grain Type</label>
-            <input className="u-full-width" type="text" name="grainType" ref="grainType"/>
+            <input className="u-full-width" type="text" name="grainType" ref="grainType" required/>
           </div>
         </div>
         <div className="row">
           <div className="six columns">
-            <label htmlFor="startDate">Stard date</label>
-            <input className="u-full-width" type="date" name="startDate" ref="startDate"/>
+            <label htmlFor="startDate">Start date</label>
+            <input className="u-full-width" type="date" name="startDate" ref="startDate" required/>
           </div>
           <div className="six columns">
             <label htmlFor="endDate">End date</label>
-            <input className="u-full-width" type="date" name="endDate" ref="endDate"/>
+            <input className="u-full-width" type="date" name="endDate" ref="endDate" required/>
           </div>
         </div>
         <input className="u-full-width button-primary" type="submit" value="Submit"/>

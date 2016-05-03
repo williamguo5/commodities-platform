@@ -21,9 +21,12 @@ export default class Filedrop extends React.Component {
         // Calling the end function will send the request
         console.log('err: ', err);
         console.log('res: ', JSON.stringify(res.body));
+
         this.setState({message: 'Uploaded! Your data-key is: ' + res.body.dataKey});
-        // alert(res.body.message + '\nYour data-key is: ' + res.body.dataKey);
-        this.props.updateDataKey(res.body.dataKey);
+
+        if (this.props.updateDataKey) {
+          this.props.updateDataKey(res.body.dataKey);
+        }
       }
     );
   };
