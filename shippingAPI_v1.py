@@ -96,12 +96,12 @@ def findPrices(grain, startDate, endDate):
 			# Print averages
 			sys.stdout.write('average_Y1":"')
 			if numPortsCY1 != 0 and priceSumCY2 != 0:
-				sys.stdout.write(str(priceSumCY1 / numPortsCY1))
+				sys.stdout.write(str(float("{0:.2f}".format(priceSumCY1 / numPortsCY1))))
 
 			sys.stdout.write('","')
 			sys.stdout.write('average_Y2":"')
 			if numPortsCY2 != 0 and priceSumCY2 != 0:
-				sys.stdout.write(str(priceSumCY2 / numPortsCY2))
+				sys.stdout.write(str(float("{0:.2f}".format(priceSumCY2 / numPortsCY2))))
 							
 			sys.stdout.write('"}')
 			print # Print new line
