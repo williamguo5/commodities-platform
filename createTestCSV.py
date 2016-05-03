@@ -68,13 +68,17 @@ for i in range(0, int(entries)):
   day = getRandomDay(month)
   year = startDate.year
 
-  date = str(day) + '-' + month + '-' + str(year)
+  if day < 10:
+    day = '0' + str(day)
+  else:
+    day = str(day)
+  date = day + '-' + month + '-' + str(year)
 
   price = random.randint(1000, 10000)
 
-  file.write(string +',' + date + ',,,,,' + str(price) +',,,,,,,,,,,,,,,,,,')
+  file.write(string +',' + date + ',,,,,,,,,,,,,,' +str(price)+ ',,,,,,,,')
   file.write('\n')
-  print (string +',' + date + ',,,,,' + str(price) +',,,,,,,,,,,,,,,,,,')
+  print (string +',' + date + ',,,,,,,,,,,,,,' +str(price)+ ',,,,,,,,')
   
 
 
