@@ -7,9 +7,9 @@ import sys
 dataDict = {}
 ports = []
 
-def isInt(s):
+def isFloat(s):
     try: 
-        int(s)
+        float(s)
         return True
     except ValueError:
         return False
@@ -38,7 +38,7 @@ def readData(filename):
 				dataDict[grain][date][year] = {}
 
 			# Make sure price string isn't empty
-			if not isInt(price):
+			if not isFloat(price):
 				price = '0'
 
 			# Create entry in dictionary
@@ -71,7 +71,7 @@ def findPrices(grain, startDate, endDate):
 				if 'CY1' in dataDict[grain][date]:
 					if port in dataDict[grain][date]['CY1']:
 						priceCY1 = dataDict[grain][date]['CY1'][port]
-						priceSumCY1 += int(priceCY1)
+						priceSumCY1 += float(priceCY1)
 						numPortsCY1 += 1
 
 						if priceCY1 != '0':
@@ -84,7 +84,7 @@ def findPrices(grain, startDate, endDate):
 				if 'CY2' in dataDict[grain][date]:
 					if port in dataDict[grain][date]['CY2']:
 						priceCY2 = dataDict[grain][date]['CY2'][port]
-						priceSumCY2 += int(priceCY2)
+						priceSumCY2 += float(priceCY2)
 						numPortsCY2 += 1
 
 						if priceCY2 != '0':
