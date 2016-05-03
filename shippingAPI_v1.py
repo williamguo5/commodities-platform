@@ -14,6 +14,11 @@ def isFloat(s):
     except ValueError:
         return False
 
+def sorting(D):
+		splitup = D.split('-')
+		return splitup[0], splitup[1]
+	
+
 def readData(filename):
 	with open(filename) as input_file:
 		for line in list(csv.DictReader(input_file)):
@@ -52,8 +57,13 @@ def readData(filename):
 	ports.sort()
 
 def findPrices(grain, startDate, endDate):
-	# Iterate through dates that this grain is shipped on
-	for date in dataDict[grain]:
+	# Get dates that this grain is shipped on
+	dates = dataDict[grain]
+
+	# Sort dates in dict using lambda
+	dates = sorted(dates, key=lambda date: datetime.strptime(date, "%d-%b-%Y"))
+
+	for date in dates:
 
 		priceSumCY1 = 0
 		priceSumCY2 = 0
