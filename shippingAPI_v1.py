@@ -7,6 +7,13 @@ import sys
 dataDict = {}
 ports = []
 
+def isInt(s):
+    try: 
+        int(s)
+        return True
+    except ValueError:
+        return False
+
 def readData(filename):
 	with open(filename) as input_file:
 		for line in list(csv.DictReader(input_file)):
@@ -19,7 +26,7 @@ def readData(filename):
 			year = RICfields[2]
 
 			date = line['Date[G]']
-			price = line['Price']
+			price = line['Prim Act.']
 
 			if not grain in dataDict:
 				dataDict[grain] = {}
@@ -31,7 +38,7 @@ def readData(filename):
 				dataDict[grain][date][year] = {}
 
 			# Make sure price string isn't empty
-			if price == '':
+			if not isInt(price):
 				price = '0'
 
 			# Create entry in dictionary
