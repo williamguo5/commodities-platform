@@ -22,6 +22,8 @@ dataKey=`echo $res | sed s/.*\"dataKey\":\"// | sed s/\".*//`
 echo "Testing valid request..."
 echo 'Expected output: JSON response'
 CallGetRequest AGP1 1-Jan-2015 28-jul-2015 $dataKey
+CallGetRequest H2 1-Jan-2015 28-jul-2015 $dataKey
+
 echo
 # incorrect date formatting
 # returns with line "Invalid date. Enter date in the format dd-MMM-YYYY"
