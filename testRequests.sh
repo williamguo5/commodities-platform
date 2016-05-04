@@ -21,7 +21,10 @@ dataKey=`echo $res | sed s/.*\"dataKey\":\"// | sed s/\".*//`
 # valid data
 echo "Testing valid request..."
 echo 'Expected output: JSON response'
+echo 'Request: AGP1 1-Jan-2015 28-jul-2015'
 CallGetRequest AGP1 1-Jan-2015 28-jul-2015 $dataKey
+echo
+echo 'Request: H2 1-Jan-2015 28-jul-2015'
 CallGetRequest H2 1-Jan-2015 28-jul-2015 $dataKey
 
 echo
@@ -30,11 +33,17 @@ echo
 echo
 echo "Testing incorrect date formatting..."
 echo 'Expected output: "Invalid date. Enter date in the format dd-MMM-YYYY"'
+echo 'Request: AGP1 1-Jan-15 28-jul-2015'
 CallGetRequest AGP1 1-Jan-15 28-jul-2015 $dataKey
+echo 'Request: AGP1 1-01-2015 28-jul-2015'
 CallGetRequest AGP1 1-01-2015 28-jul-2015 $dataKey
+echo 'Request: AGP1 1-01-2015 28-jul-2015'
 CallGetRequest AGP1 1/Jan/2015 28-jul-2015 $dataKey
+echo 'Request: AGP1 1-Jan-2015 28-jul-15'
 CallGetRequest AGP1 1-Jan-2015 28-jul-15 $dataKey
+echo 'Request: AGP1 1-Jan-2015 28-07-2015'
 CallGetRequest AGP1 1-Jan-2015 28-07-2015 $dataKey
+echo 'Request: AGP1 1-Jan-2015 28/07/2015'
 CallGetRequest AGP1 1-Jan-2015 28/07/2015 $dataKey
 
 # correct date formatting, but wrong date range
@@ -42,15 +51,19 @@ CallGetRequest AGP1 1-Jan-2015 28/07/2015 $dataKey
 echo
 echo "Testing date range..."
 echo 'Expected output: "Invalid date. Enter date in the format dd-MMM-YYYY"'
+echo 'Request: AGP1 57-APR-2015 28-jul-2015'
 CallGetRequest AGP1 57-APR-2015 28-jul-2015 $dataKey
+echo 'Request: AGP1 3-SET-2015 28-jul-2015'
 CallGetRequest AGP1 3-SET-2015 28-jul-2015 $dataKey
 # testing leap years
 # returns with line "Invalid date. Enter date in the format dd-MMM-YYYY"
 echo
 echo "Testing leap years"
 echo 'Expected output: "Invalid date. Enter date in the format dd-MMM-YYYY"'
+echo 'Request: AGP1 29-FEB-2015 28-jul-2015'
 CallGetRequest AGP1 29-FEB-2015 28-jul-2015 $dataKey
 echo 'Expected output: JSON response'
+echo 'Request: AGP1 29-FEB-2016 28-jul-2016'
 CallGetRequest AGP1 29-FEB-2016 28-jul-2016 $dataKey
 echo
 # incorrect grain 
@@ -58,5 +71,6 @@ echo
 echo
 echo 'Testing invalid grain type...'
 echo 'Expected output: Empty JSON response'
+echo 'Request: APG1 1-Jan-2015 28-jul-2015'
 CallGetRequest APG1 1-Jan-2015 28-jul-2015 $dataKey
 echo
