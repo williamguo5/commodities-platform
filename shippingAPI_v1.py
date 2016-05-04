@@ -89,10 +89,10 @@ def findPrices(grain, startDate, endDate):
 
 						priceCY1 = portSumCY1 / numPricesCY1
 
-						if priceCY1 != '0':
-							priceSumCY1 += float(priceCY1)
+						if priceCY1 != 0:
+							priceSumCY1 += priceCY1
 							numPortsCY1 += 1
-							sys.stdout.write(priceCY1)
+							sys.stdout.write(str(priceCY1))
 							
 				sys.stdout.write('","')
 				
@@ -107,10 +107,10 @@ def findPrices(grain, startDate, endDate):
 
 						priceCY2 = portSumCY2 / numPricesCY2
 
-						if priceCY2 != '0':
-							priceSumCY2 += float(priceCY2)
+						if priceCY2 != 0:
+							priceSumCY2 += priceCY2
 							numPortsCY2 += 1
-							sys.stdout.write(priceCY2)
+							sys.stdout.write(str(priceCY2))
 
 
 				sys.stdout.write('","')
