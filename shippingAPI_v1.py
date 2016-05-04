@@ -92,7 +92,7 @@ def findPrices(grain, startDate, endDate):
 						if priceCY1 != 0:
 							priceSumCY1 += priceCY1
 							numPortsCY1 += 1
-							sys.stdout.write(str(priceCY1))
+							sys.stdout.write(str(float("{0:.2f}".format(priceCY1))))
 							
 				sys.stdout.write('","')
 				
@@ -110,7 +110,7 @@ def findPrices(grain, startDate, endDate):
 						if priceCY2 != 0:
 							priceSumCY2 += priceCY2
 							numPortsCY2 += 1
-							sys.stdout.write(str(priceCY2))
+							sys.stdout.write(str(float("{0:.2f}".format(priceCY2))))
 
 
 				sys.stdout.write('","')
