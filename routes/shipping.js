@@ -69,7 +69,7 @@ router.get('/getPrices', function(req, res, next) {
 
 		// TODO - run python script with the given params and return json.
 	} else {
-		res.send('Invalid date format. Enter date in the format dd-MMM-YYYY\n');
+		res.send('Invalid date. Enter date in the format dd-MMM-YYYY\n');
 	}
 
 
