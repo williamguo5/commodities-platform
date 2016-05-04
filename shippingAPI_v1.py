@@ -47,7 +47,10 @@ def readData(filename):
 				price = '0'
 
 			# Create entry in dictionary
-			dataDict[grain][date][year][port] = price
+			if not port in dataDict[grain][date][year]:
+				dataDict[grain][date][year][port] = []
+
+			dataDict[grain][date][year][port].append(price)
 
 			# Add the port to the list of all unique ports
 			if not port in ports:
@@ -70,7 +73,6 @@ def findPrices(grain, startDate, endDate):
 		numPortsCY1 = 0
 		numPortsCY2 = 0
 		if isInRange(startDate, endDate, date):
-			# sys.stdout.write(date + ',' + grain + ',')
 			sys.stdout.write('{')
 			sys.stdout.write('"date":"' + date + '","' + 'grain":"' + grain + '","')
 
@@ -80,7 +82,13 @@ def findPrices(grain, startDate, endDate):
 				
 				if 'CY1' in dataDict[grain][date]:
 					if port in dataDict[grain][date]['CY1']:
-						priceCY1 = dataDict[grain][date]['CY1'][port]
+						portSumCY1 = 0
+						numPricesCY1 = len(dataDict[grain][date]['CY1'][port])
+						for price in dataDict[grain][date]['CY1'][port]:
+							portSumCY1 += float(price)
+
+						priceCY1 = portSumCY1 / numPricesCY1
+
 						if priceCY1 != '0':
 							priceSumCY1 += float(priceCY1)
 							numPortsCY1 += 1
@@ -92,7 +100,13 @@ def findPrices(grain, startDate, endDate):
 
 				if 'CY2' in dataDict[grain][date]:
 					if port in dataDict[grain][date]['CY2']:
-						priceCY2 = dataDict[grain][date]['CY2'][port]
+						portSumCY2 = 0
+						numPricesCY2 = len(dataDict[grain][date]['CY2'][port])
+						for price in dataDict[grain][date]['CY2'][port]:
+							portSumCY2 += float(price)
+
+						priceCY2 = portSumCY2 / numPricesCY2
+
 						if priceCY2 != '0':
 							priceSumCY2 += float(priceCY2)
 							numPortsCY2 += 1
@@ -143,12 +157,3 @@ if grain not in dataDict:
 else:
 	findPrices(grain, startDate, endDate)
 
-#query = raw_input("Enter a query of the form 'GRAIN START_DATE END_DATE' or press q to quit: ")
-
-# while query != 'q':
-# 	query = query.split(' ');
-# 	grain = query[0]
-# 	startDate = query[1]
-# 	endDate = query[2]
-# 	findPrices(grain, startDate, endDate)
-# 	query = raw_input("Enter a query or press q to quit: ")
