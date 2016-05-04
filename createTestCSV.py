@@ -21,7 +21,7 @@ months = [(1,'JAN'), (2,'FEB'), (3,'MAR'), (4,'APR'),
       (9,'SEP'), (10,'OCT'), (11,'NOV'), (12,'DEC')]
 
 if (len(sys.argv) != 4):
-  print ("[Entries] [Start] [End]")
+  print ("[#Entries] [Start] [End]")
 
 def getRandomDay(month):
   if (month == 'FEB'):
@@ -45,8 +45,8 @@ end = sys.argv[3]
 # dates = []
 # prices = []
 
-startDate = datetime.strptime(start, "%d/%b/%y")
-endDate = datetime.strptime(end, "%d/%b/%y")
+startDate = datetime.strptime(start, "%d-%b-%Y")
+endDate = datetime.strptime(end, "%d-%b-%Y")
 file = open('%sEntries.csv' % entries, 'w+')
 
 
