@@ -12,7 +12,7 @@ testFile="./f.rabhi@unsw.edu.au-WheatCommoFrom01Feb14-N113102367.csv"
 # $3 - endDate
 # $4 - dataKey
 function CallGetRequest(){
-	curl "$requestURL?grain=$1&startDate=$2&endDate=$3&userID=$4"
+	curl -i "$requestURL?grain=$1&startDate=$2&endDate=$3&userID=$4"
 }
 
 res=`curl -X POST -F "inputData=@$testFile" $uploadURL`
