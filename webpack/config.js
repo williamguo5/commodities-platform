@@ -36,11 +36,7 @@ export const CONFIG = {
     extensions: ['', '.js', '.scss'],
 
     alias: {
-      constants: `${ APP_PATH }/constants`,
-      actions: `${ APP_PATH }/actions`,
       components: `${ APP_PATH }/components`,
-      reducers: `${ APP_PATH }/reducers`,
-      containers: `${ APP_PATH }/containers`,
       styles: `${ APP_PATH }/assets/styles`,
       pages: `${ APP_PATH }/pages`
     }

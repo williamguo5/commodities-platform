@@ -32,8 +32,8 @@
     "multer": "^1.1.0",
     "node-sass": "^3.4.2",
     "python-shell": "^0.4.0",
-    "react": "^0.14.7",
-    "react-dom": "^0.14.7",
+    "react": "^15.0.2",
+    "react-dom": "^15.0.2",
     "react-dropzone": "^3.3.2",
     "react-router": "^2.0.1",
     "react-uikit-codeblock": "^0.2.2",
@@ -46,9 +46,9 @@
     "webpack-dev-server": "^1.14.1"
   },
   "scripts": {
-    "clean": "node_modules/.bin/rimraf public/",
-    "build": "npm run clean && node_modules/.bin/webpack --config webpack/production.config.babel.js",
-    "build-dev": "npm run clean && node_modules/.bin/webpack-dev-server --config webpack/development.config.babel.js",
+    "clean": "rimraf public/",
+    "build": "npm run clean && webpack --config webpack/production.config.babel.js",
+    "build-dev": "npm run clean && webpack-dev-server --config webpack/development.config.babel.js",
     "debug": "DEBUG=seng3011 ./bin/www",
     "dev": "node-dev ./bin/www",
     "start": "npm run build && node ./bin/www",
