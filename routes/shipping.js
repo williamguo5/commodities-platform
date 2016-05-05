@@ -19,7 +19,7 @@ router.get('/getPrices', function(req, res, next) {
 	var startDate = req.query.startDate;
 	var endDate = req.query.endDate;
 
-	
+
 	if (userID == undefined) {
 		res.send('No userID provided\n');
 	} else if (files[userID] != true) {
@@ -40,7 +40,7 @@ router.get('/getPrices', function(req, res, next) {
 		};
 
 		PythonShell.run('shippingAPI_v1.py', options, function (err, results) {
-  			if (err) throw err;
+  			// if (err) throw err;
   			// results is an array consisting of messages collected during execution
   			// console.log(results);
   			// console.log(results)
@@ -54,10 +54,10 @@ router.get('/getPrices', function(req, res, next) {
 	  				jsonArr[i] = JSON.parse(results[i]);
 	  			}
 
-				res.json(jsonArr);	
+				res.json(jsonArr);
 			}
 
-  			
+
 
 		});
 
