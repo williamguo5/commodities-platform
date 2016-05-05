@@ -10,6 +10,13 @@ host="http://localhost:3000"
 requestURL="$host/shipping/getPrices"
 dataKey="$1"
 
+# host="http://localhost:3000"
+uploadURL="$host/shipping/upload"
+testFile='../testFiles/averageCalcTest.csv'
+
+res=`curl -X POST -F "inputData=@$testFile" $uploadURL`
+averageTestDataKey=`echo $res | sed s/.*\"dataKey\":\"// | sed s/\".*//`
+
 # params: 
 # $1 - grain
 # $2 - startDate
@@ -40,6 +47,12 @@ echo 'Request: AGP1 28-FEB-2015 29-FEB-2016'
 CallGetRequest AGP1 28-FEB-2015 29-FEB-2016 $dataKey
 
 echo '----- Testing Case 14: Testing CSV with multiple entries for same RIC code and same date, but different price...'
+echo 'Expected output: JSON response'
+echo 'Request: AGP1 1-Jan-2015 28-Jul-2015'
+CallGetRequest AGP1 1-Jan-2015 28-jul-2015 $averageTestDataKey
+echo
+
+echo '----- Testing Case 11: Testing that uploading another file will not destroy/remove the previous file'
 echo 'Expected output: JSON response'
 echo 'Request: H2 1-Jan-2015 28-Jul-2015'
 CallGetRequest H2 1-Jan-2015 28-jul-2015 $dataKey
