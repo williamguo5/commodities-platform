@@ -7,18 +7,6 @@ section {
     min-height: 320px;
 }
 
-a {
-    text-decoration: none;
-    transition: color .1s;
-    &:hover {
-        cursor: pointer;
-    }
-}
-
-.container {
-    max-width: 1280px;
-}
-
 h1,
 h2,
 h3,
@@ -44,10 +32,6 @@ h6 {
     border: 6px solid white;
     margin: 10px;
     transition: box-shadow .25s;
-}
-
-#sectionTitle img:hover {
-    box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .center-text {
@@ -98,7 +82,7 @@ h6 {
 }
 
 .divider {
-    margin: 12vh auto;
+    margin: 10vh auto;
     border: 1px solid #E3A165;
     width: 40%;
 }
@@ -109,16 +93,6 @@ pre {
     }
 }
 
-input[type=date] {
-    height: 38px;
-    padding: 6px 10px;
-    background-color: #fff;
-    border: 1px solid #D1D1D1;
-    border-radius: 4px;
-    box-shadow: none;
-    box-sizing: border-box;
-}
-
 .griddle {
     .griddle-body {
         overflow: auto;
@@ -126,6 +100,14 @@ input[type=date] {
     th, td {
         width: 110px;
     }
+}
+
+.full-width {
+    width: 100%;
+}
+
+.tight-container {
+    padding: 15px;
 }
 
 // .card {

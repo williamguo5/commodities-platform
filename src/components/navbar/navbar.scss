@@ -1,57 +1,67 @@
 $trump-color: #E3A165;
 $nav-background-color: #333;
-$nav-height: 64px;
-$nav-text-color: #fff;
-.nav-wrapper {
-    ul {
-        margin: 0;
-    }
-    li {
-        margin: 0;
-        list-style: none;
-        display: inline-block;
-        a:hover,a.active {
-            background-color: $trump-color;
-            color: $nav-background-color;
-        }
-        a:active {
-            background-color: lighten($trump-color, 20%);
-        }
-    }
-    a {
-        display: block;
-        color: $nav-text-color;
-        height: $nav-height;
-        padding: 0 15px;
-        transition: all .25s;
-    }
-    img {
-        display: inline-block;
-        height: 55%;
-        vertical-align: middle;
-    }
-}
-
+// $nav-height: 64px;
+// $nav-text-color: #fff;
+// .nav-wrapper {
+//     ul {
+//         margin: 0;
+//     }
+//     li {
+//         margin: 0;
+//         list-style: none;
+//         display: inline-block;
+//         a:hover,a.active {
+//             background-color: $trump-color;
+//             color: $nav-background-color;
+//         }
+//         a:active {
+//             background-color: lighten($trump-color, 20%);
+//         }
+//     }
+//     a {
+//         display: block;
+//         color: $nav-text-color;
+//         height: $nav-height;
+//         padding: 0 15px;
+//         transition: all .25s;
+//     }
+//     img {
+//         display: inline-block;
+//         height: 55%;
+//         vertical-align: middle;
+//     }
+// }
 nav {
     background-color: $nav-background-color;
-    height: $nav-height;
-    line-height: $nav-height;
-}
-
-.nav-fixed {
-    height: $nav-height;
-    nav {
-        position: fixed;
-        width: 100%;
-        z-index: 9999;
-        top: 0;
+    a.brand-logo {
+        height: inherit;
+        img {
+            height: 100%;
+            padding: 15px;
+        }
+    }
+    li a.active {
+        background-color: $trump-color;
     }
 }
 
-.left {
-    float: left;
-}
-
-.right {
-    float: right;
-}
+// nav {
+//     background-color: $nav-background-color;
+//     height: $nav-height;
+//     line-height: $nav-height;
+// }
+// .nav-fixed {
+//     height: $nav-height;
+//     nav {
+//         position: fixed;
+//         width: 100%;
+//         z-index: 9999;
+//         top: 0;
+//     }
+// }
+// .left {
+//     float: left;
+// }
+// .right {
+//     float: right;
+// }

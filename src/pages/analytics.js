@@ -10,6 +10,13 @@ var AnalyticsGetSection = React.createClass({
       message: ''
     };
   },
+  componentDidMount: function() {
+    $('.datepicker').pickadate({
+      selectMonths: true, // Creates a dropdown to control month
+      selectYears: 15 // Creates a dropdown of 15 years to control year
+    });
+  },
+
   handleChange: function(event) {
     this.props.updateDataKey(event.target.value);
   },
@@ -17,6 +24,7 @@ var AnalyticsGetSection = React.createClass({
   handleSubmit: function (event) {
     event.preventDefault();
     this.setState({ message: 'Sending...' }, this.sendFormData);
+    // this.props.scrollOnSubmit();
   },
 
   sendFormData: function () {
@@ -57,26 +65,25 @@ var AnalyticsGetSection = React.createClass({
     return(
       <form onSubmit={this.handleSubmit}>
         <div className="row">
-          <div className="six columns">
+          <div className="col s12 m6 input-field">
+            <input className="validate" type="text" name="dataKey" ref="dataKey" onChange={this.handleChange} value={this.props.dataKey} autoComplete="off" required/>
             <label htmlFor="dataKey">Data Key</label>
-            <input className="u-full-width" type="text" name="dataKey" ref="dataKey" onChange={this.handleChange} value={this.props.dataKey} autoComplete="off" required/>
           </div>
-          <div className="six columns">
+          <div className="col s12 m6 input-field">
+            <input className="validate" type="text" name="grainType" ref="grainType" required/>
             <label htmlFor="grainType">Grain Type</label>
-            <input className="u-full-width" type="text" name="grainType" ref="grainType" required/>
           </div>
-        </div>
-        <div className="row">
-          <div className="six columns">
+          <div className="col s12 m6 input-field">
             <label htmlFor="startDate">Start date</label>
-            <input className="u-full-width" type="date" name="startDate" ref="startDate" required/>
+            <input type="date" className="datepicker" name="startDate" ref="startDate" required/>
           </div>
-          <div className="six columns">
+          <div className="col s12 m6 input-field">
             <label htmlFor="endDate">End date</label>
-            <input className="u-full-width" type="date" name="endDate" ref="endDate" required/>
+            <input type="date" className="datepicker" name="endDate" ref="endDate" required/>
           </div>
         </div>
-        <input className="u-full-width button-primary" type="submit" value="Submit"/>
+
+        <button className="btn waves-effect waves-light full-width" type="submit" name="action">Submit</button>
         {status}
       </form>
     );
@@ -89,6 +96,7 @@ export default class Analytics extends React.Component {
     this.render = this.render.bind(this);
     this.updateResults = this.updateResults.bind(this);
     this.updateDataKey = this.updateDataKey.bind(this);
+    this.scrollOnSubmit = this.scrollOnSubmit.bind(this);
     this.state = { resultsData: [], dataKey: '' };
   };
 
@@ -104,6 +112,11 @@ export default class Analytics extends React.Component {
     this.setState({
       dataKey: key
     });
+  };
+
+  scrollOnSubmit() {
+    var resultsPanel = ReactDOM.findDOMNode(this.refs.resultSection);
+    resultsPanel.scrollIntoView();
   };
 
   render() {
@@ -126,16 +139,16 @@ export default class Analytics extends React.Component {
             <Filedrop updateDataKey={this.updateDataKey}/>
           </div>
         </section>
-        <section className="api-section bg-grey">
+        <section ref="querySection" className="api-section bg-grey">
           <div className="container">
             <div className="center-text api-section">
               <h2>2. QUERY</h2>
               <p>Now that your data is uploaded, you're ready to start using some basic analysis tools.</p>
             </div>
-            <AnalyticsGetSection updateResults={this.updateResults} updateDataKey={this.updateDataKey} dataKey={this.state.dataKey}/>
+            <AnalyticsGetSection updateResults={this.updateResults} updateDataKey={this.updateDataKey} dataKey={this.state.dataKey} scrollOnSubmit={this.scrollOnSubmit}/>
           </div>
         </section>
-        <section className="api-section">
+        <section ref="resultSection" className="api-section">
           <div className="container">
             <div className="center-text api-section">
               <h2>3. RESULTS</h2>

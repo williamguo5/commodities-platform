@@ -1,0 +1,22 @@
+.side-nav.fixed {
+    // margin-top: 64px;
+    width: 310px;
+    transform: translateX(0) !important;
+    left: initial;
+    right: 0;
+    .brand-logo {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-bottom: 1px solid lightgrey;
+        img {
+            max-width: 100%;
+            max-height: 60%;
+        }
+    }
+}
+
+.side-bar-page {
+    padding-right: 240px;
+    height: 100vh;
+}
