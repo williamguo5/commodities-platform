@@ -31,6 +31,12 @@ echo 'Expected output: JSON response'
 echo 'Request: H2 1-Jan-2015 28-Jul-2015'
 CallGetRequest H2 1-Jan-2015 28-jul-2015 $dataKey
 echo
+echo 'Request: AGP1 1-Jan-2015 28-Jul-2015'
+CallGetRequest H2 1-Jan-2015 28-jul-2015 $dataKey
+echo
+echo 'Request: APW2 1-Jan-2015 28-Jul-2015'
+CallGetRequest H2 1-Jan-2015 28-jul-2015 $dataKey
+echo
 echo 'Request: H2 1-Jul-2015 28-Aug-2015'
 CallGetRequest H2 1-Jul-2015 28-Aug-2015 $dataKey
 echo
@@ -38,6 +44,18 @@ echo 'Request: AGP1 1-Mar-2015 28-Aug-2015'
 CallGetRequest AGP1 1-Mar-2015 28-Aug-2015 $dataKey
 echo
 echo 'Request: APW2 1-JUL-2015 28-Aug-2015'
+CallGetRequest APW2 1-JUL-2015 28-Aug-2015 $dataKey
+echo
+echo 'Request: APW2 1-OCT-2015 28-DEC-2015'
+CallGetRequest APW2 1-JUL-2015 28-Aug-2015 $dataKey
+echo
+echo 'Request: H2 1-OCT-2015 1-DEC-2015'
+CallGetRequest APW2 1-JUL-2015 28-Aug-2015 $dataKey
+echo
+echo 'Request: ASW1 1-OCT-2015 1-DEC-2015'
+CallGetRequest APW2 1-JUL-2015 28-Aug-2015 $dataKey
+echo
+echo 'Request: H1 1-OCT-2015 1-DEC-2015'
 CallGetRequest APW2 1-JUL-2015 28-Aug-2015 $dataKey
 echo
 
