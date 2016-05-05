@@ -5,11 +5,9 @@ export default class Dash extends React.Component {
   render() {
     return (
       <main>
-        <div className="row">
-          <div className="three columns side-bar-wrapper">
-            <SideBar/>
-          </div>
-          <div className="nine columns">
+        <SideBar/>
+        <div className="side-bar-page">
+          <div className="tight-container">
             <h1>Title</h1>
           </div>
         </div>

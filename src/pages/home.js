@@ -5,7 +5,7 @@ const Home = () => (
   <main>
     <section id="sectionTitle" className="center-text bg-blue">
       <a href="https://www.youtube.com/watch?v=7goA_DnGIbU" target="_blank">
-        <img src={require('../assets/images/trump.jpg')}/>
+        <img className="hoverable" src={require('../assets/images/trump.jpg')}/>
       </a>
       <h1>A small million dollar loan</h1>
     </section>

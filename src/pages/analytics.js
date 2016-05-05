@@ -10,6 +10,13 @@ var AnalyticsGetSection = React.createClass({
       message: ''
     };
   },
+  componentDidMount: function() {
+    $('.datepicker').pickadate({
+      selectMonths: true, // Creates a dropdown to control month
+      selectYears: 15 // Creates a dropdown of 15 years to control year
+    });
+  },
+
   handleChange: function(event) {
     this.props.updateDataKey(event.target.value);
   },
@@ -17,7 +24,7 @@ var AnalyticsGetSection = React.createClass({
   handleSubmit: function (event) {
     event.preventDefault();
     this.setState({ message: 'Sending...' }, this.sendFormData);
-    this.props.scrollOnSubmit();
+    // this.props.scrollOnSubmit();
   },
 
   sendFormData: function () {
@@ -58,26 +65,25 @@ var AnalyticsGetSection = React.createClass({
     return(
       <form onSubmit={this.handleSubmit}>
         <div className="row">
-          <div className="six columns">
+          <div className="col s12 m6 input-field">
+            <input className="validate" type="text" name="dataKey" ref="dataKey" onChange={this.handleChange} value={this.props.dataKey} autoComplete="off" required/>
             <label htmlFor="dataKey">Data Key</label>
-            <input className="u-full-width" type="text" name="dataKey" ref="dataKey" onChange={this.handleChange} value={this.props.dataKey} autoComplete="off" required/>
           </div>
-          <div className="six columns">
+          <div className="col s12 m6 input-field">
+            <input className="validate" type="text" name="grainType" ref="grainType" required/>
             <label htmlFor="grainType">Grain Type</label>
-            <input className="u-full-width" type="text" name="grainType" ref="grainType" required/>
           </div>
-        </div>
-        <div className="row">
-          <div className="six columns">
+          <div className="col s12 m6 input-field">
             <label htmlFor="startDate">Start date</label>
-            <input className="u-full-width" type="date" name="startDate" ref="startDate" required/>
+            <input type="date" className="datepicker" name="startDate" ref="startDate" required/>
           </div>
-          <div className="six columns">
+          <div className="col s12 m6 input-field">
             <label htmlFor="endDate">End date</label>
-            <input className="u-full-width" type="date" name="endDate" ref="endDate" required/>
+            <input type="date" className="datepicker" name="endDate" ref="endDate" required/>
           </div>
         </div>
-        <input className="u-full-width button-primary" type="submit" value="Submit"/>
+
+        <button className="btn waves-effect waves-light full-width" type="submit" name="action">Submit</button>
         {status}
       </form>
     );

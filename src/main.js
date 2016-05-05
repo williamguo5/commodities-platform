@@ -16,8 +16,8 @@ ReactDOM.render((
       <IndexRoute component={Home}/>
       <Route path="api" component={Api}/>
       <Route path="analytics" component={Analytics}/>
-      <Route path="dash" component={Dash}/>
     </Route>
+    <Route path="/dash" component={Dash}/>
     <Route path="*" component={NotFound} />
   </Router>
   ), document.getElementById('root')
