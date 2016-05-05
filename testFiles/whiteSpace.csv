@@ -1,0 +1,8 @@
+#RIC,Date[G],Time[G],GMT Offset,Type,Ex/Cntrb.ID,Price,Volume,Market VWAP,Bid Price,Bid Size,Ask Price,Ask Size,Qualifiers,Exch Time,Prim Act.,Sec. Act.,Gen Val1,Gen Val2,Gen Val3,Gen Val4,Gen Val5,Crack,Top,Freight Pr.	
+ALBN-AGP1-CY1,09-JUL-2015,10:18:56.999566,+0,C&E Quote,,,,,,,,,"  [ACT_TP_1];  [SC_ACT_TP1]",10:18:56.000,393,0,,,,,,,,
+ALBN-AGP1-CY1,27-JUL-2015,10:56:17.536052,+0,C&E Quote,,,,,,,,,v[ACT_TP_1];WA    [GV2_TEXT];FIS   [GV4_TEXT]; -[SC_ACT_TP1],10:56:17.000,273,120,,,,,,,,
+ALBN-AGP1-CY1,27-JUL-2015,12:45:55.038885,+0,C&E Quote,,,,,,,,,^[ACT_TP_1];WA    [GV2_TEXT];FIS   [GV4_TEXT]; +[SC_ACT_TP1],12:45:54.000,275,2,,,,,,,,
+ALBN-AGP1-CY1,27-JUL-2015,13:03:18.527100,+0,C&E Quote,,,,,,,,,v[ACT_TP_1];WA    [GV2_TEXT];FIS   [GV4_TEXT]; -[SC_ACT_TP1],13:03:18.000,270,5,,,,,,,,
+ALBN-AGP1-CY1,28-JUL-2015,10:21:58.539023,+0,C&E Quote,,,,,,,,,^[ACT_TP_1];WA    [GV2_TEXT];FIS   [GV4_TEXT]; +[SC_ACT_TP1],10:21:58.000,273,3,,,,,,,,
+
+
