@@ -1,21 +1,16 @@
 #!/bin/bash
 
-if test $# -ne 1
+if test $# -ne 2
 then
-	echo "usage: $0 <data key>"
+	echo "usage: $0 <host> <data key>"
 	exit
 fi
 
-host="http://localhost:3000"
+host="$1"
 requestURL="$host/shipping/getPrices"
-dataKey="$1"
-
-# host="http://localhost:3000"
+dataKey="$2"
 uploadURL="$host/shipping/upload"
-testFile='../testFiles/averageCalcTest.csv'
-
-res=`curl -X POST -F "inputData=@$testFile" $uploadURL`
-averageTestDataKey=`echo $res | sed s/.*\"dataKey\":\"// | sed s/\".*//`
+testFile='testFiles/averageCalcTest.csv'
 
 # params: 
 # $1 - grain

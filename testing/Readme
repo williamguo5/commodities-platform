@@ -1,0 +1,2 @@
+run 'runTests.sh' to start all tests.
+Test cases 12, 13 and 15 were not tested through a script and was simply tested manually.
