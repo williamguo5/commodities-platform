@@ -7,6 +7,12 @@ export default merge({
   debug: true,
   devtool: 'source-map',
 
+  module: {
+    loaders: [
+      {test: require.resolve('chart.js'), loader: 'imports?this=>window'},
+    ]
+  },
+
   plugins: [
     new ExtractTextPlugin('bundle.css')
   ],

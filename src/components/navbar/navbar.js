@@ -16,6 +16,9 @@ const Navbar = () => (
           <li>
             <Link activeClassName="active" className="waves-effect waves-light" to="api">Api</Link>
           </li>
+          <li>
+            <Link activeClassName="active" className="waves-effect waves-light" to="dash">Dash</Link>
+          </li>
         </ul>
       </div>
     </nav>

@@ -1,6 +1,7 @@
+$side-nav-width: 310px;
+
 .side-nav.fixed {
-    // margin-top: 64px;
-    width: 310px;
+    width: $side-nav-width;
     transform: translateX(0) !important;
     left: initial;
     right: 0;
@@ -17,6 +18,6 @@
 }
 
 .side-bar-page {
-    padding-right: 240px;
+    padding-right: $side-nav-width;
     height: 100vh;
 }
