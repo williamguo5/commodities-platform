@@ -1,15 +1,14 @@
-#/bin/bash
+#!/bin/bash
 
-if test $# -ne 1
+if test $# -ne 2
 then
-	echo "usage: $0 <data key>"
+	echo "usage: $0 <host> <data key>"
 	exit
 fi
 
-# host='http://asmallmilliondollarloan.herokuapp.com'
-host="http://localhost:3000"
+host="$1"
 requestURL="$host/shipping/getPrices"
-dataKey="$1"
+dataKey="$2"
 
 invalidDate="Invalid date. Enter date in the format dd-MMM-YYYY"
 emptyArray="[]"
