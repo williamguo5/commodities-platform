@@ -9,7 +9,6 @@ import Dash from 'pages/dash';
 import Layout from 'pages/layout';
 import NotFound from 'pages/notFound';
 
-
 ReactDOM.render((
   <Router onUpdate={() => window.scrollTo(0, 0)} history={browserHistory}>
     <Route path="/" component={Layout}>

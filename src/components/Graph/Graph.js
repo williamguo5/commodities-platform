@@ -38,13 +38,14 @@ const options = {
   bezierCurve: true,
   bezierCurveTension: 0.4,
   pointDot: true,
-  pointDotRadius: 6,
+  pointDotRadius: 4,
   pointDotStrokeWidth: 1,
-  pointHitDetectionRadius: 20,
+  pointHitDetectionRadius: 1,
   datasetStroke: true,
   datasetStrokeWidth: 2,
-  datasetFill: true,
+  datasetFill: false,
   legendTemplate: '<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].strokeColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>',
+  responsive: true
 };
 
 export default class Graph extends React.Component {
@@ -55,17 +56,15 @@ export default class Graph extends React.Component {
   };
 
   render() {
-    const graphWidth = '550px';
-    const containerWidth = '580px'; // graphWidth + 2 * containerPadding
     const styles = {
       graphContainer: {
         padding: '15px',
-        width: containerWidth
+        width: '100%'
       }
     };
     return (
       <div className="card" style={styles.graphContainer}>
-        <LineChart data={this.props.data} options={options} width={graphWidth} height="350" redraw/>
+        <LineChart data={this.props.data} options={options} redraw/>
       </div>
     );
   };

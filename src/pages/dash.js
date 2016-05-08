@@ -9,9 +9,10 @@ export default class Dash extends React.Component {
     this.render = this.render.bind(this);
     this.updateDataKey = this.updateDataKey.bind(this);
     this.updateResults = this.updateResults.bind(this);
+    this.updateDateRange = this.updateDateRange.bind(this);
     this.chartData = this.chartData.bind(this);
     this.makeGraphData = this.makeGraphData.bind(this);
-    this.state = {dataKey: '', resultsData: []};
+    this.state = {dataKey: '', resultsData: [], dateRange: {}};
   }
 
   updateDataKey(key) {
@@ -28,18 +29,25 @@ export default class Dash extends React.Component {
     });
   };
 
+  updateDateRange(data) {
+    // console.log('updateDateRange: ' + data);
+    this.setState({
+      dateRange: data
+    });
+  };
+
   chartData(labels, grain1Data) {
     return {
       labels: labels,
       datasets: [
         {
           label: 'Grain 1',
-          fillColor: 'rgba(220,220,220,0.2)',
-          strokeColor: 'rgba(220,220,220,1)',
-          pointColor: 'rgba(220,220,220,1)',
+          fillColor: 'rgba(243,156,18,0.2)',
+          strokeColor: 'rgba(243,156,18,1)',
+          pointColor: 'rgba(243,156,18,1)',
           pointStrokeColor: '#fff',
           pointHighlightFill: '#fff',
-          pointHighlightStroke: 'rgba(220,220,220,1)',
+          pointHighlightStroke: 'rgba(243,156,18,1)',
           data: grain1Data
         }
       ]
@@ -49,20 +57,31 @@ export default class Dash extends React.Component {
   makeGraphData(data) {
     let values = data.map(function(a) {return a.average_Y1;});
     let labels = [];
-    labels.push('start');
-    for(let i = 0; i < (values.length - 2); i++){
+    if (this.state.dateRange) {
+      labels.push(this.state.dateRange.startDate);
+    }
+    for (let i = 0; i < (values.length - 2); i++) {
       labels.push('');
     }
-    labels.push('end');
+    if (this.state.dateRange) {
+      labels.push(this.state.dateRange.endDate);
+    }
     return this.chartData(labels, values);
   };
 
   render() {
+    const styles = {
+      graphContainer: {
+        padding: '15px',
+        width: '100%',
+        height: '100%'
+      }
+    };
     return (
       <main>
-        <SideBar dataKey={this.state.dataKey} updateDataKey={this.updateDataKey} updateResults={this.updateResults}/>
+        <SideBar dataKey={this.state.dataKey} updateDataKey={this.updateDataKey} updateResults={this.updateResults} updateDateRange={this.updateDateRange}/>
         <div className="side-bar-page">
-          <div className="tight-container">
+          <div ref="graphContainer" className="tight-container" style={styles.graphContainer}>
             <Graph data={this.state.resultsData}/>
           </div>
         </div>

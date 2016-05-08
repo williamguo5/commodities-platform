@@ -29,20 +29,21 @@ export default class QueryForm extends React.Component {
 
   sendFormData() {
     // Prepare form data for submitting it.
-    var monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    let monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
-    var dataKey = ReactDOM.findDOMNode(this.refs.dataKey).value,
+    let dataKey = ReactDOM.findDOMNode(this.refs.dataKey).value,
         grainType = ReactDOM.findDOMNode(this.refs.grainType).value,
         sDate = new Date(ReactDOM.findDOMNode(this.refs.startDate).value),
         eDate = new Date(ReactDOM.findDOMNode(this.refs.endDate).value);
 
-    var startDateString = sDate.getDate() + '-' +
+    let startDateString = sDate.getDate() + '-' +
                           monthNames[sDate.getMonth()] + '-' +
                           sDate.getFullYear();
-    var endDateString = eDate.getDate() + '-' +
+    let endDateString = eDate.getDate() + '-' +
                         monthNames[eDate.getMonth()] + '-' +
                         eDate.getFullYear();
 
+    // let grains = string.split(',');
     Request.get('/shipping/getPrices')
       .query({ grain: grainType})
       .query({ startDate: startDateString})
@@ -50,26 +51,28 @@ export default class QueryForm extends React.Component {
       .query({ userID: dataKey})
       .end((err, res) => {
         // console.log(JSON.stringify(res.body));
+        let dateRange = {startDate: startDateString, endDate: endDateString};
+        this.props.updateDateRange(dateRange);
         this.props.updateResults(res.body);
       }
     );
   };
 
   render() {
-    var dataKeyClass = '';
+    var dataKeyClass = 'tooltipped';
     if (this.props.dataKey) {
-      dataKeyClass = 'active';
+      dataKeyClass = 'tooltipped active';
     }
     return(
       <form onSubmit={this.handleSubmit}>
         <div className="row">
-          <div className="col s12 input-field tooltipped" data-position="left" data-tooltip="The unique data-key of the file you upload(ed)">
+          <div className="col s12 input-field">
             <input className="validate" type="text" name="dataKey" ref="dataKey" onChange={this.handleChange} value={this.props.dataKey} autoComplete="off" required/>
-            <label className={dataKeyClass} htmlFor="dataKey">Data Key</label>
+            <label className={dataKeyClass} data-position="left" data-tooltip="The unique data-key of the file you upload(ed)" htmlFor="dataKey">Data Key</label>
           </div>
-          <div className="col s12 input-field tooltipped" data-position="left" data-tooltip="Type of the grain you want to analyse. e.g. AGP1">
+          <div className="col s12 input-field">
             <input className="validate" type="text" name="grainType" ref="grainType" required/>
-            <label htmlFor="grainType">Grain Type</label>
+            <label htmlFor="grainType" className="tooltipped" data-position="left" data-tooltip="Type of the grain you want to analyse. e.g. AGP1">Grain Type</label>
           </div>
           <div className="col s6 input-field">
             <label htmlFor="startDate" className="tooltipped" data-position="left" data-tooltip="Starting date of the range you want to analyse">Start date</label>

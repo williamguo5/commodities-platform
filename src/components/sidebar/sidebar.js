@@ -19,8 +19,8 @@ export default class SideBar extends React.Component {
         </Link>
         <div className="tight-container">
           <FileButton updateDataKey={this.props.updateDataKey}/>
-          <QueryForm dataKey={this.props.dataKey} updateResults={this.props.updateResults}/>
         </div>
+        <QueryForm dataKey={this.props.dataKey} updateResults={this.props.updateResults} updateDateRange={this.props.updateDateRange}/>
       </div>
     );
   }
