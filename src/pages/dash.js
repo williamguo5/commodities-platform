@@ -2,7 +2,7 @@ import React from 'react';
 import SideBar from '../components/sidebar/sidebar';
 import Graph from '../components/Graph/Graph';
 
-const colors = ['rgba(243,156,18,1)', 'rgba(46,204,113,1)', 'rgba(52,152,219,1)', 'rgba(155,99,192,1)', 'rgba(192,57,43,1)','rgba(52,73,94,1)'];
+const colors = ['rgba(243,156,18,1)', 'rgba(46,204,113,1)', 'rgba(52,152,219,1)', 'rgba(155,99,192,1)', 'rgba(192,57,43,1)','rgba(52,73,94,1)','rgba(255,224,0,1)', 'rgba(22,160,133,1)'];
 
 export default class Dash extends React.Component {
   constructor() {
@@ -49,27 +49,27 @@ export default class Dash extends React.Component {
     });
   };
 
-  chartData(labels, graphData, largestSet) {
+  chartData(labels, graphData, largestSet, grainLabels) {
     let datasets = [];
     // TODO: create new arrays that are >= maxLength containing all the dates and value of the grain if it has one
     let count = 0;
-    for (let singleGrainData of graphData) {
-      for (let val in singleGrainData) {
-        if (val == '') {
-          val = null;
+    for (let j = 0; j < graphData.length; j++) {
+      for (let k = 0; k < graphData[j].length; k++) {
+        if (!(!!graphData[j][k])) {
+          graphData[j][k] = null;
         }
       }
-      for (let i = singleGrainData.length; i < largestSet; i++) {
-        singleGrainData.push(null);
+      for (let i = graphData[j].length; i < largestSet; i++) {
+        graphData[j].push(null);
       }
       datasets.push({
-        label: 'Grain ' + datasets.length,
+        label: grainLabels[j],
         strokeColor: colors[count],
         pointColor: colors[count],
         pointStrokeColor: '#fff',
         pointHighlightFill: '#fff',
         pointHighlightStroke: colors[count],
-        data: singleGrainData
+        data: graphData[j]
       });
       count++;
       if (count >= colors.length) {
@@ -85,11 +85,16 @@ export default class Dash extends React.Component {
   makeGraphData(data) {
     console.log('HERE: ' + data);
     let graphData = [];
+    let grainLabels = [];
     for (let grain of data) {
       graphData.push(grain.map(function(a) {return a.average_Y1;}));
+      if (grain[0] !== undefined) {
+        grainLabels.push(grain[0].grain);
+      }
     }
     // Get longest array
     let largestSet = 0;
+
     for (let singleGrainData of graphData) {
       if (largestSet < singleGrainData.length) {
         largestSet = singleGrainData.length;
@@ -106,7 +111,7 @@ export default class Dash extends React.Component {
     if (this.state.dateRange) {
       labels.push(this.state.dateRange.endDate);
     }
-    return this.chartData(labels, graphData, largestSet);
+    return this.chartData(labels, graphData, largestSet, grainLabels);
   };
 
   render() {

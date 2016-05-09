@@ -45,7 +45,8 @@ const options = {
   datasetStrokeWidth: 2,
   datasetFill: false,
   legendTemplate: '<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].strokeColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>',
-  responsive: true
+  responsive: true,
+  maintainAspectRatio: false
 };
 
 export default class Graph extends React.Component {
@@ -58,8 +59,10 @@ export default class Graph extends React.Component {
   render() {
     const styles = {
       graphContainer: {
-        padding: '15px',
-        width: '100%'
+        padding: '20px',
+        width: '100%',
+        height: '100%',
+        margin: '0'
       }
     };
     return (
