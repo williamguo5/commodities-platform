@@ -7,6 +7,7 @@ export default class QueryForm extends React.Component {
     super();
     this.render = this.render.bind(this);
     this.componentDidMount = this.componentDidMount.bind(this);
+    this.componentWillUnmount = this.componentWillUnmount.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.sendFormData = this.sendFormData.bind(this);
@@ -16,7 +17,11 @@ export default class QueryForm extends React.Component {
       selectMonths: true, // Creates a dropdown to control month
       selectYears: 10 // Creates a dropdown of 15 years to control year
     });
+    $('.tooltipped').tooltip({delay: 50});
   };
+  componentWillUnmount() {
+    $('.tooltipped').tooltip('remove');
+  }
 
   handleChange(event) {
     this.props.updateDataKey(event.target.value);

@@ -53,6 +53,7 @@ h6 {
 .bg-red {
     background-color: #e74c3c;
 }
+
 .bg-grey {
     background-color: #f1f1f1;
 }
@@ -97,8 +98,20 @@ pre {
     .griddle-body {
         overflow: auto;
     }
-    th, td {
+    th,
+    td {
         width: 110px;
+    }
+    .griddle-column-selection {
+        input {
+            position: initial !important;
+            left: initial !important;
+            opacity: 1 !important;
+        }
+    }
+    select {
+        display: initial !important;
+        width: auto !important;
     }
 }
 

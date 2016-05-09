@@ -62,7 +62,7 @@ export default class Graph extends React.Component {
         padding: '20px',
         width: '100%',
         height: '100%',
-        margin: '0'
+        margin: 0
       }
     };
     return (
