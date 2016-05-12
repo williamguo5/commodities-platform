@@ -18,13 +18,15 @@ router.get('/getPrices', function(req, res, next) {
 	var grain = req.query.grain;
 	var startDate = req.query.startDate;
 	var endDate = req.query.endDate;
-
+	var port = req.query.port;
 
 	if (userID == undefined) {
 		res.send('No userID provided\n');
-	} else if (files[userID] != true) {
-		res.send('Invalid userID\n');
-	} else if (grain == undefined) {
+	} 
+	// else if (files[userID] != true) {
+	// 	res.send('Invalid userID\n');
+	// } 
+	else if (grain == undefined) {
 		res.send('No grain provided\n');
 	} else if (isValidDate(startDate) && isValidDate(endDate)){
 		grain = grain.toUpperCase();
@@ -40,25 +42,87 @@ router.get('/getPrices', function(req, res, next) {
 		};
 
 		PythonShell.run('shippingAPI_v1.py', options, function (err, results) {
-  			// if (err) throw err;
-  			// results is an array consisting of messages collected during execution
-  			// console.log(results);
-  			// console.log(results)
+  			// if port flag set
+  			console.log(port);
+  			if (port != undefined){
+  				if (results != null && results[0] == 'Invalid grain!') {
+	  				res.send("No results for given grain");
+				} else {
+					// console.log(port);
+					// port = port + '_Y1';
+					var portRe = new RegExp('"' + port + '":"([.\\d]*)"', 'i');
+					var dateRe = /"date":"(\d{1,2}\-[a-zA-Z]{3}\-\d{4})"/;
 
+					var startString = JSON.stringify(JSON.parse(results[0]));
+					var start = dateRe.exec(startString, function(err) {
+		  					if (err){
+		  						console.log(err);
+		  					}
+		  				});
+					var dateStart = start[1];
 
-  			if (results != null && results[0] == 'Invalid grain!') {
-  				res.json([]);
-			} else {
-				var jsonArr = [];
-	  			for (i in results) {
-	  				jsonArr[i] = JSON.parse(results[i]);
-	  			}
+					var endString = JSON.stringify(JSON.parse(results[results.length - 1]));
+					var end = dateRe.exec(endString, function(err) {
+		  					if (err){
+		  						console.log(err);
+		  					}
+		  				});
+					var dateEnd = end[1];
 
-				res.json(jsonArr);
+					console.log(dateStart, dateEnd);
+					var allDatesBetween = datesBetween(dateStart, dateEnd);
+
+		  			var data = {};
+		  			for (i in results){
+		  				var jsonString = JSON.stringify(JSON.parse(results[i]));
+		  				// console.log(jsonString);
+		  				var date = dateRe.exec(jsonString, function(err) {
+		  					if (err){
+		  						console.log(err);
+		  					}
+		  				})[1];
+		  				var price = portRe.exec(jsonString, function(err) {
+		  					if (err){
+		  						console.log(err);
+		  					}
+		  				});
+		  				if (price){
+		  					console.log(price);
+		  					price = price[1];
+		  				}
+		  				data[date] = price;
+		  			}
+		  			var dataArray = []
+		  			// console.log(allDatesBetween);
+		  			for (var i = 0; i < allDatesBetween.length; i++){
+		  				// if there is an entry for that date
+		  				// console.log(allDatesBetween[i]);
+		  				if (data[allDatesBetween[i]] == undefined || data[allDatesBetween[i]] == ''){
+		  					dataArray.push(null);
+		  				} else {
+		  					dataArray.push(data[allDatesBetween[i]]);
+		  				}
+		  			}
+		  			// console.log(dataArray);
+					// var beginDate = results[0]
+				}
+				var response = [];
+				response.push(allDatesBetween);
+				response.push(dataArray);
+				console.log(response);
+				res.send(response);
+  			}
+  			else {
+	  			if (results != null && results[0] == 'Invalid grain!') {
+	  				res.json([]);
+				} else {
+					var jsonArr = [];
+		  			for (i in results) {
+		  				jsonArr[i] = JSON.parse(results[i]);
+		  			}
+					res.json(jsonArr);	
+				}
 			}
-
-
-
 		});
 
 
@@ -85,7 +149,7 @@ router.post('/upload', upload.array('inputData', 1), function(req, res) {
 	//TODO - delete uploaded files that are over 24 hours old.
 	res.json({
 		"dataKey": dataKey,
-		"message": "File uploaded successfully"
+		"message": "File uploaded successfully",
 	});
 });
 
@@ -117,4 +181,34 @@ function isValidDate(dateString) {
 
     // Check the range of the day
     return day > 0 && day <= monthLength[index];
+};
+
+
+function datesBetween(startDateString, endDateString){
+	var startParts = startDateString.split("-");
+	var endParts = endDateString.split("-");
+	const months = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+	var day = [];
+	var month = [];
+	var year = [];
+	day.push(parseInt(startParts[0], 10));
+	month.push(months.indexOf(startParts[1].toUpperCase()));
+	year.push(parseInt(startParts[2], 10));
+
+	day.push(parseInt(endParts[0], 10));
+	month.push(months.indexOf(endParts[1].toUpperCase()))
+	year.push(parseInt(endParts[2], 10));
+
+	var end = new Date(year[1], month[1], day[1]);
+	var daysBetween = [];
+	for (var d = new Date(year[0], month[0], day[0]); d <= end; d.setDate(d.getDate() + 1)) {
+		var date = d.getDate();
+		if (date < 10){
+			date = '0' + date;
+		}
+		var dateString = date + '-' + months[d.getMonth()] + '-' + d.getFullYear();
+		daysBetween.push(dateString);
+	}
+	// console.log(daysBetween);
+	return daysBetween;
 };
