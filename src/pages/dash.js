@@ -9,12 +9,14 @@ export default class Dash extends React.Component {
     super();
     this.render = this.render.bind(this);
     this.updateDataKey = this.updateDataKey.bind(this);
+    this.updateGrains = this.updateGrains.bind(this);
+    this.updatePorts = this.updatePorts.bind(this);
     this.updateResults = this.updateResults.bind(this);
     this.resetResults = this.resetResults.bind(this);
     this.updateDateRange = this.updateDateRange.bind(this);
     this.chartData = this.chartData.bind(this);
     this.makeGraphData = this.makeGraphData.bind(this);
-    this.state = {dataKey: '', resultsData: [], dateRange: {}, graphData: []};
+    this.state = {dataKey: '', resultsData: [], dateRange: {}, graphData: [], grains: ['a', 'b'], ports: []};
   }
 
   updateDataKey(key) {
@@ -22,6 +24,22 @@ export default class Dash extends React.Component {
     this.setState({
       dataKey: key
     });
+  };
+
+  updateGrains(grains) {
+    // console.log('updateGrains: ' + grains);
+    this.setState({
+      grains: grains
+    });
+    this.render();
+  };
+
+  updatePorts(ports) {
+    // console.log('updatePorts: ' + ports);
+    this.setState({
+      ports: ports
+    });
+    this.render();
   };
 
   updateResults(data) {
@@ -124,7 +142,7 @@ export default class Dash extends React.Component {
     };
     return (
       <main>
-        <SideBar dataKey={this.state.dataKey} updateDataKey={this.updateDataKey} updateResults={this.updateResults} updateDateRange={this.updateDateRange} resetResults={this.resetResults}/>
+        <SideBar dataKey={this.state.dataKey} grains={this.state.grains} ports={this.state.ports} updateDataKey={this.updateDataKey} updateResults={this.updateResults} updateDateRange={this.updateDateRange} resetResults={this.resetResults} updateGrains={this.updateGrains} updatePorts={this.updatePorts}/>
         <div className="side-bar-page">
           <div ref="graphContainer" className="tight-container" style={styles.graphContainer}>
             <Graph data={this.state.graphData}/>

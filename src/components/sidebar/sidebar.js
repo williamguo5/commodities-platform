@@ -18,9 +18,9 @@ export default class SideBar extends React.Component {
           <img src={require('../../assets/images/logo.png')}/>
         </Link>
         <div className="tight-container">
-          <FileButton updateDataKey={this.props.updateDataKey}/>
+          <FileButton updateDataKey={this.props.updateDataKey} updateGrains={this.props.updateGrains} updatePorts={this.props.updatePorts}/>
         </div>
-        <QueryForm dataKey={this.props.dataKey} updateResults={this.props.updateResults} updateDateRange={this.props.updateDateRange} resetResults={this.props.resetResults}/>
+        <QueryForm dataKey={this.props.dataKey} grains={this.props.grains} ports={this.props.ports} updateResults={this.props.updateResults} updateDateRange={this.props.updateDateRange} resetResults={this.props.resetResults}/>
       </div>
     );
   }

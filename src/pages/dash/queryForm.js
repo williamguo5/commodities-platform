@@ -11,6 +11,7 @@ export default class QueryForm extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.sendFormData = this.sendFormData.bind(this);
+    this.populateList = this.populateList.bind(this);
   }
   componentDidMount() {
     $('.datepicker').pickadate({
@@ -18,6 +19,7 @@ export default class QueryForm extends React.Component {
       selectYears: 10 // Creates a dropdown of 15 years to control year
     });
     $('.tooltipped').tooltip({delay: 50});
+    $('select').material_select();
   };
   componentWillUnmount() {
     $('.tooltipped').tooltip('remove');
@@ -68,6 +70,17 @@ export default class QueryForm extends React.Component {
     }
   };
 
+  populateList(list){
+    console.log('printing options: ', list);
+    var options = [];
+    if (list != undefined){
+      for (var i = 0; i < list.length; i++){
+        options.push(<option value={i+1}>{list[i]}</option>);
+      }
+      return options;
+    }
+  };
+
   render() {
     var dataKeyClass = 'tooltipped';
     if (this.props.dataKey) {
@@ -80,18 +93,22 @@ export default class QueryForm extends React.Component {
             <label className={dataKeyClass} data-position="left" data-tooltip="The unique data-key of the file you upload(ed)" htmlFor="dataKey">Data Key</label>
             <input className="validate" type="text" name="dataKey" ref="dataKey" onChange={this.handleChange} value={this.props.dataKey} autoComplete="off" required/>
           </div>
-          <div className="col s12 input-field">
-            <label htmlFor="grainTypes" className="tooltipped" data-position="left" data-tooltip="Types of the grain you want to analyse seperate by commas. e.g. AGP1 or AGP1, AUH2">Grain Types</label>
-            <input className="validate" type="text" name="grainTypes" ref="grainTypes" required/>
-          </div>
+          <div className="row">
           <div className="col s6 input-field">
-            <label htmlFor="startDate" className="tooltipped" data-position="left" data-tooltip="Starting date of the range you want to analyse">Start date</label>
-            <input type="date" className="datepicker" name="startDate" ref="startDate" required/>
+            <select>
+              <option value="" disabled selected>Grain</option>
+              {this.populateList(this.props.grains)}
+            </select>
+            <label>Select Grain</label>
           </div>
-          <div className="col s6 input-field">
-            <label htmlFor="endDate" className="tooltipped" data-position="left" data-tooltip="Ending date of the range you want to analyse">End date</label>
-            <input type="date" className="datepicker" name="endDate" ref="endDate" required/>
+          <div className="input-field col s6">
+            <select>
+              <option value="" disabled selected>Port</option>
+              {this.populateList(this.props.ports)}
+            </select>
+            <label>Select Port</label>
           </div>
+        </div>
         </div>
         <div className="tight-container">
           <button className="btn waves-effect waves-light full-width" type="submit" name="action">OK</button>

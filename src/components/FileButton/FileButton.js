@@ -34,12 +34,22 @@ export default class FileButton extends React.Component {
           console.log('res: ', JSON.stringify(res.body));
 
           this.setState({message: 'Uploaded!'});
-
           if (this.props.updateDataKey) {
             this.props.updateDataKey(res.body.dataKey);
           }
-        }
-      );
+          Request.get('/shipping')
+          .query({ userID: res.body.dataKey})
+          .end((err, res) => {
+            // console.log(JSON.stringify(res.body));
+            if (this.props.updateGrains){
+              this.props.updateGrains(res.body[0].grains);
+            }
+            if (this.props.updatePorts){
+              this.props.updatePorts(res.body[0].ports);
+            }
+            // resultsData.push(res.body);
+          });
+        });      
     } else {
       alert('Wrong file type! The file must be in csv format');
       // TODO: Remove the incorrect file using event.target.xxxx
