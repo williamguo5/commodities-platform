@@ -10,7 +10,27 @@ var upload = multer({ dest: 'public/uploads' });
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-	res.send('Will display list of all shipping data');
+	var userID = req.query.userID;
+
+	var PythonShell = require('python-shell');
+		userID = 'public/uploads/' + userID
+		var options = {
+		  mode: 'text',
+		  // pythonPath: 'path/to/python',
+		  // pythonOptions: ['-u'],
+		  scriptPath: '',
+		  args: [userID]
+		};
+
+	PythonShell.run('getGrainsAndPorts.py', options, function (err, results) {
+		console.log(results)
+		jsonArr = [];
+		for (i in results) {
+			jsonArr[i] = JSON.parse(results[i]);
+		}
+		res.json(jsonArr);
+	});	
+	// res.send('Will display list of all shipping data');
 });
 
 router.get('/getPrices', function(req, res, next) {
