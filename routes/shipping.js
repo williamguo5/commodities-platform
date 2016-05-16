@@ -5,8 +5,10 @@ var fs = require('fs');
 var multer = require('multer');
 
 var files = [];
+var fileNamesToKey = [];
 
 var upload = multer({ dest: 'public/uploads' });
+var index = 1;
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -165,9 +167,18 @@ router.get('/getPrices', function(req, res, next) {
 router.post('/upload', upload.array('inputData', 1), function(req, res) {
 	// console.log(req.files[0]);
 	var dataKey = req.files[0].filename;
+	var originalName = req.files[0].originalname;
+	if (fileNamesToKey[originalName] == undefined) {
+		fileNamesToKey[originalName] = dataKey;
+	} else {
+		originalName = originalName+"(" + index++ + ")";
+		fileNamesToKey[originalName] = dataKey;
+		// console.log(dataKey);
+	}
 	files[dataKey] = true;
 	//TODO - delete uploaded files that are over 24 hours old.
 	res.json({
+		"filename": originalName,
 		"dataKey": dataKey,
 		"message": "File uploaded successfully",
 	});
