@@ -1,6 +1,7 @@
 import React from 'react';
 import Request from 'superagent';
 import ReactDOM from 'react-dom';
+import Select from 'react-select';
 
 export default class QueryForm extends React.Component {
   constructor() {
@@ -93,25 +94,21 @@ export default class QueryForm extends React.Component {
             <label className={dataKeyClass} data-position="left" data-tooltip="The unique data-key of the file you upload(ed)" htmlFor="dataKey">Data Key</label>
             <input className="validate" type="text" name="dataKey" ref="dataKey" onChange={this.handleChange} value={this.props.dataKey} autoComplete="off" required/>
           </div>
-          <div className="row">
-          <div className="col s6 input-field">
-            <select>
-              <option value="" disabled selected>Grain</option>
-              {this.populateList(this.props.grains)}
-            </select>
+        </div>
+        <div className="row">
+          <div className="col s6">
             <label>Select Grain</label>
+            <Select name="form-field-name" value="" options={this.props.grains} multi={false} placeholder="Grain" clearable={false}/>
           </div>
-          <div className="input-field col s6">
-            <select>
-              <option value="" disabled selected>Port</option>
-              {this.populateList(this.props.ports)}
-            </select>
+          <div className="col s6">
             <label>Select Port</label>
+            <Select name="form-field-name" value="" options={this.props.ports} multi={false} placeholder="Port" clearable={false}/>
           </div>
         </div>
+        <div className="row">
         </div>
         <div className="tight-container">
-          <button className="btn waves-effect waves-light full-width" type="submit" name="action">OK</button>
+          <button className="btn waves-effect waves-light full-width" type="submit" name="action">Add to graph</button>
         </div>
       </form>
     );

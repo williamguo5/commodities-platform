@@ -16,7 +16,7 @@ export default class Dash extends React.Component {
     this.updateDateRange = this.updateDateRange.bind(this);
     this.chartData = this.chartData.bind(this);
     this.makeGraphData = this.makeGraphData.bind(this);
-    this.state = {dataKey: '', resultsData: [], dateRange: {}, graphData: [], grains: ['a', 'b'], ports: []};
+    this.state = {dataKey: '', resultsData: [], dateRange: {}, graphData: [], grains: [], ports: []};
   }
 
   updateDataKey(key) {

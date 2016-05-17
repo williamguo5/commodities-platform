@@ -8,6 +8,7 @@ export default class FileButton extends React.Component {
     this.render = this.render.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleFile = this.handleFile.bind(this);
+    this.formatOptions = this.formatOptions.bind(this);
     this.state = { message: '' };
   };
 
@@ -22,6 +23,13 @@ export default class FileButton extends React.Component {
   };
 
   handleFile(event) {
+    // testing
+    var temp = [{label: 'a', value: 'b'}, {label: 'abc', value: 'abc'}];
+    var temp2 = ['1st', 'second'];
+    this.props.updateDataKey('testDatakey');
+    this.props.updateGrains(temp);
+    this.props.updatePorts(this.formatOptions(temp2));
+
     const file = event.target.files[0];
     const fileName = file.name;
     const fileType = fileName.split('.')[fileName.split('.').length - 1].toLowerCase();
@@ -42,10 +50,10 @@ export default class FileButton extends React.Component {
           .end((err, res) => {
             // console.log(JSON.stringify(res.body));
             if (this.props.updateGrains){
-              this.props.updateGrains(res.body[0].grains);
+              this.props.updateGrains(this.formatOptions(res.body[0].grains));
             }
             if (this.props.updatePorts){
-              this.props.updatePorts(res.body[0].ports);
+              this.props.updatePorts(this.formatOptions(res.body[0].ports));
             }
             // resultsData.push(res.body);
           });
@@ -55,7 +63,16 @@ export default class FileButton extends React.Component {
       // TODO: Remove the incorrect file using event.target.xxxx
       // console.log(event.target);
     }
-  }
+  };
+
+  formatOptions(list){
+    console.log(list);
+    var formattedList = [];
+    for (var i = 0; i < list.length; i++){
+      formattedList.push({label: list[i], value: list[i]});
+    }
+    return formattedList;
+  };
 
   render() {
     return(

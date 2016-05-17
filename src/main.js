@@ -1,4 +1,5 @@
 import 'styles/main.scss';
+import 'style!css!sass!react-select/scss/default.scss';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, IndexRoute, Link, browserHistory } from 'react-router';
