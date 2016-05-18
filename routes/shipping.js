@@ -70,12 +70,29 @@ router.get('/getRelevantNews', function(req, res, next) {
 				"instr_list": [], 
 				"tpc_list": "[GRA, WEA, LIV, MEAL, USDA, GMO, BEV]"})
   		// .set('Accept', 'application/json')
-  		.end(function(err, res){
-  			console.log(res);
+  		.end(function(err, result){
+  			// console.log(res);
     		// Calling the end function will send the request
+    			// console.log(res.body[0].body);
+    		var j = 0;
+    		var jsonArr = [];
+    		for (i in result.body) {
+    			if(/(wheat|canola|barley|grain)/.test(result.body[i].headline) ||
+    			   /(wheat|canola|barley|grain)/.test(result.body[i].body)){
+    			   	// console.log()
+    				var obj = {};
+    				obj["headline"] = result.body[i].headline;
+    				obj["body"] = result.body[i].body;
+    			   	jsonArr.push(obj);
+
+				}
+
+    		}
+    		// console.log(jsonArr[0].body);
+    		res.json(jsonArr);
   		}
 	);
-  	res.send("TODO CULL NEWS\n");
+  	// res.send("TODO CULL NEWS\n");
 });
 
 router.get('/getPrices', function(req, res, next) {
