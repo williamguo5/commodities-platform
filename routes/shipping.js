@@ -35,6 +35,49 @@ router.get('/', function(req, res, next) {
 	// res.send('Will display list of all shipping data');
 });
 
+router.get('/getRelevantNews', function(req, res, next) {
+
+	var request = require('superagent');
+
+	var date = req.query.date;
+
+	// Parse the date parts to integers
+    var parts = date.split("/");
+    var day = parseInt(parts[0], 10);
+    var month = parseInt(parts[1], 10);
+    var year = parseInt(parts[2], 10);
+
+
+	var endDate = new Date(year, month - 1, day + 1);
+
+    // console.log (day + "-" + endDate.getMonth() + "-" + year);
+
+	var startDate;
+	// Go back 1 week
+	if (endDate.getMonth() < 11 && endDate.getFullYear() <= 2015 && endDate.getDay() < 9) {
+		// console.log("HI");
+		startDate = new Date(2015, 10 - 1, 1 + 1);
+	} else {
+		startDate = endDate;
+		startDate.setTime(startDate.getTime() - (7*24*3600000));
+
+	}
+
+	// console.log(startDate.toISOString());
+	// console.log(endDate.toISOString());
+	request.post('http://pacificpygmyowl.herokuapp.com/api/query')
+		.send({"start_date" : startDate.toISOString(), "end_date" : endDate.toISOString(),
+				"instr_list": [], 
+				"tpc_list": "[GRA, WEA, LIV, MEAL, USDA, GMO, BEV]"})
+  		// .set('Accept', 'application/json')
+  		.end(function(err, res){
+  			console.log(res);
+    		// Calling the end function will send the request
+  		}
+	);
+  	res.send("TODO CULL NEWS\n");
+});
+
 router.get('/getPrices', function(req, res, next) {
 	var userID = req.query.userID;
 	var grain = req.query.grain;
