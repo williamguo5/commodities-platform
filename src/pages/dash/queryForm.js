@@ -2,6 +2,7 @@ import React from 'react';
 import Request from 'superagent';
 import ReactDOM from 'react-dom';
 import Select from 'react-select';
+import Queries from '../../components/queries/queries';
 
 export default class QueryForm extends React.Component {
   constructor() {
@@ -10,9 +11,12 @@ export default class QueryForm extends React.Component {
     this.componentDidMount = this.componentDidMount.bind(this);
     this.componentWillUnmount = this.componentWillUnmount.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.selectGrain = this.selectGrain.bind(this);
+    this.selectPort = this.selectPort.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.sendFormData = this.sendFormData.bind(this);
     this.populateList = this.populateList.bind(this);
+    this.state = {grain: '', port: '', dataKey: '', nextID: 0};
   }
   componentDidMount() {
     $('.datepicker').pickadate({
@@ -30,6 +34,14 @@ export default class QueryForm extends React.Component {
     this.props.updateDataKey(event.target.value);
   };
 
+  selectGrain(val){
+    this.state.grain = val;
+  };
+
+  selectPort(val){
+    this.state.port = val;
+  };
+
   handleSubmit(event) {
     event.preventDefault();
     this.sendFormData();
@@ -37,38 +49,44 @@ export default class QueryForm extends React.Component {
 
   sendFormData() {
     // Prepare form data for submitting it.
-    let monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
-    let dataKey = ReactDOM.findDOMNode(this.refs.dataKey).value,
-        grainTypes = ReactDOM.findDOMNode(this.refs.grainTypes).value,
-        sDate = new Date(ReactDOM.findDOMNode(this.refs.startDate).value),
-        eDate = new Date(ReactDOM.findDOMNode(this.refs.endDate).value);
-
-    let startDateString = sDate.getDate() + '-' +
-                          monthNames[sDate.getMonth()] + '-' +
-                          sDate.getFullYear();
-    let endDateString = eDate.getDate() + '-' +
-                        monthNames[eDate.getMonth()] + '-' +
-                        eDate.getFullYear();
-
-    let grains = grainTypes.replace(/^\s+|\s+$/g,'').split(/\s*,\s*/);
-    let dateRange = {startDate: startDateString, endDate: endDateString};
-    this.props.updateDateRange(dateRange);
-    this.props.resetResults();
-    // let resultsData = [];
-    for (let i = 0; i < grains.length; i++) {
-      Request.get('/shipping/getPrices')
-        .query({ grain: grains[i]})
-        .query({ startDate: startDateString})
-        .query({ endDate: endDateString})
-        .query({ userID: dataKey})
-        .end((err, res) => {
-          // console.log(JSON.stringify(res.body));
-          this.props.updateResults(res.body);
-          // resultsData.push(res.body);
-        }
-      );
+    if (this.state.grain != '' && this.state.port != ''){
+      this.props.addQuery({grain: this.state.grain, port: this.state.port, id: this.state.nextID});
+      this.state.nextID += 1;
     }
+
+    // let monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+    // let dataKey = ReactDOM.findDOMNode(this.refs.dataKey).value,
+    //     grainTypes = ReactDOM.findDOMNode(this.refs.grainTypes).value,
+    //     sDate = new Date(ReactDOM.findDOMNode(this.refs.startDate).value),
+    //     eDate = new Date(ReactDOM.findDOMNode(this.refs.endDate).value);
+
+    // let startDateString = sDate.getDate() + '-' +
+    //                       monthNames[sDate.getMonth()] + '-' +
+    //                       sDate.getFullYear();
+    // let endDateString = eDate.getDate() + '-' +
+    //                     monthNames[eDate.getMonth()] + '-' +
+    //                     eDate.getFullYear();
+
+    // let grains = grainTypes.replace(/^\s+|\s+$/g,'').split(/\s*,\s*/);
+    // let dateRange = {startDate: startDateString, endDate: endDateString};
+    // this.props.updateDateRange(dateRange);
+    // this.props.resetResults();
+    // // let resultsData = [];
+    // for (let i = 0; i < grains.length; i++) {
+    //   Request.get('/shipping/getPrices')
+    //     .query({ grain: grains[i]})
+    //     .query({ startDate: startDateString})
+    //     .query({ endDate: endDateString})
+    //     .query({ userID: dataKey})
+    //     .end((err, res) => {
+    //       // console.log(JSON.stringify(res.body));
+    //       this.props.updateResults(res.body);
+    //       // resultsData.push(res.body);
+    //     }
+    //   );
+    // }
   };
 
   populateList(list){
@@ -92,20 +110,18 @@ export default class QueryForm extends React.Component {
         <div className="row">
           <div className="col s12 input-field">
             <label className={dataKeyClass} data-position="left" data-tooltip="The unique data-key of the file you upload(ed)" htmlFor="dataKey">Data Key</label>
-            <input className="validate" type="text" name="dataKey" ref="dataKey" onChange={this.handleChange} value={this.props.dataKey} autoComplete="off" required/>
+            <input className="validate" type="text" name="dataKey" ref="dataKey" onChange={this.handleChange} value={this.props.dataKey} autoComplete="off"/>
           </div>
         </div>
         <div className="row">
           <div className="col s6">
             <label>Select Grain</label>
-            <Select name="form-field-name" value="" options={this.props.grains} multi={false} placeholder="Grain" clearable={false}/>
+            <Select name="grain" ref="grain" value="" options={this.props.grains} multi={false} placeholder="Grain" clearable={false} onChange={this.selectGrain}/>
           </div>
           <div className="col s6">
             <label>Select Port</label>
-            <Select name="form-field-name" value="" options={this.props.ports} multi={false} placeholder="Port" clearable={false}/>
+            <Select name="port" ref="port" value="" options={this.props.ports} multi={false} placeholder="Port" clearable={false} onChange={this.selectPort}/>
           </div>
-        </div>
-        <div className="row">
         </div>
         <div className="tight-container">
           <button className="btn waves-effect waves-light full-width" type="submit" name="action">Add to graph</button>

@@ -24,11 +24,11 @@ export default class FileButton extends React.Component {
 
   handleFile(event) {
     // testing
-    var temp = [{label: 'a', value: 'b'}, {label: 'abc', value: 'abc'}];
-    var temp2 = ['1st', 'second'];
-    this.props.updateDataKey('testDatakey');
-    this.props.updateGrains(temp);
-    this.props.updatePorts(this.formatOptions(temp2));
+    // var temp = [{label: 'a', value: 'b'}, {label: 'abc', value: 'abc'}];
+    // var temp2 = ['1st', 'second', 'a', 'b', 'd', 'e', , 'dsf', 'f', 'df'];
+    // this.props.updateDataKey('testDatakey');
+    // this.props.updateGrains(temp);
+    // this.props.updatePorts(this.formatOptions(temp2));
 
     const file = event.target.files[0];
     const fileName = file.name;
@@ -48,7 +48,7 @@ export default class FileButton extends React.Component {
           Request.get('/shipping')
           .query({ userID: res.body.dataKey})
           .end((err, res) => {
-            // console.log(JSON.stringify(res.body));
+            console.log(JSON.stringify(res.body));
             if (this.props.updateGrains){
               this.props.updateGrains(this.formatOptions(res.body[0].grains));
             }

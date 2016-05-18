@@ -45,8 +45,9 @@ sys.stdout.write('],')
 sys.stdout.write('"ports":[')
 for port in ports:
 	sys.stdout.write('"' + port + '"')
-	if ports.index(port) != len(ports) - 1:
-		sys.stdout.write(',')
+	# if ports.index(port) != len(ports) - 1:
+	sys.stdout.write(',')
+sys.stdout.write('"average"')
 
 sys.stdout.write(']')
 sys.stdout.write('}')

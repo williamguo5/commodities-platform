@@ -11,12 +11,14 @@ export default class Dash extends React.Component {
     this.updateDataKey = this.updateDataKey.bind(this);
     this.updateGrains = this.updateGrains.bind(this);
     this.updatePorts = this.updatePorts.bind(this);
+    this.addQuery = this.addQuery.bind(this);
+    this.removeQuery = this.removeQuery.bind(this);
     this.updateResults = this.updateResults.bind(this);
     this.resetResults = this.resetResults.bind(this);
     this.updateDateRange = this.updateDateRange.bind(this);
     this.chartData = this.chartData.bind(this);
     this.makeGraphData = this.makeGraphData.bind(this);
-    this.state = {dataKey: '', resultsData: [], dateRange: {}, graphData: [], grains: [], ports: []};
+    this.state = {dataKey: '', resultsData: [], dateRange: {}, graphData: [], grains: [{label: 'g1', value: 'g1'}, {label: 'g2', value: 'g2'}], ports: [{label: 'p1', value: 'p1'}, {label: 'p2', value: 'p2'}], queries: []};
   }
 
   updateDataKey(key) {
@@ -31,7 +33,6 @@ export default class Dash extends React.Component {
     this.setState({
       grains: grains
     });
-    this.render();
   };
 
   updatePorts(ports) {
@@ -39,7 +40,33 @@ export default class Dash extends React.Component {
     this.setState({
       ports: ports
     });
-    this.render();
+  };
+
+  addQuery(query) {
+    // console.log('addQuery - dash: ', query);
+    let curr = this.state.queries;
+    curr.push(query);
+    this.setState({
+      queries: curr
+    });
+  };
+
+  removeQuery(queryID){
+    // console.log('removeQuery - dash: ', queryID);
+    var index = undefined;
+    for (let i = 0; i < this.state.queries.length; i++){
+      if (this.state.queries[i].id == queryID){
+        index = i;
+      }
+    }
+    // console.log('removeQuery index: ', index);
+    let curr = this.state.queries;
+    if (index > -1){
+      curr.splice(index, 1);
+    }
+    this.setState({
+      queries: curr
+    });
   };
 
   updateResults(data) {
@@ -142,7 +169,7 @@ export default class Dash extends React.Component {
     };
     return (
       <main>
-        <SideBar dataKey={this.state.dataKey} grains={this.state.grains} ports={this.state.ports} updateDataKey={this.updateDataKey} updateResults={this.updateResults} updateDateRange={this.updateDateRange} resetResults={this.resetResults} updateGrains={this.updateGrains} updatePorts={this.updatePorts}/>
+        <SideBar dataKey={this.state.dataKey} grains={this.state.grains} ports={this.state.ports} queries={this.state.queries} addQuery={this.addQuery} removeQuery={this.removeQuery} updateDataKey={this.updateDataKey} updateResults={this.updateResults} updateDateRange={this.updateDateRange} resetResults={this.resetResults} updateGrains={this.updateGrains} updatePorts={this.updatePorts}/>
         <div className="side-bar-page">
           <div ref="graphContainer" className="tight-container" style={styles.graphContainer}>
             <Graph data={this.state.graphData}/>
