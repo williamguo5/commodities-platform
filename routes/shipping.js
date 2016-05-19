@@ -62,9 +62,11 @@ router.get('/getRelevantNews', function(req, res, next) {
 		startDate.setTime(startDate.getTime() - (7*24*3600000));
 
 	}
+	startDate.setUTCHours(0, 0, 0, 0);
+	endDate.setUTCHours(0, 0, 0, 0);	
 
-	// console.log(startDate.toISOString());
-	// console.log(endDate.toISOString());
+	console.log(startDate.toISOString());
+	console.log(endDate.toISOString());
 	request.post('http://pacificpygmyowl.herokuapp.com/api/query')
 		.send({"start_date" : startDate.toISOString(), "end_date" : endDate.toISOString(),
 				"instr_list": [], 
@@ -82,7 +84,8 @@ router.get('/getRelevantNews', function(req, res, next) {
     			   	// console.log()
     				var obj = {};
     				obj["headline"] = result.body[i].headline;
-    				obj["body"] = result.body[i].body;
+    				obj["body"] = result.body[i].body; 	
+    				console.log(obj["headline"]);
     			   	jsonArr.push(obj);
 
 				}
