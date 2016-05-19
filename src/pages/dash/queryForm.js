@@ -58,9 +58,9 @@ export default class QueryForm extends React.Component {
     // let monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
     // let dataKey = ReactDOM.findDOMNode(this.refs.dataKey).value,
-    //     grainTypes = ReactDOM.findDOMNode(this.refs.grainTypes).value,
-    //     sDate = new Date(ReactDOM.findDOMNode(this.refs.startDate).value),
-    //     eDate = new Date(ReactDOM.findDOMNode(this.refs.endDate).value);
+    //     grainTypes = this.state.grain,
+    //     sDate = new Date(1,0,2015),
+    //     eDate = new Date(1,0,2017);
 
     // let startDateString = sDate.getDate() + '-' +
     //                       monthNames[sDate.getMonth()] + '-' +
@@ -90,7 +90,7 @@ export default class QueryForm extends React.Component {
   };
 
   populateList(list){
-    console.log('printing options: ', list);
+    // console.log('printing options: ', list);
     var options = [];
     if (list != undefined){
       for (var i = 0; i < list.length; i++){
@@ -101,6 +101,9 @@ export default class QueryForm extends React.Component {
   };
 
   render() {
+    // console.log('form render: state', this.state);
+    this.state.grain = '';
+    this.state.port = '';
     var dataKeyClass = 'tooltipped';
     if (this.props.dataKey) {
       dataKeyClass = 'tooltipped active';
@@ -108,19 +111,13 @@ export default class QueryForm extends React.Component {
     return(
       <form onSubmit={this.handleSubmit}>
         <div className="row">
-          <div className="col s12 input-field">
-            <label className={dataKeyClass} data-position="left" data-tooltip="The unique data-key of the file you upload(ed)" htmlFor="dataKey">Data Key</label>
-            <input className="validate" type="text" name="dataKey" ref="dataKey" onChange={this.handleChange} value={this.props.dataKey} autoComplete="off"/>
-          </div>
-        </div>
-        <div className="row">
           <div className="col s6">
             <label>Select Grain</label>
-            <Select name="grain" ref="grain" value="" options={this.props.grains} multi={false} placeholder="Grain" clearable={false} onChange={this.selectGrain}/>
+            <Select name="grain" ref="grain" value="" options={this.props.grains} multi={false} placeholder="Grain" clearable={false} onChange={this.selectGrain} required/>
           </div>
           <div className="col s6">
             <label>Select Port</label>
-            <Select name="port" ref="port" value="" options={this.props.ports} multi={false} placeholder="Port" clearable={false} onChange={this.selectPort}/>
+            <Select name="port" ref="port" value="" options={this.props.ports} multi={false} placeholder="Port" clearable={false} onChange={this.selectPort} required/>
           </div>
         </div>
         <div className="tight-container">

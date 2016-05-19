@@ -18,8 +18,66 @@ export default class Dash extends React.Component {
     this.updateDateRange = this.updateDateRange.bind(this);
     this.chartData = this.chartData.bind(this);
     this.makeGraphData = this.makeGraphData.bind(this);
-    this.state = {dataKey: '', resultsData: [], dateRange: {}, graphData: [], grains: [{label: 'g1', value: 'g1'}, {label: 'g2', value: 'g2'}], ports: [{label: 'p1', value: 'p1'}, {label: 'p2', value: 'p2'}], queries: []};
+    this.generateChartData = this.generateChartData.bind(this);
+    this.state = {dataKey: '', resultsData: [], dateRange: {}, graphData: [[{date: new Date(), value: 100, volume: 100}]], grains: [{label: 'g1', value: 'g1'}, {label: 'g2', value: 'g2'}], ports: [{label: 'p1', value: 'p1'}, {label: 'p2', value: 'p2'}], queries: []};
   }
+
+  componentWillMount() {
+    this.generateChartData();
+  };
+
+  generateChartData() {
+    console.log('generate chart');
+    var data = [];
+    data.push([]);
+    data.push([]);
+    data.push([]);
+    data.push([]);
+    var firstDate = new Date();
+    firstDate.setDate( firstDate.getDate() - 500 );
+    firstDate.setHours( 0, 0, 0, 0 );
+
+    for ( var i = 0; i < 500; i++ ) {
+      var newDate = new Date( firstDate );
+      newDate.setDate( newDate.getDate() + i );
+
+      var a1 = Math.round( Math.random() * ( 40 + i ) ) + 100 + i;
+      var b1 = Math.round( Math.random() * ( 1000 + i ) ) + 500 + i * 2;
+
+      var a2 = Math.round( Math.random() * ( 100 + i ) ) + 200 + i;
+      var b2 = Math.round( Math.random() * ( 1000 + i ) ) + 600 + i * 2;
+
+      var a3 = Math.round( Math.random() * ( 100 + i ) ) + 200;
+      var b3 = Math.round( Math.random() * ( 1000 + i ) ) + 600 + i * 2;
+
+      var a4 = Math.round( Math.random() * ( 100 + i ) ) + 200 + i;
+      var b4 = Math.round( Math.random() * ( 100 + i ) ) + 600 + i;
+
+      data[0].push( {
+        'date': newDate,
+        'value': a1,
+        'volume': b1
+      } );
+      data[1].push( {
+        'date': newDate,
+        'value': a2,
+        'volume': b2
+      } );
+      data[2].push( {
+        'date': newDate,
+        'value': a3,
+        'volume': b3
+      } );
+      data[3].push( {
+        'date': newDate,
+        'value': a4,
+        'volume': b4
+      } );
+    }
+    this.setState({
+      graphData: data
+    });
+  };
 
   updateDataKey(key) {
     // console.log('updateDataKey: ' + key);
@@ -44,6 +102,7 @@ export default class Dash extends React.Component {
 
   addQuery(query) {
     // console.log('addQuery - dash: ', query);
+    this.generateChartData();
     let curr = this.state.queries;
     curr.push(query);
     this.setState({
@@ -95,32 +154,7 @@ export default class Dash extends React.Component {
   };
 
   chartData(labels, graphData, largestSet, grainLabels) {
-    let datasets = [];
-    // TODO: create new arrays that are >= maxLength containing all the dates and value of the grain if it has one
-    let count = 0;
-    for (let j = 0; j < graphData.length; j++) {
-      for (let k = 0; k < graphData[j].length; k++) {
-        if (!(!!graphData[j][k])) {
-          graphData[j][k] = null;
-        }
-      }
-      for (let i = graphData[j].length; i < largestSet; i++) {
-        graphData[j].push(null);
-      }
-      datasets.push({
-        label: grainLabels[j],
-        strokeColor: colors[count],
-        pointColor: colors[count],
-        pointStrokeColor: '#fff',
-        pointHighlightFill: '#fff',
-        pointHighlightStroke: colors[count],
-        data: graphData[j]
-      });
-      count++;
-      if (count >= colors.length) {
-        count = 0;
-      }
-    }
+
     return {
       labels: labels,
       datasets: datasets
@@ -128,34 +162,7 @@ export default class Dash extends React.Component {
   };
   // TODO: Fix, this is currently a hack as ChartJS does not support different size arrays
   makeGraphData(data) {
-    console.log('HERE: ' + data);
-    let graphData = [];
-    let grainLabels = [];
-    for (let grain of data) {
-      graphData.push(grain.map(function(a) {return a.average_Y1;}));
-      if (grain[0] !== undefined) {
-        grainLabels.push(grain[0].grain);
-      }
-    }
-    // Get longest array
-    let largestSet = 0;
 
-    for (let singleGrainData of graphData) {
-      if (largestSet < singleGrainData.length) {
-        largestSet = singleGrainData.length;
-      }
-    }
-    // let values = data.map(function(a) {return a.average_Y1;});
-    let labels = [];
-    if (this.state.dateRange) {
-      labels.push(this.state.dateRange.startDate);
-    }
-    for (let i = 0; i < (largestSet - 2); i++) {
-      labels.push('');
-    }
-    if (this.state.dateRange) {
-      labels.push(this.state.dateRange.endDate);
-    }
     return this.chartData(labels, graphData, largestSet, grainLabels);
   };
 
@@ -172,7 +179,7 @@ export default class Dash extends React.Component {
         <SideBar dataKey={this.state.dataKey} grains={this.state.grains} ports={this.state.ports} queries={this.state.queries} addQuery={this.addQuery} removeQuery={this.removeQuery} updateDataKey={this.updateDataKey} updateResults={this.updateResults} updateDateRange={this.updateDateRange} resetResults={this.resetResults} updateGrains={this.updateGrains} updatePorts={this.updatePorts}/>
         <div className="side-bar-page">
           <div ref="graphContainer" className="tight-container" style={styles.graphContainer}>
-            <Graph data={this.state.graphData}/>
+            <Graph graphData={this.state.graphData}/>
           </div>
         </div>
       </main>
