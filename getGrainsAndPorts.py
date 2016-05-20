@@ -6,6 +6,8 @@ import sys
 
 grains = []
 ports = []
+dates = []
+sortedDates = []
 
 def readData(filename):
 	with open(filename) as input_file:
@@ -16,6 +18,8 @@ def readData(filename):
 
 			port = RICfields[0]
 			grain = RICfields[1]
+			date = line['Date[G]']
+
 			
 			if not grain in grains:
 				grains.append(grain)
@@ -24,15 +28,23 @@ def readData(filename):
 			if not port in ports:
 				ports.append(port)
 
+			if not date in dates:
+				dates.append(date)
+
 	# Ports should be in alphabetical order
 	grains.sort()
 	ports.sort()
 
+	# for date in sortedDates:
+		# print date
 
 
 fileName = sys.argv[1]
 
 readData(fileName)
+
+sortedDates = sorted(dates, key=lambda date: datetime.strptime(date, "%d-%b-%Y"))
+
 
 sys.stdout.write('{')
 sys.stdout.write('"grains":[')
@@ -48,8 +60,8 @@ for port in ports:
 	# if ports.index(port) != len(ports) - 1:
 	sys.stdout.write(',')
 sys.stdout.write('"average"')
-
-sys.stdout.write(']')
+sys.stdout.write('],')
+sys.stdout.write('"initalDate":"' + sortedDates[0] + '","finalDate":"' + sortedDates[len(sortedDates) - 1] + '"') 
 sys.stdout.write('}')
 print
 

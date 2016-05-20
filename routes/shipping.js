@@ -30,11 +30,11 @@ router.get('/', function(req, res, next) {
 
 	PythonShell.run('getGrainsAndPorts.py', options, function (err, results) {
 		// console.log(results)
-		jsonArr = [];
-		for (i in results) {
-			jsonArr[i] = JSON.parse(results[i]);
-		}
-		res.json(jsonArr);
+		// jsonArr = [];
+		// for (i in results) {
+			// jsonArr[i] = JSON.parse(results[i]);
+		// }
+		res.json(JSON.parse(results[0]));
 	});	
 	// res.send('Will display list of all shipping data');
 });
