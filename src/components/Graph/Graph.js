@@ -11,11 +11,6 @@ export default class Graph extends React.Component {
   };
 
   updateDataSets() {
-    var colors = [
-      '#FF6600', '#B0DE09', '#0D8ECF', '#2A0CD0',
-      '#CD0D74', '#CC0000', '#00CC00', '#0000CC', '#DDDDDD',
-      '#999999', '#333333', '#990000'
-    ];
     // console.log('generate chart', this.props.graphData.length);
     // console.log('generate chart', this.props.graphData);
     var dataToDisplay = [];
@@ -27,6 +22,7 @@ export default class Graph extends React.Component {
       }
       dataToDisplay.push({
         title: title,
+        'color': this.props.graphData[i].color,
         fieldMappings: [ {
           fromField: 'value',
           toField: 'value'
@@ -35,6 +31,13 @@ export default class Graph extends React.Component {
         compared: toCompare,
         categoryField: 'date'
       });
+      // console.log(this.state.colors[this.state.colorIndex]);
+      // console.log(this.state.colorIndex);
+
+      this.state.colorIndex++;
+      if (this.state.colorIndex >= this.state.colorIndex.length){
+        this.state.colorIndex = 0;
+      }
     }
     var chartProperties = {
       'type': 'stock',

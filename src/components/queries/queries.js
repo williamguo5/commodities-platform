@@ -19,7 +19,11 @@ export default class SideBar extends React.Component {
     var html = [];
     if (queries != undefined){
       for (var i = 0; i < queries.length; i++){
-        html.push(<div className="col s6"><div className="chip">{queries[i].grain}, {queries[i].port}<i className="material-icons" id={queries[i].id} key={queries[i].id} onClick={this.handleRemove}>close</i></div></div>);
+        var style = {
+          backgroundColor: queries[i].color,
+          color: 'white'
+        };
+        html.push(<div className="col s6"><div className="chip" style={style}>{queries[i].grain}, {queries[i].port}<i className="material-icons" id={queries[i].id} key={queries[i].id} onClick={this.handleRemove}>close</i></div></div>);
       }
     }
     // console.log('makeTags: html', html);

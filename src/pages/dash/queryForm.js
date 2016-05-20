@@ -16,7 +16,7 @@ export default class QueryForm extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.sendFormData = this.sendFormData.bind(this);
     this.populateList = this.populateList.bind(this);
-    this.state = {grain: '', port: '', nextID: 0};
+    this.state = {grain: '', port: '', nextID: 0, colors: ['#0D8ECF', '#FCa202', '#a0ce09', '#c22200', '#CD0D74', '#2A0CD0'], colorIndex: 0};
   }
   componentDidMount() {
     $('.datepicker').pickadate({
@@ -51,12 +51,18 @@ export default class QueryForm extends React.Component {
     // Prepare form data for submitting it.
     let monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
-    if (this.state.grain != '' && this.state.port != ''){
-      this.props.addQuery({grain: this.state.grain, port: this.state.port, id: this.state.nextID});
-
+    if (this.state.grain != '' && this.state.port != '' && this.props.queries.length < 6){
       var currGrain = this.state.grain;
       var currPort = this.state.port;
       var currID = this.state.nextID;
+      var currColor = this.state.colors[this.state.colorIndex];
+      this.state.colorIndex++;
+      if (this.state.colorIndex >= this.state.colors.length){
+        this.state.colorIndex = 0;
+      }
+      
+      this.props.addQuery({grain: currGrain, port: currPort, id: currID, color: currColor});
+
 
       let dataKey = this.props.dataKey,
           sDate = new Date(2015,6,19),
@@ -76,7 +82,8 @@ export default class QueryForm extends React.Component {
       // this.props.resetResults();
       // // let resultsData = [];
 
-      Request.get('http://localhost:3000/shipping/getPrices')
+
+      Request.get('/shipping/getPrices')
         .query({ grain: this.state.grain})
         .query({ port: port})
         .query({ startDate: startDateString})
@@ -110,7 +117,7 @@ export default class QueryForm extends React.Component {
             }
             data.push({date: newDate, value: price});
           }
-          this.props.addGraphData({id: currID, grain: currGrain, port: currPort, data: data});
+          this.props.addGraphData({id: currID, grain: currGrain, port: currPort, color: currColor, data: data});
           // console.log('sentFormData: ', JSON.stringify({id: currID, grain: currGrain, port: currPort, data: data}));
         });
       this.state.nextID += 1;

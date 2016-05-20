@@ -20,7 +20,7 @@ export default class SideBar extends React.Component {
         <div className="tight-container">
           <FileButton updateDataKey={this.props.updateDataKey} updateGrains={this.props.updateGrains} updatePorts={this.props.updatePorts}/>
         </div>
-        <QueryForm dataKey={this.props.dataKey} grains={this.props.grains} ports={this.props.ports} addQuery={this.props.addQuery} addGraphData={this.props.addGraphData}/>
+        <QueryForm dataKey={this.props.dataKey} grains={this.props.grains} ports={this.props.ports} queries={this.props.queries} addQuery={this.props.addQuery} addGraphData={this.props.addGraphData}/>
         <Queries queries={this.props.queries} removeQuery={this.props.removeQuery}/>
       </div>
     );

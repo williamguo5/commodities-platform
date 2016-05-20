@@ -14,9 +14,16 @@ export default class Dash extends React.Component {
     this.addQuery = this.addQuery.bind(this);
     this.removeQuery = this.removeQuery.bind(this);
     this.addGraphData = this.addGraphData.bind(this);
+    this.removeGraphData = this.removeGraphData.bind(this);
     this.generateChartData = this.generateChartData.bind(this);
-    // graphdata format: [{id: id, grain: grain, port: port, data: []}]
-    this.state = {dataKey: '', grains: [{label: 'g1', value: 'g1'}, {label: 'g2', value: 'g2'}], ports: [{label: 'p1', value: 'p1'}, {label: 'p2', value: 'p2'}], queries: [], graphData: []};
+    
+    this.state = {
+      dataKey: '',
+      grains: [{label: 'g1', value: 'g1'}, {label: 'g2', value: 'g2'}],
+      ports: [{label: 'p1', value: 'p1'}, {label: 'p2', value: 'p2'}],
+      queries: [],
+      graphData: [] // graphdata format: [{id: id, grain: grain, port: port, color: color, data: []}]
+    };
   }
 
   componentWillMount() {
@@ -124,12 +131,30 @@ export default class Dash extends React.Component {
     this.setState({
       queries: curr
     });
+    this.removeGraphData(queryID);
   };
 
   addGraphData(data) {
     // console.log('updateGraphData: ', data);
     let curr = this.state.graphData;
     curr.push(data);
+    this.setState({
+      graphData: curr
+    });
+  };
+
+  removeGraphData(id) {
+    var index = undefined;
+    for (let i = 0; i < this.state.graphData.length; i++){
+      if (this.state.graphData[i].id == id){
+        index = i;
+      }
+    }
+    // console.log('removeGraphData index: ', index);
+    let curr = this.state.graphData;
+    if (index > -1){
+      curr.splice(index, 1);
+    }
     this.setState({
       graphData: curr
     });

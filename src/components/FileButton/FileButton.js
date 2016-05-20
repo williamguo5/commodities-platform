@@ -16,7 +16,7 @@ export default class FileButton extends React.Component {
     console.log('Loads data from default file');
     const defaultDataKey = 'default';
     this.props.updateDataKey(defaultDataKey);
-    Request.get('http://localhost:3000/shipping')
+    Request.get('/shipping')
       .query({ userID: defaultDataKey})
       .end((err, res) => {
         // console.log(JSON.stringify(res.body));
@@ -51,7 +51,7 @@ export default class FileButton extends React.Component {
     const fileName = file.name;
     const fileType = fileName.split('.')[fileName.split('.').length - 1].toLowerCase();
     if (fileType === 'csv') {
-      Request.post('http://localhost:3000/shipping/upload')
+      Request.post('/shipping/upload')
         .attach('inputData', file)
         .end((err, res) => {
           // Calling the end function will send the request
@@ -62,7 +62,7 @@ export default class FileButton extends React.Component {
           if (this.props.updateDataKey) {
             this.props.updateDataKey(res.body.dataKey);
           }
-          Request.get('http://localhost:3000/shipping')
+          Request.get('/shipping')
           .query({ userID: res.body.dataKey})
           .end((err, res) => {
             // console.log('handleFile');
