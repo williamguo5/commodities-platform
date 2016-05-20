@@ -4,17 +4,13 @@ export default class Graph extends React.Component {
   constructor() {
     super();
     this.render = this.render.bind(this);
-    this.formatDataSet = this.formatDataSet.bind(this);
+    this.updateDataSets = this.updateDataSets.bind(this);
+    this.componentDidMount = this.componentDidMount.bind(this);
+    this.componentDidUpdate = this.componentDidUpdate.bind(this);
+    this.state = {};
   };
 
-  formatDataSet() {
-
-  };
-
-  // componentDidMount() {
-  render() {
-    // console.log('graph: data', this.props.graphData);
-    // console.log('graph: data', this.props.graphData[0]);
+  updateDataSets() {
     var colors = [
       '#FF6600', '#B0DE09', '#0D8ECF', '#2A0CD0',
       '#CD0D74', '#CC0000', '#00CC00', '#0000CC', '#DDDDDD',
@@ -102,11 +98,17 @@ export default class Graph extends React.Component {
         }]
       });
     }
-    // console.log('chartprops: ', chartProperties);
     var chart = AmCharts.makeChart( 'chartdiv', chartProperties);
+  };
 
-  // };
-  // render() {
+  componentDidUpdate() {
+    this.updateDataSets();
+  };
+
+  componentDidMount() {
+    this.updateDataSets();
+  };
+  render() {
 
     // chart.validateData();
     const styles = {

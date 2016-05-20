@@ -76,7 +76,7 @@ export default class QueryForm extends React.Component {
       // this.props.resetResults();
       // // let resultsData = [];
 
-      Request.get('/shipping/getPrices')
+      Request.get('http://localhost:3000/shipping/getPrices')
         .query({ grain: this.state.grain})
         .query({ port: port})
         .query({ startDate: startDateString})
