@@ -13,21 +13,19 @@ export default class Dash extends React.Component {
     this.updatePorts = this.updatePorts.bind(this);
     this.addQuery = this.addQuery.bind(this);
     this.removeQuery = this.removeQuery.bind(this);
-    this.updateResults = this.updateResults.bind(this);
-    this.resetResults = this.resetResults.bind(this);
-    this.updateDateRange = this.updateDateRange.bind(this);
-    this.chartData = this.chartData.bind(this);
-    this.makeGraphData = this.makeGraphData.bind(this);
+    this.addGraphData = this.addGraphData.bind(this);
     this.generateChartData = this.generateChartData.bind(this);
-    this.state = {dataKey: '', resultsData: [], dateRange: {}, graphData: [[{date: new Date(), value: 100, volume: 100}]], grains: [{label: 'g1', value: 'g1'}, {label: 'g2', value: 'g2'}], ports: [{label: 'p1', value: 'p1'}, {label: 'p2', value: 'p2'}], queries: []};
+    // graphdata format: [{id: id, grain: grain, port: port, data: []}]
+    this.state = {dataKey: '', grains: [{label: 'g1', value: 'g1'}, {label: 'g2', value: 'g2'}], ports: [{label: 'p1', value: 'p1'}, {label: 'p2', value: 'p2'}], queries: [], graphData: []};
   }
 
   componentWillMount() {
-    this.generateChartData();
+    // this.generateChartData();
+    // this.state.graphData.push([]);
   };
 
   generateChartData() {
-    console.log('generate chart');
+    console.log('generate chart data');
     var data = [];
     data.push([]);
     data.push([]);
@@ -102,7 +100,7 @@ export default class Dash extends React.Component {
 
   addQuery(query) {
     // console.log('addQuery - dash: ', query);
-    this.generateChartData();
+    // this.generateChartData();
     let curr = this.state.queries;
     curr.push(query);
     this.setState({
@@ -128,42 +126,13 @@ export default class Dash extends React.Component {
     });
   };
 
-  updateResults(data) {
-    // console.log('updateResults: ' + data);
-    let curr = this.state.resultsData;
+  addGraphData(data) {
+    // console.log('updateGraphData: ', data);
+    let curr = this.state.graphData;
     curr.push(data);
     this.setState({
-      resultsData: curr
+      graphData: curr
     });
-    this.setState({
-      graphData: this.makeGraphData(curr)
-    });
-  };
-
-  resetResults() {
-    this.setState({
-      resultsData: []
-    });
-  }
-
-  updateDateRange(data) {
-    // console.log('updateDateRange: ' + data);
-    this.setState({
-      dateRange: data
-    });
-  };
-
-  chartData(labels, graphData, largestSet, grainLabels) {
-
-    return {
-      labels: labels,
-      datasets: datasets
-    };
-  };
-  // TODO: Fix, this is currently a hack as ChartJS does not support different size arrays
-  makeGraphData(data) {
-
-    return this.chartData(labels, graphData, largestSet, grainLabels);
   };
 
   render() {
@@ -176,7 +145,7 @@ export default class Dash extends React.Component {
     };
     return (
       <main>
-        <SideBar dataKey={this.state.dataKey} grains={this.state.grains} ports={this.state.ports} queries={this.state.queries} addQuery={this.addQuery} removeQuery={this.removeQuery} updateDataKey={this.updateDataKey} updateResults={this.updateResults} updateDateRange={this.updateDateRange} resetResults={this.resetResults} updateGrains={this.updateGrains} updatePorts={this.updatePorts}/>
+        <SideBar dataKey={this.state.dataKey} grains={this.state.grains} ports={this.state.ports} queries={this.state.queries} addQuery={this.addQuery} removeQuery={this.removeQuery} updateDataKey={this.updateDataKey} updateGrains={this.updateGrains} updatePorts={this.updatePorts} addGraphData={this.addGraphData}/>
         <div className="side-bar-page">
           <div ref="graphContainer" className="tight-container" style={styles.graphContainer}>
             <Graph graphData={this.state.graphData}/>

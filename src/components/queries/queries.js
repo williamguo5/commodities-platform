@@ -1,7 +1,5 @@
 import React from 'react';
-import Request from 'superagent';
 import ReactDOM from 'react-dom';
-import Select from 'react-select';
 
 export default class SideBar extends React.Component {
   constructor() {

@@ -12,9 +12,24 @@ export default class FileButton extends React.Component {
     this.state = { message: '' };
   };
 
-  // componentDidMount() {
-  //   $('.tooltipped').tooltip({delay: 50});
-  // };
+  componentDidMount() {
+    console.log('Loads data from default file');
+    const defaultDataKey = 'default';
+    this.props.updateDataKey(defaultDataKey);
+    Request.get('/shipping')
+      .query({ userID: defaultDataKey})
+      .end((err, res) => {
+        // console.log(JSON.stringify(res.body));
+        if (this.props.updateGrains){
+          console.log(res.body);
+          this.props.updateGrains(this.formatOptions(res.body[0].grains));
+        }
+        if (this.props.updatePorts){
+          this.props.updatePorts(this.formatOptions(res.body[0].ports));
+        }
+        // resultsData.push(res.body);
+      });
+  };
 
   handleSubmit(event) {
     event.preventDefault();
@@ -24,14 +39,15 @@ export default class FileButton extends React.Component {
 
   handleFile(event) {
     // testing
-    var temp = [{label: 'a', value: 'b'}, {label: 'abc', value: 'abc'}];
-    var temp2 = ['1st', 'second', 'a', 'b', 'd', 'e', , 'dsf', 'f', 'df'];
-    this.props.updateDataKey('testDatakey');
-    this.props.updateGrains(temp);
-    this.props.updatePorts(this.formatOptions(temp2));
+    // var temp = [{label: 'a', value: 'b'}, {label: 'abc', value: 'abc'}];
+    // var temp2 = ['1st', 'second', 'a', 'b', 'd', 'e', , 'dsf', 'f', 'df'];
+    // this.props.updateDataKey('testDatakey');
+    // this.props.updateGrains(temp);
+    // this.props.updatePorts(this.formatOptions(temp2));
     // end testing data
 
     const file = event.target.files[0];
+    // console.log('file: ', file);
     const fileName = file.name;
     const fileType = fileName.split('.')[fileName.split('.').length - 1].toLowerCase();
     if (fileType === 'csv') {
@@ -40,7 +56,7 @@ export default class FileButton extends React.Component {
         .end((err, res) => {
           // Calling the end function will send the request
           console.log('err: ', err);
-          console.log('res: ', JSON.stringify(res.body));
+          // console.log('res: ', JSON.stringify(res.body));
 
           this.setState({message: 'Uploaded!'});
           if (this.props.updateDataKey) {
@@ -49,6 +65,7 @@ export default class FileButton extends React.Component {
           Request.get('/shipping')
           .query({ userID: res.body.dataKey})
           .end((err, res) => {
+            // console.log('handleFile');
             // console.log(JSON.stringify(res.body));
             if (this.props.updateGrains){
               this.props.updateGrains(this.formatOptions(res.body[0].grains));
@@ -67,7 +84,7 @@ export default class FileButton extends React.Component {
   };
 
   formatOptions(list){
-    console.log(list);
+    // console.log(list);
     var formattedList = [];
     for (var i = 0; i < list.length; i++){
       formattedList.push({label: list[i], value: list[i]});

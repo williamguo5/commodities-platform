@@ -16,7 +16,7 @@ export default class QueryForm extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.sendFormData = this.sendFormData.bind(this);
     this.populateList = this.populateList.bind(this);
-    this.state = {grain: '', port: '', dataKey: '', nextID: 0};
+    this.state = {grain: '', port: '', nextID: 0};
   }
   componentDidMount() {
     $('.datepicker').pickadate({
@@ -49,44 +49,72 @@ export default class QueryForm extends React.Component {
 
   sendFormData() {
     // Prepare form data for submitting it.
+    let monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
     if (this.state.grain != '' && this.state.port != ''){
       this.props.addQuery({grain: this.state.grain, port: this.state.port, id: this.state.nextID});
+
+      var currGrain = this.state.grain;
+      var currPort = this.state.port;
+      var currID = this.state.nextID;
+
+      let dataKey = this.props.dataKey,
+          sDate = new Date(2015,6,19),
+          eDate = new Date(2015,10,1),
+          port = this.state.port + '_Y1';
+
+      let startDateString = sDate.getDate() + '-' +
+                            monthNames[sDate.getMonth()] + '-' +
+                            sDate.getFullYear();
+      let endDateString = eDate.getDate() + '-' +
+                          monthNames[eDate.getMonth()] + '-' +
+                          eDate.getFullYear();
+
+      console.log('sendFormData: dataKey, sdata, edate, port, grain - ', dataKey, startDateString, endDateString, port, this.state.grain);
+      // let dateRange = {startDate: startDateString, endDate: endDateString};
+      // this.props.updateDateRange(dateRange);
+      // this.props.resetResults();
+      // // let resultsData = [];
+
+      Request.get('/shipping/getPrices')
+        .query({ grain: this.state.grain})
+        .query({ port: port})
+        .query({ startDate: startDateString})
+        .query({ endDate: endDateString})
+        .query({ userID: dataKey})
+        .end((err, res) => {
+          // console.log('sendFormData: ', JSON.stringify(res.body));
+          // format data for use with chart
+          // res: {dates: [], prices: []}
+          // chart data object [{date: dateObject, value: price}]
+          var monthIndex = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+          var data = [];
+          var prevPrice = 0;
+          for (var i = 0; i < res.body.dates.length; i++){
+            // dates are formatted as DD-MMM-YYYY
+            var dateParts = res.body.dates[i].split('-');
+            var month = monthIndex.indexOf('MAY');
+            var newDate = new Date(dateParts[2], monthIndex.indexOf(dateParts[1]), dateParts[0]);
+            var price = res.body.prices[i];
+
+            // console.log('newdate: ', newDate);
+            // console.log('price: ', price, i);
+            if (price == null){
+              if (i > 0){
+                price = prevPrice;
+              } else {
+                price = '';
+              }
+            } else {
+              prevPrice = price;
+            }
+            data.push({date: newDate, value: price});
+          }
+          this.props.addGraphData({id: currID, grain: currGrain, port: currPort, data: data});
+          // console.log('sentFormData: ', JSON.stringify({id: currID, grain: currGrain, port: currPort, data: data}));
+        });
       this.state.nextID += 1;
     }
-
-    // let monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-
-    // let dataKey = ReactDOM.findDOMNode(this.refs.dataKey).value,
-    //     grainTypes = this.state.grain,
-    //     sDate = new Date(1,0,2015),
-    //     eDate = new Date(1,0,2017);
-
-    // let startDateString = sDate.getDate() + '-' +
-    //                       monthNames[sDate.getMonth()] + '-' +
-    //                       sDate.getFullYear();
-    // let endDateString = eDate.getDate() + '-' +
-    //                     monthNames[eDate.getMonth()] + '-' +
-    //                     eDate.getFullYear();
-
-    // let grains = grainTypes.replace(/^\s+|\s+$/g,'').split(/\s*,\s*/);
-    // let dateRange = {startDate: startDateString, endDate: endDateString};
-    // this.props.updateDateRange(dateRange);
-    // this.props.resetResults();
-    // // let resultsData = [];
-    // for (let i = 0; i < grains.length; i++) {
-    //   Request.get('/shipping/getPrices')
-    //     .query({ grain: grains[i]})
-    //     .query({ startDate: startDateString})
-    //     .query({ endDate: endDateString})
-    //     .query({ userID: dataKey})
-    //     .end((err, res) => {
-    //       // console.log(JSON.stringify(res.body));
-    //       this.props.updateResults(res.body);
-    //       // resultsData.push(res.body);
-    //     }
-    //   );
-    // }
   };
 
   populateList(list){

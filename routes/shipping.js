@@ -15,7 +15,11 @@ router.get('/', function(req, res, next) {
 	var userID = req.query.userID;
 
 	var PythonShell = require('python-shell');
-		userID = 'public/uploads/' + userID
+		if (userID == 'default'){
+			userID = 'testData.csv';
+		} else {
+			userID = 'public/uploads/' + userID;
+		}
 		var options = {
 		  mode: 'text',
 		  // pythonPath: 'path/to/python',
@@ -25,7 +29,7 @@ router.get('/', function(req, res, next) {
 		};
 
 	PythonShell.run('getGrainsAndPorts.py', options, function (err, results) {
-		console.log(results)
+		// console.log(results)
 		jsonArr = [];
 		for (i in results) {
 			jsonArr[i] = JSON.parse(results[i]);
@@ -117,7 +121,11 @@ router.get('/getPrices', function(req, res, next) {
 		grain = grain.toUpperCase();
 
 		var PythonShell = require('python-shell');
-		userID = 'public/uploads/' + userID
+		if (userID == 'default'){
+			userID = 'testData.csv';
+		} else {
+			userID = 'public/uploads/' + userID;
+		}
 		var options = {
 		  mode: 'text',
 		  // pythonPath: 'path/to/python',
@@ -128,12 +136,12 @@ router.get('/getPrices', function(req, res, next) {
 
 		PythonShell.run('shippingAPI_v1.py', options, function (err, results) {
   			// if port flag set
-  			console.log(port);
+  			// console.log(port);
   			if (port != undefined){
-  				if (results != null && results[0] == 'Invalid grain!') {
+				// console.log(results);
+  				if (results == null || results[0] == 'Invalid grain!') {
 	  				res.send("No results for given grain");
 				} else {
-					// console.log(port);
 					// port = port + '_Y1';
 					var portRe = new RegExp('"' + port + '":"([.\\d]*)"', 'i');
 					var dateRe = /"date":"(\d{1,2}\-[a-zA-Z]{3}\-\d{4})"/;
@@ -172,7 +180,6 @@ router.get('/getPrices', function(req, res, next) {
 		  					}
 		  				});
 		  				if (price){
-		  					console.log(price);
 		  					price = price[1];
 		  				}
 		  				data[date] = price;
@@ -190,12 +197,12 @@ router.get('/getPrices', function(req, res, next) {
 		  			}
 		  			// console.log(dataArray);
 					// var beginDate = results[0]
+					var response = {dates: allDatesBetween, prices: dataArray};
+					// response.push(allDatesBetween);
+					// response.push(dataArray);
+					// console.log(response);
+					res.send(response);
 				}
-				var response = [];
-				response.push(allDatesBetween);
-				response.push(dataArray);
-				console.log(response);
-				res.send(response);
   			}
   			else {
 	  			if (results != null && results[0] == 'Invalid grain!') {
