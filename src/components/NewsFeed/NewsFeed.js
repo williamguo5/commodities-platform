@@ -10,22 +10,17 @@ export default class Newsfeed extends React.Component {
     super();
     this.componentWillMount = this.componentWillMount.bind(this);
     this.componentDidMount = this.componentDidMount.bind(this);
-    // this.componentWillReveiveProps = this.componentWillReveiveProps.bind(this);
+    this.componentWillReveiveProps = this.componentWillReveiveProps.bind(this);
+    this.getNewsData = this.getNewsData.bind(this);
     this.render = this.render.bind(this);
-    this.state = { news: [] };
+    this.state = {
+      news: [],
+      message: ''
+    };
   }
 
   componentWillMount() {
-    Request.post(newsUrl)
-      .send({ start_date: this.props.startDate, end_date: this.props.endDate, tpc_list: topics })
-      .set('Accept', 'application/json')
-      .end((err, res) => {
-        this.setState({
-          news: res.body
-        });
-        console.log(res.body);
-      }
-    );
+    this.getNewsData(this.props.startDate, this.props.endDate);
   }
 
   componentDidMount() {
@@ -34,18 +29,28 @@ export default class Newsfeed extends React.Component {
     });
   }
 
-  // componentWillReveiveProps(nextProps) {
-  //   Request.get(newsUrl)
-  //     .send({ start_date: this.props.startDate, end_date: this.props.endDate, tpc_list: topics })
-  //     .set('Accept', 'application/json')
-  //     .end((err, res) => {
-  //       console.log(res.body);
-  //       this.setState({
-  //         news: res.body
-  //       });
-  //     }
-  //   );
-  // }
+  componentWillReveiveProps(nextProps) {
+    this.getNewsData(nextProps.startDate, nextProps.endDate);
+  }
+
+  getNewsData(startDate, endDate) {
+    Request.post(newsUrl)
+      .send({ start_date: startDate, end_date: endDate, tpc_list: topics })
+      .set('Accept', 'application/json')
+      .end((err, res) => {
+        if (err || res === undefined) {
+          this.setState({
+            message: 'Oops... An error occurred while loading the news.'
+          });
+        } else {
+          this.setState({
+            news: res.body,
+            message: ''
+          });
+        }
+      }
+    );
+  }
 
   render() {
     let count=0;
@@ -59,6 +64,7 @@ export default class Newsfeed extends React.Component {
     return (
       <ul className="collapsible" data-collapsible="accordion">
         {newsBlocks}
+        {this.state.message ? this.state.message : null}
       </ul>
     );
   }

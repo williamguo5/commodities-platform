@@ -13,12 +13,10 @@ export default class SideBar extends React.Component {
   };
 
   makeTags(queries){
-    // console.log('makeTags: queries', queries);
-    // console.log('makeTags: queries.length', queries.length);
     let tagHTML = [];
     if (queries != undefined) {
-      for (var i = 0; i < queries.length; i++) {
-        var style = {
+      for (let i = 0; i < queries.length; i++) {
+        let style = {
           backgroundColor: queries[i].color,
           color: 'white'
         };

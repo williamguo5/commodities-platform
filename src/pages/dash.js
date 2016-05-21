@@ -136,7 +136,6 @@ export default class Dash extends React.Component {
         backgroundColor: 'rgba(0, 128, 128, 0.17)'
       },
       graphContainer: {
-        padding: '15px',
         width: '100%',
         height: '65%'
       },
@@ -151,8 +150,13 @@ export default class Dash extends React.Component {
         margin: '0'
       }
     };
-    const startDate = 'Thu, 01 Oct 2015 00:29:53 GMT';
-    const endDate = 'Sun, 22 May 2016 04:01:16 GMT';
+
+    const monthIndex = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+    const initialDateParts = this.state.initialDate.split('-'),
+        finalDateParts = this.state.finalDate.split('-');
+    let sDate = new Date(initialDateParts[2], monthIndex.indexOf(initialDateParts[1]), initialDateParts[0]),
+        eDate = new Date(finalDateParts[2], monthIndex.indexOf(finalDateParts[1]), finalDateParts[0]);
+
     return (
       <main style={styles.main}>
         <SideBar dataKey={this.state.dataKey} files={this.state.files} grains={this.state.grains} ports={this.state.ports} queries={this.state.queries} initialDate={this.state.initialDate} finalDate={this.state.finalDate} addFiles={this.addFiles} addQuery={this.addQuery} removeQuery={this.removeQuery} resetQueries={this.resetQueries} updateDataKey={this.updateDataKey} updateGrains={this.updateGrains} updatePorts={this.updatePorts} updateDateRange={this.updateDateRange} addGraphData={this.addGraphData}/>
@@ -162,7 +166,7 @@ export default class Dash extends React.Component {
           </div>
           <div style={styles.newsContainer} className="tight-container">
             <div className="card" style={styles.newsWrapper}>
-              <NewsFeed startDate={startDate} endDate={endDate}/>
+              <NewsFeed startDate={sDate.toGMTString()} endDate={eDate.toGMTString()}/>
             </div>
           </div>
         </div>

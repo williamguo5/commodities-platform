@@ -55,14 +55,21 @@ export default class QueryForm extends React.Component {
       if (this.state.colorIndex >= this.state.colors.length){
         this.state.colorIndex = 0;
       }
-      
-      this.props.addQuery({grain: currGrain, port: currPort, id: currID, color: currColor});
 
-      var monthIndex = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+      this.props.addQuery({
+        grain: currGrain,
+        port: currPort,
+        id: currID,
+        color: currColor
+      });
+
+      const monthIndex = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
 
       console.log('date range: *', this.props.initialDate, this.props.finalDate);
-      var initialDateParts = this.props.initialDate.split('-');
-      var finalDateParts = this.props.finalDate.split('-');
+
+      let initialDateParts = this.props.initialDate.split('-'),
+          finalDateParts = this.props.finalDate.split('-');
+
       let dataKey = this.props.dataKey,
           sDate = new Date(initialDateParts[2], monthIndex.indexOf(initialDateParts[1]), initialDateParts[0]),
           eDate = new Date(finalDateParts[2], monthIndex.indexOf(finalDateParts[1]), finalDateParts[0]),
@@ -76,12 +83,7 @@ export default class QueryForm extends React.Component {
                           eDate.getFullYear();
 
       console.log('sendFormData: dataKey, sdata, edate, port, grain - ', dataKey, startDateString, endDateString, port, this.state.grain);
-      // let dateRange = {startDate: startDateString, endDate: endDateString};
-      // this.props.updateDateRange(dateRange);
-      // this.props.resetResults();
-      // // let resultsData = [];
 
-      // Request.get('http://localhost:3000/shipping/getPrices')
       Request.get('/shipping/getPrices')
         .query({ grain: this.state.grain})
         .query({ port: port})
@@ -89,24 +91,16 @@ export default class QueryForm extends React.Component {
         .query({ endDate: endDateString})
         .query({ userID: dataKey})
         .end((err, res) => {
-          // console.log('sendFormData: ', JSON.stringify(res.body));
-          // format data for use with chart
-          // res: {dates: [], prices: []}
-          // chart data object [{date: dateObject, value: price}]
           var data = [];
           var prevPrice = 0;
           for (var i = 0; i < res.body.dates.length; i++){
             // dates are formatted as DD-MMM-YYYY
             var dateParts = res.body.dates[i].split('-');
-            var month = monthIndex.indexOf('MAY');
             var newDate = new Date(dateParts[2], monthIndex.indexOf(dateParts[1]), dateParts[0]);
             var price = res.body.prices[i];
 
-            // console.log('newdate: ', newDate);
-            // console.log('price: ', price, i);
-            
-            if (price == null){
-              if (i > 0){
+            if (price == null) {
+              if (i > 0) {
                 price = prevPrice;
               } else {
                 price = '';
@@ -114,10 +108,18 @@ export default class QueryForm extends React.Component {
             } else {
               prevPrice = price;
             }
-            data.push({date: newDate, value: price});
+            data.push({
+              date: newDate,
+              value: price
+            });
           }
-          this.props.addGraphData({id: currID, grain: currGrain, port: currPort, color: currColor, data: data});
-          // console.log('sentFormData: ', JSON.stringify({id: currID, grain: currGrain, port: currPort, data: data}));
+          this.props.addGraphData({
+            id: currID,
+            grain: currGrain,
+            port: currPort,
+            color: currColor,
+            data: data
+          });
         });
       this.state.nextID += 1;
     }
