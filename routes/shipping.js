@@ -34,7 +34,7 @@ router.get('/', function(req, res, next) {
 		// for (i in results) {
 			// jsonArr[i] = JSON.parse(results[i]);
 		// }
-		res.json(JSON.parse(results[0]));
+		res.json(JSON.parse(results));
 	});	
 	// res.send('Will display list of all shipping data');
 });

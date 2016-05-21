@@ -31,6 +31,21 @@ export default class Graph extends React.Component {
         compared: toCompare,
         categoryField: 'date'
       });
+
+      var boundaries = [];
+      boundaries.push(this.props.graphData[i].data[0]);
+      boundaries.push(this.props.graphData[i].data[this.props.graphData[i].data.length - 1]);
+      dataToDisplay.push({
+        title: 'trendline',
+        'color': 'red',
+        fieldMappings: [ {
+          fromField: 'value',
+          toField: 'value'
+        } ],
+        dataProvider: boundaries,
+        compared: true,
+        categoryField: 'date'
+      });
       // console.log(this.state.colors[this.state.colorIndex]);
       // console.log(this.state.colorIndex);
 

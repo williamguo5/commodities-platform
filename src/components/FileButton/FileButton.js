@@ -22,10 +22,10 @@ export default class FileButton extends React.Component {
         // console.log(JSON.stringify(res.body));
         if (this.props.updateGrains){
           console.log(res.body);
-          this.props.updateGrains(this.formatOptions(res.body[0].grains));
+          this.props.updateGrains(this.formatOptions(res.body.grains));
         }
         if (this.props.updatePorts){
-          this.props.updatePorts(this.formatOptions(res.body[0].ports));
+          this.props.updatePorts(this.formatOptions(res.body.ports));
         }
         // resultsData.push(res.body);
       });
