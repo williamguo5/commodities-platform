@@ -8,79 +8,35 @@ export default class Dash extends React.Component {
   constructor() {
     super();
     this.render = this.render.bind(this);
+    this.addFiles = this.addFiles.bind(this);
     this.updateDataKey = this.updateDataKey.bind(this);
     this.updateGrains = this.updateGrains.bind(this);
     this.updatePorts = this.updatePorts.bind(this);
+    this.updateDateRange = this.updateDateRange.bind(this);
     this.addQuery = this.addQuery.bind(this);
     this.removeQuery = this.removeQuery.bind(this);
+    this.resetQueries = this.resetQueries.bind(this);
     this.addGraphData = this.addGraphData.bind(this);
     this.removeGraphData = this.removeGraphData.bind(this);
-    this.generateChartData = this.generateChartData.bind(this);
     
     this.state = {
-      dataKey: '',
+      dataKey: 'default',
       grains: [{label: 'g1', value: 'g1'}, {label: 'g2', value: 'g2'}],
       ports: [{label: 'p1', value: 'p1'}, {label: 'p2', value: 'p2'}],
       queries: [],
+      files: [{label: 'testData.csv', value: 'default'}],
+      initialDate: '',
+      finalDate: '',
       graphData: [] // graphdata format: [{id: id, grain: grain, port: port, color: color, data: []}]
     };
   }
 
-  componentWillMount() {
-    // this.generateChartData();
-    // this.state.graphData.push([]);
-  };
-
-  generateChartData() {
-    console.log('generate chart data');
-    var data = [];
-    data.push([]);
-    data.push([]);
-    data.push([]);
-    data.push([]);
-    var firstDate = new Date();
-    firstDate.setDate( firstDate.getDate() - 500 );
-    firstDate.setHours( 0, 0, 0, 0 );
-
-    for ( var i = 0; i < 500; i++ ) {
-      var newDate = new Date( firstDate );
-      newDate.setDate( newDate.getDate() + i );
-
-      var a1 = Math.round( Math.random() * ( 40 + i ) ) + 100 + i;
-      var b1 = Math.round( Math.random() * ( 1000 + i ) ) + 500 + i * 2;
-
-      var a2 = Math.round( Math.random() * ( 100 + i ) ) + 200 + i;
-      var b2 = Math.round( Math.random() * ( 1000 + i ) ) + 600 + i * 2;
-
-      var a3 = Math.round( Math.random() * ( 100 + i ) ) + 200;
-      var b3 = Math.round( Math.random() * ( 1000 + i ) ) + 600 + i * 2;
-
-      var a4 = Math.round( Math.random() * ( 100 + i ) ) + 200 + i;
-      var b4 = Math.round( Math.random() * ( 100 + i ) ) + 600 + i;
-
-      data[0].push( {
-        'date': newDate,
-        'value': a1,
-        'volume': b1
-      } );
-      data[1].push( {
-        'date': newDate,
-        'value': a2,
-        'volume': b2
-      } );
-      data[2].push( {
-        'date': newDate,
-        'value': a3,
-        'volume': b3
-      } );
-      data[3].push( {
-        'date': newDate,
-        'value': a4,
-        'volume': b4
-      } );
-    }
+  addFiles(file) {
+    // console.log('addFiles: ' + file);
+    let curr = this.state.files;
+    curr.push(file);
     this.setState({
-      graphData: data
+      files: curr
     });
   };
 
@@ -105,8 +61,16 @@ export default class Dash extends React.Component {
     });
   };
 
+  updateDateRange(initialDate, finalDate) {
+    this.setState({
+      initialDate: initialDate,
+      finalDate: finalDate
+    });
+  };
+
+
   addQuery(query) {
-    // console.log('addQuery - dash: ', query);
+    console.log('addQuery - dash: ', query);
     // this.generateChartData();
     let curr = this.state.queries;
     curr.push(query);
@@ -132,6 +96,14 @@ export default class Dash extends React.Component {
       queries: curr
     });
     this.removeGraphData(queryID);
+  };
+
+  resetQueries(){
+    // console.log('resetQueries');
+    this.setState({
+      queries: [],
+      graphData: []
+    });
   };
 
   addGraphData(data) {
@@ -170,7 +142,7 @@ export default class Dash extends React.Component {
     };
     return (
       <main>
-        <SideBar dataKey={this.state.dataKey} grains={this.state.grains} ports={this.state.ports} queries={this.state.queries} addQuery={this.addQuery} removeQuery={this.removeQuery} updateDataKey={this.updateDataKey} updateGrains={this.updateGrains} updatePorts={this.updatePorts} addGraphData={this.addGraphData}/>
+        <SideBar dataKey={this.state.dataKey} files={this.state.files} grains={this.state.grains} ports={this.state.ports} queries={this.state.queries} initialDate={this.state.initialDate} finalDate={this.state.finalDate} addFiles={this.addFiles} addQuery={this.addQuery} removeQuery={this.removeQuery} resetQueries={this.resetQueries} updateDataKey={this.updateDataKey} updateGrains={this.updateGrains} updatePorts={this.updatePorts} updateDateRange={this.updateDateRange} addGraphData={this.addGraphData}/>
         <div className="side-bar-page">
           <div ref="graphContainer" className="tight-container" style={styles.graphContainer}>
             <Graph graphData={this.state.graphData}/>

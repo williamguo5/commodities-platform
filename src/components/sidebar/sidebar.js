@@ -17,10 +17,8 @@ export default class SideBar extends React.Component {
         <Link className="brand-logo waves-effect waves-orange" to="/">
           <img src={require('../../assets/images/logo.png')}/>
         </Link>
-        <div className="tight-container">
-          <FileButton updateDataKey={this.props.updateDataKey} updateGrains={this.props.updateGrains} updatePorts={this.props.updatePorts}/>
-        </div>
-        <QueryForm dataKey={this.props.dataKey} grains={this.props.grains} ports={this.props.ports} queries={this.props.queries} addQuery={this.props.addQuery} addGraphData={this.props.addGraphData}/>
+        <FileButton files={this.props.files} addFiles={this.props.addFiles} updateDataKey={this.props.updateDataKey} updateGrains={this.props.updateGrains} updatePorts={this.props.updatePorts} updateDateRange={this.props.updateDateRange} resetQueries={this.props.resetQueries}/>
+        <QueryForm dataKey={this.props.dataKey} grains={this.props.grains} ports={this.props.ports} queries={this.props.queries} initialDate={this.props.initialDate} finalDate={this.props.finalDate} addQuery={this.props.addQuery} addGraphData={this.props.addGraphData}/>
         <Queries queries={this.props.queries} removeQuery={this.props.removeQuery}/>
       </div>
     );

@@ -34,7 +34,11 @@ router.get('/', function(req, res, next) {
 		// for (i in results) {
 			// jsonArr[i] = JSON.parse(results[i]);
 		// }
-		res.json(JSON.parse(results));
+		if (results == null || results[0] == 'File not found') {
+			res.send('Invalid userID');
+		} else {
+			res.json(JSON.parse(results));
+		}
 	});	
 	// res.send('Will display list of all shipping data');
 });
