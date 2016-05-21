@@ -14,6 +14,7 @@ export default class Graph extends React.Component {
     // console.log('generate chart', this.props.graphData.length);
     // console.log('generate chart', this.props.graphData);
     var dataToDisplay = [];
+    var trendsToDisplay = [];
     for (var i = 0; i < this.props.graphData.length; i++){
       var title = this.props.graphData[i].grain + ', ' + this.props.graphData[i].port;
       var toCompare = true;
@@ -29,21 +30,25 @@ export default class Graph extends React.Component {
         } ],
         dataProvider: this.props.graphData[i].data,
         compared: toCompare,
+        showInSelect: false,
+        showInCompare: false,
         categoryField: 'date'
       });
 
       var boundaries = [];
       boundaries.push(this.props.graphData[i].data[0]);
       boundaries.push(this.props.graphData[i].data[this.props.graphData[i].data.length - 1]);
-      dataToDisplay.push({
-        title: 'trendline',
+      trendsToDisplay.push({
+        title: title,
         'color': 'red',
         fieldMappings: [ {
           fromField: 'value',
           toField: 'value'
         } ],
         dataProvider: boundaries,
-        compared: true,
+        compared: false,
+        showInSelect: false,
+        showInCompare: true,
         categoryField: 'date'
       });
       // console.log(this.state.colors[this.state.colorIndex]);
@@ -54,11 +59,16 @@ export default class Graph extends React.Component {
         this.state.colorIndex = 0;
       }
     }
+    Array.prototype.push.apply(dataToDisplay, trendsToDisplay);
+
     var chartProperties = {
       'type': 'stock',
       'theme': 'light',
       'dataSets': dataToDisplay,
-
+      'trendLines': [ {
+        'initialValue': 270,
+        'finalValue': 250,
+      } ],
       'panels': [ {
         'recalculateToPercents': 'never',
         'showCategoryAxis': true,
@@ -68,6 +78,8 @@ export default class Graph extends React.Component {
           'id': 'g1',
           'valueField': 'value',
           'comparable': true,
+          'lineThickness': 2,
+          'compareGraphLineThickness': 2,
           'balloonText': '[[title]]: <b>[[value]]</b>',
           'compareGraphBalloonText': '[[title]]:<b> [[value]]</b>',
           'compareField': 'value'
@@ -99,7 +111,13 @@ export default class Graph extends React.Component {
       },
 
       'periodSelector': {
-        'position': 'bottom',
+        'position': 'right',
+        'width': 130,
+      },
+      'dataSetSelector': {
+        'compareText': 'Show trend line for:',
+        'position': 'right',
+        'width': 130
       },
       'export': {
         'enabled': true
@@ -131,12 +149,10 @@ export default class Graph extends React.Component {
     // chart.validateData();
     const styles = {
       graphContainer: {
-        padding: '20px',
         padding: '25px',
         width: '100%',
         height: '100%',
-        height: '60%',
-        margin: 0
+        margin: '0'
       },
       chartdiv: {
         height: '100%',
@@ -145,7 +161,7 @@ export default class Graph extends React.Component {
     };
     return (
       <div className='card' style={styles.graphContainer}>
-        <div id='chartdiv'></div>
+        <div id='chartdiv' style={styles.chartdiv}></div>
       </div>
     );
   };

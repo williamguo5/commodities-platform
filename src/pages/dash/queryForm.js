@@ -10,7 +10,6 @@ export default class QueryForm extends React.Component {
     this.render = this.render.bind(this);
     this.componentDidMount = this.componentDidMount.bind(this);
     this.componentWillUnmount = this.componentWillUnmount.bind(this);
-    this.handleChange = this.handleChange.bind(this);
     this.selectGrain = this.selectGrain.bind(this);
     this.selectPort = this.selectPort.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -29,10 +28,6 @@ export default class QueryForm extends React.Component {
   componentWillUnmount() {
     $('.tooltipped').tooltip('remove');
   }
-
-  handleChange(event) {
-    this.props.updateDataKey(event.target.value);
-  };
 
   selectGrain(val){
     this.state.grain = val;
@@ -63,10 +58,14 @@ export default class QueryForm extends React.Component {
       
       this.props.addQuery({grain: currGrain, port: currPort, id: currID, color: currColor});
 
+      var monthIndex = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
 
+      console.log('date range: *', this.props.initialDate, this.props.finalDate);
+      var initialDateParts = this.props.initialDate.split('-');
+      var finalDateParts = this.props.finalDate.split('-');
       let dataKey = this.props.dataKey,
-          sDate = new Date(2015,6,19),
-          eDate = new Date(2015,10,1),
+          sDate = new Date(initialDateParts[2], monthIndex.indexOf(initialDateParts[1]), initialDateParts[0]),
+          eDate = new Date(finalDateParts[2], monthIndex.indexOf(finalDateParts[1]), finalDateParts[0]),
           port = this.state.port + '_Y1';
 
       let startDateString = sDate.getDate() + '-' +
@@ -82,7 +81,7 @@ export default class QueryForm extends React.Component {
       // this.props.resetResults();
       // // let resultsData = [];
 
-
+      // Request.get('http://localhost:3000/shipping/getPrices')
       Request.get('/shipping/getPrices')
         .query({ grain: this.state.grain})
         .query({ port: port})
@@ -94,7 +93,6 @@ export default class QueryForm extends React.Component {
           // format data for use with chart
           // res: {dates: [], prices: []}
           // chart data object [{date: dateObject, value: price}]
-          var monthIndex = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
           var data = [];
           var prevPrice = 0;
           for (var i = 0; i < res.body.dates.length; i++){
@@ -106,6 +104,7 @@ export default class QueryForm extends React.Component {
 
             // console.log('newdate: ', newDate);
             // console.log('price: ', price, i);
+            
             if (price == null){
               if (i > 0){
                 price = prevPrice;
@@ -157,6 +156,7 @@ export default class QueryForm extends React.Component {
         </div>
         <div className="tight-container">
           <button className="btn waves-effect waves-light full-width" type="submit" name="action">Add to graph</button>
+          <label>Max: 6</label>
         </div>
       </form>
     );

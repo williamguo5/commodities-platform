@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 
 export default class SideBar extends React.Component {
   constructor() {
@@ -16,23 +15,22 @@ export default class SideBar extends React.Component {
   makeTags(queries){
     // console.log('makeTags: queries', queries);
     // console.log('makeTags: queries.length', queries.length);
-    var html = [];
-    if (queries != undefined){
-      for (var i = 0; i < queries.length; i++){
+    let tagHTML = [];
+    if (queries != undefined) {
+      for (var i = 0; i < queries.length; i++) {
         var style = {
           backgroundColor: queries[i].color,
           color: 'white'
         };
-        html.push(<div className="col s6"><div className="chip" style={style}>{queries[i].grain}, {queries[i].port}<i className="material-icons" id={queries[i].id} key={queries[i].id} onClick={this.handleRemove}>close</i></div></div>);
+        tagHTML.push(<div className="chip queries" style={style}>{queries[i].grain}, {queries[i].port}<i className="material-icons" id={queries[i].id} key={queries[i].id} onClick={this.handleRemove}>close</i></div>);
       }
     }
-    // console.log('makeTags: html', html);
-    return html;
+    return tagHTML;
   };
 
   render() {
     return (
-      <div className="row">
+      <div className="tight-container">
         {this.makeTags(this.props.queries)}
       </div>
     );

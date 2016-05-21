@@ -124,13 +124,15 @@ pre {
 }
 
 #chartdiv {
-    width: 100%;
-    height: 90%;
+    a {
+        display: none !important;
+    }
+    input.amcharts-start-date-input, input.amcharts-end-date-input {
+        transition: none;
+    }
 }
 
-// .card {
-//     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
-//     padding: 20px;
-//     margin: 16px;
-//     display: inline-block;
-// }
+.queries {
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
