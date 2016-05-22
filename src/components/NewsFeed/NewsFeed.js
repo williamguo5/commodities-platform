@@ -12,7 +12,7 @@ export default class Newsfeed extends React.Component {
     let newsBlocks = [];
     let count = 0;
     if (this.props.newsData !== undefined && this.props.newsData.length !== 0) {
-      newsBlocks = this.props.newsData.reverse().map((val) => {
+      newsBlocks = this.props.newsData.map((val) => {
         count += 1;
         const relevantTopics = val.tpc_list.filter(function(n) {
           return topics.indexOf(n) != -1;

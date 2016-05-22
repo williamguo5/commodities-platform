@@ -50,20 +50,18 @@ export default class FileButton extends React.Component {
     const defaultDataKey = 'default';
     this.props.updateDataKey(defaultDataKey);
 
-
     Request.get('/shipping')
       .query({ userID: defaultDataKey})
       .end((err, res) => {
-        // console.log(JSON.stringify(res.body));
+        if (this.props.updateDateRange){
+          this.props.updateDateRange(res.body.initialDate, res.body.finalDate);
+        }
         if (this.props.updateGrains){
           // console.log(res.body);
           this.props.updateGrains(this.formatOptions(res.body.grains));
         }
         if (this.props.updatePorts){
           this.props.updatePorts(this.formatOptions(res.body.ports));
-        }
-        if (this.props.updateDateRange){
-          this.props.updateDateRange(res.body.initialDate, res.body.finalDate);
         }
         // resultsData.push(res.body);
       });

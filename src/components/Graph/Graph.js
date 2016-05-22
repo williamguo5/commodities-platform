@@ -165,6 +165,7 @@ export default class Graph extends React.Component {
       'periodSelector': {
         'position': 'right',
         'width': 140,
+        'toText': 'To:',
         'periods': [ {
           'period': 'MM',
           'count': 1,
