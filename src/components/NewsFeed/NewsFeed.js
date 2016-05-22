@@ -4,20 +4,7 @@ import NewsBlock from '../NewsBlock/NewsBlock';
 export default class Newsfeed extends React.Component {
   constructor() {
     super();
-    this.componentDidMount = this.componentDidMount.bind(this);
-    this.componentWillReveiveProps = this.componentWillReveiveProps.bind(this);
     this.render = this.render.bind(this);
-  }
-
-
-  componentDidMount() {
-    $('.collapsible').collapsible({
-      accordion: true
-    });
-  }
-
-  componentWillReveiveProps(nextProps) {
-    console.log('new props here!');
   }
 
   render() {
@@ -25,7 +12,7 @@ export default class Newsfeed extends React.Component {
     let newsBlocks = [];
     let count = 0;
     if (this.props.newsData !== undefined && this.props.newsData.length !== 0) {
-      newsBlocks = this.props.newsData.map((val) => {
+      newsBlocks = this.props.newsData.reverse().map((val) => {
         count += 1;
         const relevantTopics = val.tpc_list.filter(function(n) {
           return topics.indexOf(n) != -1;
