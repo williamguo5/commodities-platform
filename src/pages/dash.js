@@ -166,7 +166,7 @@ export default class Dash extends React.Component {
   render() {
     const styles = {
       main: {
-        backgroundColor: 'rgba(0, 128, 128, 0.17)'
+        backgroundColor: 'rgba(31, 71, 147, 0.08)'
       },
       graphContainer: {
         width: '100%',
