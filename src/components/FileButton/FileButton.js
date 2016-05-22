@@ -25,6 +25,7 @@ export default class FileButton extends React.Component {
       }
     }
     this.props.updateDataKey(val);
+
     Request.get('/shipping')
       .query({ userID: val})
       .end((err, res) => {
@@ -48,10 +49,12 @@ export default class FileButton extends React.Component {
     console.log('Loads data from default file');
     const defaultDataKey = 'default';
     this.props.updateDataKey(defaultDataKey);
+
+
     Request.get('/shipping')
       .query({ userID: defaultDataKey})
       .end((err, res) => {
-        console.log(JSON.stringify(res.body));
+        // console.log(JSON.stringify(res.body));
         if (this.props.updateGrains){
           // console.log(res.body);
           this.props.updateGrains(this.formatOptions(res.body.grains));
@@ -87,7 +90,7 @@ export default class FileButton extends React.Component {
     const fileName = file.name;
     const fileType = fileName.split('.')[fileName.split('.').length - 1].toLowerCase();
     if (fileType === 'csv') {
-      // Request.post('http://localhost:3000/shipping/upload')
+
       Request.post('/shipping/upload')
         .attach('inputData', file)
         .end((err, res) => {
@@ -106,24 +109,23 @@ export default class FileButton extends React.Component {
           this.props.addFiles(newFile);
 
 
-          // Request.get('http://localhost:3000/shipping')
           Request.get('/shipping')
-          .query({ userID: res.body.dataKey})
-          .end((err, res) => {
-            console.log('handleFile2');
-            // console.log(JSON.stringify(res.body));
-            if (this.props.updateGrains){
-              this.props.updateGrains(this.formatOptions(res.body.grains));
-            }
-            if (this.props.updatePorts){
-              this.props.updatePorts(this.formatOptions(res.body.ports));
-            }
-            if (this.props.updateDateRange){
-              this.props.updateDateRange(res.body.initialDate, res.body.finalDate);
-            }
-            this.props.resetQueries();
-            // resultsData.push(res.body);
-          });
+            .query({ userID: res.body.dataKey})
+            .end((err, res) => {
+              console.log('handleFile2');
+              // console.log(JSON.stringify(res.body));
+              if (this.props.updateGrains){
+                this.props.updateGrains(this.formatOptions(res.body.grains));
+              }
+              if (this.props.updatePorts){
+                this.props.updatePorts(this.formatOptions(res.body.ports));
+              }
+              if (this.props.updateDateRange){
+                this.props.updateDateRange(res.body.initialDate, res.body.finalDate);
+              }
+              this.props.resetQueries();
+              // resultsData.push(res.body);
+            });
         });
     } else {
       alert('Wrong file type! The file must be in csv format');

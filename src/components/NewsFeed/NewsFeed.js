@@ -33,6 +33,7 @@ export default class Newsfeed extends React.Component {
     }
     const styles = {
       newsList: {
+        backgroundColor: '#efefef',
         margin: 0
       }
     };

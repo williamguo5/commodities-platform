@@ -65,7 +65,7 @@ export default class QueryForm extends React.Component {
 
       const monthIndex = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
 
-      console.log('date range: *', this.props.initialDate, this.props.finalDate);
+      // console.log('date range: *', this.props.initialDate, this.props.finalDate);
 
       let initialDateParts = this.props.initialDate.split('-'),
           finalDateParts = this.props.finalDate.split('-');
@@ -82,7 +82,8 @@ export default class QueryForm extends React.Component {
                           monthNames[eDate.getMonth()] + '-' +
                           eDate.getFullYear();
 
-      console.log('sendFormData: dataKey, sdata, edate, port, grain - ', dataKey, startDateString, endDateString, port, this.state.grain);
+      // console.log('sendFormData: dataKey, sdata, edate, port, grain - ', dataKey, startDateString, endDateString, port, this.state.grain);
+
 
       Request.get('/shipping/getPrices')
         .query({ grain: this.state.grain})

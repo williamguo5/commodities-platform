@@ -80,7 +80,7 @@ export default class Dash extends React.Component {
 
 
   addQuery(query) {
-    console.log('addQuery - dash: ', query);
+    // console.log('addQuery - dash: ', query);
     // this.generateChartData();
     let curr = this.state.queries;
     curr.push(query);
@@ -189,7 +189,7 @@ export default class Dash extends React.Component {
         <SideBar dataKey={this.state.dataKey} files={this.state.files} grains={this.state.grains} ports={this.state.ports} queries={this.state.queries} initialDate={this.state.initialDate} finalDate={this.state.finalDate} addFiles={this.addFiles} addQuery={this.addQuery} removeQuery={this.removeQuery} resetQueries={this.resetQueries} updateDataKey={this.updateDataKey} updateGrains={this.updateGrains} updatePorts={this.updatePorts} updateDateRange={this.updateDateRange} addGraphData={this.addGraphData}/>
         <div className="side-bar-page">
           <div ref="graphContainer" className="tight-container" style={styles.graphContainer}>
-            <Graph graphData={this.state.graphData}/>
+            <Graph graphData={this.state.graphData} initialDate={this.state.initialDate} finalDate={this.state.finalDate}/>
           </div>
           <div style={styles.newsContainer} className="tight-container">
             <div className="card" style={styles.newsWrapper}>

@@ -43,6 +43,14 @@ router.get('/', function(req, res, next) {
 	// res.send('Will display list of all shipping data');
 });
 
+router.get('/getNews', function(req, res, next) {
+	console.log('get news');
+	var fs = require('fs');
+	fs.readFile('news.txt', 'utf8', function(err, contents) {
+		res.json(JSON.parse(contents));
+	});
+});
+
 router.get('/getRelevantNews', function(req, res, next) {
 
 	var request = require('superagent');

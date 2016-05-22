@@ -12,8 +12,11 @@ export default class SideBar extends React.Component {
   };
 
   render() {
+    const styles = {
+      backgroundColor: '#efefef'
+    };
     return (
-      <div className="side-nav fixed">
+      <div className="side-nav fixed" style={styles}>
         <Link className="brand-logo waves-effect waves-orange" to="/">
           <img src={require('../../assets/images/logo.png')}/>
         </Link>

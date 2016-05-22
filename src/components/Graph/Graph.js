@@ -15,6 +15,7 @@ export default class Graph extends React.Component {
     // console.log('generate chart', this.props.graphData);
     var dataToDisplay = [];
     var trendsToDisplay = [];
+    var showInLegend = true;
     for (var i = 0; i < this.props.graphData.length; i++){
       var title = this.props.graphData[i].grain + ', ' + this.props.graphData[i].port;
       var toCompare = true;
@@ -79,11 +80,35 @@ export default class Graph extends React.Component {
         this.state.colorIndex = 0;
       }
     }
+
+    if (this.props.graphData.length == 0){
+      console.log('No data to display');
+      console.log('dates', this.props.initialDate, this.props.finalDate);
+      const monthIndex = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+      var dateParts = this.props.initialDate.split('-');
+      var newSDate = new Date(dateParts[2], monthIndex.indexOf(dateParts[1]), dateParts[0]);
+      dateParts = this.props.finalDate.split('-');
+      var newEDate = new Date(dateParts[2], monthIndex.indexOf(dateParts[1]), dateParts[0]);
+
+      dataToDisplay.push({
+        'color': 'white',
+        fieldMappings: [ {
+          fromField: 'value',
+          toField: 'value'
+        } ],
+        dataProvider: [{date: newSDate, value: ''}, {date: newEDate, value: ''}],
+        compared: false,
+        showInSelect: false,
+        showInCompare: false,
+        categoryField: 'date'
+      });
+      showInLegend = false;
+    }
     Array.prototype.push.apply(dataToDisplay, trendsToDisplay);
 
     var chartProperties = {
       'type': 'stock',
-      'theme': 'light',
+      'theme': 'dark',
       'dataSets': dataToDisplay,
       'trendLines': [ {
         'initialValue': 270,
@@ -105,6 +130,7 @@ export default class Graph extends React.Component {
           'compareField': 'value'
         } ],
         'stockLegend': {
+          showEntries: showInLegend,
           markerType: 'square',
           // 'periodValueTextComparing': '[[value.close]]',
           'periodValueTextRegular': '[[value.close]]'
@@ -177,6 +203,7 @@ export default class Graph extends React.Component {
     // chart.validateData();
     const styles = {
       graphContainer: {
+        backgroundColor: '#3f3f4f',
         padding: '20px',
         width: '100%',
         height: '100%',
