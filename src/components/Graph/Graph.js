@@ -35,9 +35,28 @@ export default class Graph extends React.Component {
         categoryField: 'date'
       });
 
+      var ss = require('simple-statistics');
+
+      var len = this.props.graphData[i].data.length;
+      var arr = [];
+
+      for (var j = 0; j < len; ++j) {
+        arr.push([+this.props.graphData[i].data[j].date, parseInt(this.props.graphData[i].data[j].value,10)]);
+
+      }
+
+      var result = ss.linearRegressionLine(ss.linearRegression(arr));
+      
       var boundaries = [];
-      boundaries.push(this.props.graphData[i].data[0]);
-      boundaries.push(this.props.graphData[i].data[this.props.graphData[i].data.length - 1]);
+
+      for (var j = 0; j < len; ++j) {
+        boundaries.push({
+          'date': +this.props.graphData[i].data[j].date, 
+          'value': result(this.props.graphData[i].data[j].date)
+        });
+      }
+      // boundaries.push(this.props.graphData[i].data[0]);
+      // boundaries.push(this.props.graphData[i].data[this.props.graphData[i].data.length - 1]);
       trendsToDisplay.push({
         title: title,
         'color': 'red',
@@ -112,7 +131,15 @@ export default class Graph extends React.Component {
 
       'periodSelector': {
         'position': 'right',
-        'width': 130,
+        'width': 140,
+        'periods': [ {
+          'period': 'MM',
+          'count': 1,
+          'label': '1 Month'
+        }, {
+          'period': 'MAX',
+          'label': 'MAX'
+        }]
       },
       'dataSetSelector': {
         'compareText': 'Show trend line for:',

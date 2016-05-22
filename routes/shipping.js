@@ -77,8 +77,8 @@ router.get('/getRelevantNews', function(req, res, next) {
 	console.log(endDate.toISOString());
 	request.post('http://pacificpygmyowl.herokuapp.com/api/query')
 		.send({"start_date" : startDate.toISOString(), "end_date" : endDate.toISOString(),
-				"instr_list": [], 
-				"tpc_list": "[GRA, WEA, LIV, MEAL, USDA, GMO, BEV]"})
+				"instr_list": "[GNC.AX]", 
+				"tpc_list": "[GRA, WEA, LIV, MEAL, USDA, GMO, BEV, AFE, ]"})
   		// .set('Accept', 'application/json')
   		.end(function(err, result){
   			// console.log(res);
