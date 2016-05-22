@@ -28,7 +28,9 @@ export default class Dash extends React.Component {
       initialDate: '',
       finalDate: '',
       newsData: [],
-      graphData: [] // graphdata format: [{id: id, grain: grain, port: port, color: color, data: []}]
+      graphData: [], // graphdata format: [{id: id, grain: grain, port: port, color: color, data: []}]
+      colors: ['#0D8ECF', '#FCa202', '#A0CE09', '#9477CB', '#CD0D74', '#836953'],
+      colorsUsed: [0, 0, 0, 0, 0, 0]
     };
   }
 
@@ -82,6 +84,7 @@ export default class Dash extends React.Component {
   addQuery(query) {
     // console.log('addQuery - dash: ', query);
     // this.generateChartData();
+    this.state.colorsUsed[this.state.colors.indexOf(query.color)] = 1;
     let curr = this.state.queries;
     curr.push(query);
     this.setState({
@@ -95,6 +98,7 @@ export default class Dash extends React.Component {
     for (let i = 0; i < this.state.queries.length; i++){
       if (this.state.queries[i].id == queryID){
         index = i;
+        this.state.colorsUsed[this.state.colors.indexOf(this.state.queries[i].color)] = 0;
       }
     }
     // console.log('removeQuery index: ', index);
@@ -186,10 +190,10 @@ export default class Dash extends React.Component {
 
     return (
       <main style={styles.main}>
-        <SideBar dataKey={this.state.dataKey} files={this.state.files} grains={this.state.grains} ports={this.state.ports} queries={this.state.queries} initialDate={this.state.initialDate} finalDate={this.state.finalDate} addFiles={this.addFiles} addQuery={this.addQuery} removeQuery={this.removeQuery} resetQueries={this.resetQueries} updateDataKey={this.updateDataKey} updateGrains={this.updateGrains} updatePorts={this.updatePorts} updateDateRange={this.updateDateRange} addGraphData={this.addGraphData}/>
+        <SideBar dataKey={this.state.dataKey} files={this.state.files} grains={this.state.grains} ports={this.state.ports} queries={this.state.queries} colors={this.state.colors} colorsUsed={this.state.colorsUsed} initialDate={this.state.initialDate} finalDate={this.state.finalDate} addFiles={this.addFiles} addQuery={this.addQuery} removeQuery={this.removeQuery} resetQueries={this.resetQueries} updateDataKey={this.updateDataKey} updateGrains={this.updateGrains} updatePorts={this.updatePorts} updateDateRange={this.updateDateRange} addGraphData={this.addGraphData}/>
         <div className="side-bar-page">
           <div ref="graphContainer" className="tight-container" style={styles.graphContainer}>
-            <Graph graphData={this.state.graphData} initialDate={this.state.initialDate} finalDate={this.state.finalDate}/>
+            <Graph colors={this.state.colors} graphData={this.state.graphData} initialDate={this.state.initialDate} finalDate={this.state.finalDate}/>
           </div>
           <div style={styles.newsContainer} className="tight-container">
             <div className="card" style={styles.newsWrapper}>

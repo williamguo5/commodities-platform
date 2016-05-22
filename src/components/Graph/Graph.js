@@ -59,9 +59,10 @@ export default class Graph extends React.Component {
       
       // boundaries.push(this.props.graphData[i].data[0]);
       // boundaries.push(this.props.graphData[i].data[this.props.graphData[i].data.length - 1]);
+      const trendColors = ['#7ECEF7', '#FED180', '#e1fa90', '#C7B8E4', '#F77CBE', '#C8B6A8'];
       trendsToDisplay.push({
         title: title,
-        'color': 'red',
+        'color': trendColors[this.props.colors.indexOf(this.props.graphData[i].color)],
         fieldMappings: [ {
           fromField: 'value',
           toField: 'value'
