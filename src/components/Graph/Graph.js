@@ -15,6 +15,7 @@ export default class Graph extends React.Component {
     // console.log('generate chart', this.props.graphData);
     var dataToDisplay = [];
     var trendsToDisplay = [];
+    var showInLegend = true;
     for (var i = 0; i < this.props.graphData.length; i++){
       var title = this.props.graphData[i].grain + ', ' + this.props.graphData[i].port;
       var toCompare = true;
@@ -35,12 +36,38 @@ export default class Graph extends React.Component {
         categoryField: 'date'
       });
 
+      var ss = require('simple-statistics');
+
+      var len = this.props.graphData[i].data.length;
+      var arr = [];
+
+      for (var j = 0; j < len; ++j) {
+        if (this.props.graphData[i].data[j].value != '0' && 
+            this.props.graphData[i].data[j].value != null) {
+        // var tmp = parseFloat(this.props.graphData[i].data[j].value).toFixed(2);
+          arr.push([+this.props.graphData[i].data[j].date, parseInt(this.props.graphData[i].data[j].value)]);
+
+        }
+
+      }
+
+      var result = ss.linearRegressionLine(ss.linearRegression(arr));
+      
       var boundaries = [];
-      boundaries.push(this.props.graphData[i].data[0]);
-      boundaries.push(this.props.graphData[i].data[this.props.graphData[i].data.length - 1]);
+
+      for (var j = 0; j < len; ++j) {
+        boundaries.push({
+          'date': +this.props.graphData[i].data[j].date, 
+          'value': parseFloat(result(this.props.graphData[i].data[j].date)).toFixed(2)
+        });
+      }
+      
+      // boundaries.push(this.props.graphData[i].data[0]);
+      // boundaries.push(this.props.graphData[i].data[this.props.graphData[i].data.length - 1]);
+      const trendColors = ['#7ECEF7', '#FED180', '#e1fa90', '#C7B8E4', '#F77CBE', '#C8B6A8'];
       trendsToDisplay.push({
         title: title,
-        'color': 'red',
+        'color': trendColors[this.props.colors.indexOf(this.props.graphData[i].color)],
         fieldMappings: [ {
           fromField: 'value',
           toField: 'value'
@@ -59,11 +86,35 @@ export default class Graph extends React.Component {
         this.state.colorIndex = 0;
       }
     }
+
+    if (this.props.graphData.length == 0){
+      console.log('No data to display');
+      console.log('dates', this.props.initialDate, this.props.finalDate);
+      const monthIndex = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+      var dateParts = this.props.initialDate.split('-');
+      var newSDate = new Date(dateParts[2], monthIndex.indexOf(dateParts[1]), dateParts[0]);
+      dateParts = this.props.finalDate.split('-');
+      var newEDate = new Date(dateParts[2], monthIndex.indexOf(dateParts[1]), dateParts[0]);
+
+      dataToDisplay.push({
+        'color': 'white',
+        fieldMappings: [ {
+          fromField: 'value',
+          toField: 'value'
+        } ],
+        dataProvider: [{date: newSDate, value: ''}, {date: newEDate, value: ''}],
+        compared: false,
+        showInSelect: false,
+        showInCompare: false,
+        categoryField: 'date'
+      });
+      showInLegend = false;
+    }
     Array.prototype.push.apply(dataToDisplay, trendsToDisplay);
 
     var chartProperties = {
       'type': 'stock',
-      'theme': 'light',
+      'theme': 'dark',
       'dataSets': dataToDisplay,
       'trendLines': [ {
         'initialValue': 270,
@@ -85,6 +136,7 @@ export default class Graph extends React.Component {
           'compareField': 'value'
         } ],
         'stockLegend': {
+          showEntries: showInLegend,
           markerType: 'square',
           // 'periodValueTextComparing': '[[value.close]]',
           'periodValueTextRegular': '[[value.close]]'
@@ -112,7 +164,15 @@ export default class Graph extends React.Component {
 
       'periodSelector': {
         'position': 'right',
-        'width': 130,
+        'width': 140,
+        'periods': [ {
+          'period': 'MM',
+          'count': 1,
+          'label': '1 Month'
+        }, {
+          'period': 'MAX',
+          'label': 'MAX'
+        }]
       },
       'dataSetSelector': {
         'compareText': 'Show trend line for:',
@@ -149,6 +209,7 @@ export default class Graph extends React.Component {
     // chart.validateData();
     const styles = {
       graphContainer: {
+        backgroundColor: '#3f3f4f',
         padding: '20px',
         width: '100%',
         height: '100%',

@@ -43,6 +43,14 @@ router.get('/', function(req, res, next) {
 	// res.send('Will display list of all shipping data');
 });
 
+router.get('/getNews', function(req, res, next) {
+	console.log('get news');
+	var fs = require('fs');
+	fs.readFile('news.txt', 'utf8', function(err, contents) {
+		res.json(JSON.parse(contents));
+	});
+});
+
 router.get('/getRelevantNews', function(req, res, next) {
 
 	var request = require('superagent');
@@ -77,8 +85,8 @@ router.get('/getRelevantNews', function(req, res, next) {
 	console.log(endDate.toISOString());
 	request.post('http://pacificpygmyowl.herokuapp.com/api/query')
 		.send({"start_date" : startDate.toISOString(), "end_date" : endDate.toISOString(),
-				"instr_list": [], 
-				"tpc_list": "[GRA, WEA, LIV, MEAL, USDA, GMO, BEV]"})
+				"instr_list": "[GNC.AX]", 
+				"tpc_list": "[GRA, WEA, LIV, MEAL, USDA, GMO, BEV, AFE, ]"})
   		// .set('Accept', 'application/json')
   		.end(function(err, result){
   			// console.log(res);

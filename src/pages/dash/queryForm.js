@@ -15,7 +15,10 @@ export default class QueryForm extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.sendFormData = this.sendFormData.bind(this);
     this.populateList = this.populateList.bind(this);
-    this.state = {grain: '', port: '', nextID: 0, colors: ['#0D8ECF', '#FCa202', '#a0ce09', '#c22200', '#CD0D74', '#2A0CD0'], colorIndex: 0};
+    this.state = {grain: '',
+      port: '',
+      nextID: 0
+    };
   }
   componentDidMount() {
     $('.datepicker').pickadate({
@@ -50,12 +53,14 @@ export default class QueryForm extends React.Component {
       var currGrain = this.state.grain;
       var currPort = this.state.port;
       var currID = this.state.nextID;
-      var currColor = this.state.colors[this.state.colorIndex];
-      this.state.colorIndex++;
-      if (this.state.colorIndex >= this.state.colors.length){
-        this.state.colorIndex = 0;
+      var currColor = this.props.colors[3];
+      for (let i = 0; i < this.props.colorsUsed.length; i++){
+        if (this.props.colorsUsed[i] == 0){
+          currColor = this.props.colors[i];
+          console.log('color: ', currColor);
+          break;
+        }
       }
-
       this.props.addQuery({
         grain: currGrain,
         port: currPort,
@@ -65,7 +70,7 @@ export default class QueryForm extends React.Component {
 
       const monthIndex = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
 
-      console.log('date range: *', this.props.initialDate, this.props.finalDate);
+      // console.log('date range: *', this.props.initialDate, this.props.finalDate);
 
       let initialDateParts = this.props.initialDate.split('-'),
           finalDateParts = this.props.finalDate.split('-');
@@ -82,7 +87,8 @@ export default class QueryForm extends React.Component {
                           monthNames[eDate.getMonth()] + '-' +
                           eDate.getFullYear();
 
-      console.log('sendFormData: dataKey, sdata, edate, port, grain - ', dataKey, startDateString, endDateString, port, this.state.grain);
+      // console.log('sendFormData: dataKey, sdata, edate, port, grain - ', dataKey, startDateString, endDateString, port, this.state.grain);
+
 
       Request.get('/shipping/getPrices')
         .query({ grain: this.state.grain})

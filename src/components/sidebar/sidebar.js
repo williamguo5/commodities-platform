@@ -12,13 +12,16 @@ export default class SideBar extends React.Component {
   };
 
   render() {
+    const styles = {
+      backgroundColor: '#efefef'
+    };
     return (
-      <div className="side-nav fixed">
+      <div className="side-nav fixed" style={styles}>
         <Link className="brand-logo waves-effect waves-orange" to="/">
           <img src={require('../../assets/images/logo.png')}/>
         </Link>
         <FileButton files={this.props.files} addFiles={this.props.addFiles} updateDataKey={this.props.updateDataKey} updateGrains={this.props.updateGrains} updatePorts={this.props.updatePorts} updateDateRange={this.props.updateDateRange} resetQueries={this.props.resetQueries}/>
-        <QueryForm dataKey={this.props.dataKey} grains={this.props.grains} ports={this.props.ports} queries={this.props.queries} initialDate={this.props.initialDate} finalDate={this.props.finalDate} addQuery={this.props.addQuery} addGraphData={this.props.addGraphData}/>
+        <QueryForm dataKey={this.props.dataKey} grains={this.props.grains} ports={this.props.ports} queries={this.props.queries} colors={this.props.colors} colorsUsed={this.props.colorsUsed} initialDate={this.props.initialDate} finalDate={this.props.finalDate} addQuery={this.props.addQuery} addGraphData={this.props.addGraphData}/>
         <Queries queries={this.props.queries} removeQuery={this.props.removeQuery}/>
       </div>
     );
