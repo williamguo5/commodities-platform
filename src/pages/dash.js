@@ -2,6 +2,7 @@ import React from 'react';
 import SideBar from '../components/sidebar/sidebar';
 import Graph from '../components/Graph/Graph';
 import NewsFeed from '../components/NewsFeed/NewsFeed';
+import Request from 'superagent';
 
 export default class Dash extends React.Component {
   constructor() {
@@ -17,6 +18,7 @@ export default class Dash extends React.Component {
     this.resetQueries = this.resetQueries.bind(this);
     this.addGraphData = this.addGraphData.bind(this);
     this.removeGraphData = this.removeGraphData.bind(this);
+    this.getNewsData = this.getNewsData.bind(this);
     this.state = {
       dataKey: 'default',
       grains: [{label: 'g1', value: 'g1'}, {label: 'g2', value: 'g2'}],
@@ -25,6 +27,7 @@ export default class Dash extends React.Component {
       files: [{label: 'testData.csv', value: 'default'}],
       initialDate: '',
       finalDate: '',
+      newsData: [],
       graphData: [] // graphdata format: [{id: id, grain: grain, port: port, color: color, data: []}]
     };
   }
@@ -60,6 +63,15 @@ export default class Dash extends React.Component {
   };
 
   updateDateRange(initialDate, finalDate) {
+    const monthIndex = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'],
+        initialDateParts = initialDate.split('-'),
+        finalDateParts = finalDate.split('-');
+
+    let sDate = new Date(initialDateParts[2], monthIndex.indexOf(initialDateParts[1]), initialDateParts[0]),
+        eDate = new Date(finalDateParts[2], monthIndex.indexOf(finalDateParts[1]), finalDateParts[0]);
+
+    this.getNewsData(sDate.toGMTString(), eDate.toGMTString());
+
     this.setState({
       initialDate: initialDate,
       finalDate: finalDate
@@ -122,13 +134,34 @@ export default class Dash extends React.Component {
     }
     // console.log('removeGraphData index: ', index);
     let curr = this.state.graphData;
-    if (index > -1){
+    if (index !== undefined){
       curr.splice(index, 1);
     }
     this.setState({
       graphData: curr
     });
   };
+
+  getNewsData(startDate, endDate) {
+    const topics = ['COC', 'COF', 'COR', 'COT', 'GOL', 'GRA', 'LIV', 'MEAL', 'MIN', 'OILS', 'ORJ', 'RUB', 'SUG', 'TEA', 'USDA', 'WOO'];
+
+    if (startDate !== '' && endDate !== '') {
+      Request.post('http://pacificpygmyowl.herokuapp.com/api/query')
+        .send({ start_date: startDate, end_date: endDate, tpc_list: topics })
+        .set('Accept', 'application/json')
+        .end((err, res) => {
+          if (err !== null || res === undefined || res.body === []) {
+            console.log('The news api seems to be broken');
+          } else {
+            console.log(res.body);
+            this.setState({
+              newsData: res.body
+            });
+          }
+        }
+      );
+    }
+  }
 
   render() {
     const styles = {
@@ -151,12 +184,6 @@ export default class Dash extends React.Component {
       }
     };
 
-    const monthIndex = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
-    const initialDateParts = this.state.initialDate.split('-'),
-        finalDateParts = this.state.finalDate.split('-');
-    let sDate = new Date(initialDateParts[2], monthIndex.indexOf(initialDateParts[1]), initialDateParts[0]),
-        eDate = new Date(finalDateParts[2], monthIndex.indexOf(finalDateParts[1]), finalDateParts[0]);
-
     return (
       <main style={styles.main}>
         <SideBar dataKey={this.state.dataKey} files={this.state.files} grains={this.state.grains} ports={this.state.ports} queries={this.state.queries} initialDate={this.state.initialDate} finalDate={this.state.finalDate} addFiles={this.addFiles} addQuery={this.addQuery} removeQuery={this.removeQuery} resetQueries={this.resetQueries} updateDataKey={this.updateDataKey} updateGrains={this.updateGrains} updatePorts={this.updatePorts} updateDateRange={this.updateDateRange} addGraphData={this.addGraphData}/>
@@ -166,7 +193,7 @@ export default class Dash extends React.Component {
           </div>
           <div style={styles.newsContainer} className="tight-container">
             <div className="card" style={styles.newsWrapper}>
-              <NewsFeed startDate={sDate.toGMTString()} endDate={eDate.toGMTString()}/>
+              <NewsFeed newsData={this.state.newsData}/>
             </div>
           </div>
         </div>

@@ -25,20 +25,19 @@ export default class FileButton extends React.Component {
       }
     }
     this.props.updateDataKey(val);
-    Request.get('http://localhost:3000/shipping')
-      // Request.get('/shipping')
+    Request.get('/shipping')
       .query({ userID: val})
       .end((err, res) => {
 
         // console.log(JSON.stringify(res.body));
+        if (this.props.updateDateRange){
+          this.props.updateDateRange(res.body.initialDate, res.body.finalDate);
+        }
         if (this.props.updateGrains){
           this.props.updateGrains(this.formatOptions(res.body.grains));
         }
         if (this.props.updatePorts){
           this.props.updatePorts(this.formatOptions(res.body.ports));
-        }
-        if (this.props.updateDateRange){
-          this.props.updateDateRange(res.body.initialDate, res.body.finalDate);
         }
         this.props.resetQueries();
         // resultsData.push(res.body);
@@ -49,7 +48,6 @@ export default class FileButton extends React.Component {
     console.log('Loads data from default file');
     const defaultDataKey = 'default';
     this.props.updateDataKey(defaultDataKey);
-    // Request.get('http://localhost:3000/shipping')
     Request.get('/shipping')
       .query({ userID: defaultDataKey})
       .end((err, res) => {
