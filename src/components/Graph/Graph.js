@@ -55,6 +55,7 @@ export default class Graph extends React.Component {
           'value': result(this.props.graphData[i].data[j].date)
         });
       }
+      
       // boundaries.push(this.props.graphData[i].data[0]);
       // boundaries.push(this.props.graphData[i].data[this.props.graphData[i].data.length - 1]);
       trendsToDisplay.push({
