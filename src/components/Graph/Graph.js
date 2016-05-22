@@ -42,7 +42,12 @@ export default class Graph extends React.Component {
       var arr = [];
 
       for (var j = 0; j < len; ++j) {
-        arr.push([+this.props.graphData[i].data[j].date, parseInt(this.props.graphData[i].data[j].value,10)]);
+        if (this.props.graphData[i].data[j].value != '0' && 
+            this.props.graphData[i].data[j].value != null) {
+        // var tmp = parseFloat(this.props.graphData[i].data[j].value).toFixed(2);
+          arr.push([+this.props.graphData[i].data[j].date, parseInt(this.props.graphData[i].data[j].value)]);
+
+        }
 
       }
 
@@ -53,7 +58,7 @@ export default class Graph extends React.Component {
       for (var j = 0; j < len; ++j) {
         boundaries.push({
           'date': +this.props.graphData[i].data[j].date, 
-          'value': result(this.props.graphData[i].data[j].date)
+          'value': parseFloat(result(this.props.graphData[i].data[j].date)).toFixed(2)
         });
       }
       
