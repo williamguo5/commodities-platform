@@ -73,9 +73,9 @@ export default class Maps extends React.Component {
       'theme': 'light',
       // 'colorSteps': 10,
       'dataProvider': {
-        'map': 'australiaHigh',
+        'map': 'australiaLow',
         'getAreasFromMap': true,
-        'zoomLevel': 1.1,
+        'zoomLevel': 1.0,
         // 'areas': []
         'images': imagesToDisplay
       },
