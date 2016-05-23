@@ -146,6 +146,9 @@ router.get('/getPrices', function(req, res, next) {
 		  args: [userID, grain, startDate, endDate]
 		};
 
+    	const months = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+
+
 		PythonShell.run('shippingAPI_v1.py', options, function (err, results) {
   			// if port flag set
   			// console.log(port);
@@ -198,18 +201,48 @@ router.get('/getPrices', function(req, res, next) {
 		  			}
 		  			var dataArray = []
 		  			// console.log(allDatesBetween);
+		  			var prev = 0;
+		  			var percentDiff = [];
+		  			var valueDiff = [];
+		  			var minMax = [];
+		  			var counter = 0;
+		  			var currMonth = 0;
+		  			var sum = 0;
+		  			var averages = [];
 		  			for (var i = 0; i < allDatesBetween.length; i++){
 		  				// if there is an entry for that date
 		  				// console.log(allDatesBetween[i]);
 		  				if (data[allDatesBetween[i]] == undefined || data[allDatesBetween[i]] == ''){
 		  					dataArray.push(null);
+		  					valueDiff.push(null);
+		  					percentDiff.push(null);
+
 		  				} else {
+		  					// var reg = new RegExp( string2);
+		  					
+		  					if (prev != 0) {
+		  						var tmp = parseFloat(data[allDatesBetween[i]]) - parseFloat(prev);
+		  						tmp = parseFloat(tmp).toFixed(2);
+		  						valueDiff.push(tmp);
+		  						// console.log(tmp);
+		  						tmp = parseFloat(tmp/parseInt(prev));
+		  						// console.log("VALUE" + tmp);
+		  						tmp = parseFloat(tmp).toFixed(4);
+		  						var p = tmp * 100;
+		  						p = parseFloat(p).toFixed(2);
+		  						// console.log("PERCENT" + p);
+		  						percentDiff.push(p);
+
+
+		  					}
 		  					dataArray.push(data[allDatesBetween[i]]);
+		  					prev = data[allDatesBetween[i]];
 		  				}
 		  			}
 		  			// console.log(dataArray);
 					// var beginDate = results[0]
-					var response = {dates: allDatesBetween, prices: dataArray};
+					var response = {dates: allDatesBetween, prices: dataArray, 
+									valueDifference: valueDiff, percentDifference: percentDiff};
 					// response.push(allDatesBetween);
 					// response.push(dataArray);
 					// console.log(response);
