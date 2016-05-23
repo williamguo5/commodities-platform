@@ -26,6 +26,7 @@ export default class FileButton extends React.Component {
     }
     this.props.updateDataKey(val);
 
+    // Request.get('http://localhost:3000/shipping')
     Request.get('/shipping')
       .query({ userID: val})
       .end((err, res) => {
@@ -51,6 +52,7 @@ export default class FileButton extends React.Component {
     this.props.updateDataKey(defaultDataKey);
 
 
+    // Request.get('http://localhost:3000/shipping')
     Request.get('/shipping')
       .query({ userID: defaultDataKey})
       .end((err, res) => {
@@ -91,6 +93,7 @@ export default class FileButton extends React.Component {
     const fileType = fileName.split('.')[fileName.split('.').length - 1].toLowerCase();
     if (fileType === 'csv') {
 
+      // Request.post('http://localhost:3000/shipping/upload')
       Request.post('/shipping/upload')
         .attach('inputData', file)
         .end((err, res) => {
@@ -109,6 +112,7 @@ export default class FileButton extends React.Component {
           this.props.addFiles(newFile);
 
 
+          // Request.get('http://localhost:3000/shipping')
           Request.get('/shipping')
             .query({ userID: res.body.dataKey})
             .end((err, res) => {

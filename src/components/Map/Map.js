@@ -75,7 +75,7 @@ export default class Maps extends React.Component {
       'dataProvider': {
         'map': 'australiaHigh',
         'getAreasFromMap': true,
-        'zoomLevel': 1.0,
+        'zoomLevel': 1.2,
         // 'areas': []
         'images': imagesToDisplay
       },

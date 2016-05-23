@@ -90,6 +90,7 @@ export default class QueryForm extends React.Component {
       // console.log('sendFormData: dataKey, sdata, edate, port, grain - ', dataKey, startDateString, endDateString, port, this.state.grain);
 
 
+      // Request.get('http://localhost:3000/shipping/getPrices')
       Request.get('/shipping/getPrices')
         .query({ grain: this.state.grain})
         .query({ port: port})

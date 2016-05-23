@@ -1,6 +1,8 @@
 import React from 'react';
 import SideBar from '../components/sidebar/sidebar';
 import Graph from '../components/Graph/Graph';
+import Maps from '../components/Map/Map';
+
 import NewsFeed from '../components/NewsFeed/NewsFeed';
 import Request from 'superagent';
 
@@ -19,6 +21,8 @@ export default class Dash extends React.Component {
     this.addGraphData = this.addGraphData.bind(this);
     this.removeGraphData = this.removeGraphData.bind(this);
     this.getNewsData = this.getNewsData.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+
     this.state = {
       dataKey: 'default',
       grains: [{label: 'g1', value: 'g1'}, {label: 'g2', value: 'g2'}],
@@ -27,6 +31,7 @@ export default class Dash extends React.Component {
       files: [{label: 'testData.csv', value: 'default'}],
       initialDate: '',
       finalDate: '',
+      map: false,
       newsData: [],
       graphData: [], // graphdata format: [{id: id, grain: grain, port: port, color: color, data: []}]
       colors: ['#0D8ECF', '#FCa202', '#A0CE09', '#9477CB', '#CD0D74', '#836953'],
@@ -150,20 +155,42 @@ export default class Dash extends React.Component {
     const topics = ['COC', 'COF', 'COR', 'COT', 'GOL', 'GRA', 'LIV', 'MEAL', 'MIN', 'OILS', 'ORJ', 'RUB', 'SUG', 'TEA', 'USDA', 'WOO'];
 
     if (startDate !== '' && endDate !== '') {
-      Request.post('http://pacificpygmyowl.herokuapp.com/api/query')
-        .send({ start_date: startDate, end_date: endDate, tpc_list: topics })
-        .set('Accept', 'application/json')
-        .end((err, res) => {
-          if (err !== null || res === undefined || res.body === []) {
-            console.log('The news api seems to be broken');
-          } else {
-            console.log(res.body);
-            this.setState({
-              newsData: res.body
-            });
-          }
-        }
-      );
+      // Request.get('http://localhost:3000/shipping/getNews')
+    Request.get('/shipping/getNews')
+      .end((err, res) => {
+        // console.log('cache news: ', res.body);
+        this.setState({
+          newsData: res.body
+        });
+      });
+      // Request.post('http://pacificpygmyowl.herokuapp.com/api/query')
+      //   .send({ start_date: startDate, end_date: endDate, tpc_list: topics })
+      //   .set('Accept', 'application/json')
+      //   .end((err, res) => {
+      //     if (err !== null || res === undefined || res.body === []) {
+      //       console.log('The news api seems to be broken');
+      //     } else {
+      //       console.log(res.body);
+      //       this.setState({
+      //         newsData: res.body
+      //       });
+      //     }
+      //   }
+      // );
+    }
+  }
+
+  handleClick(event) {
+    if (this.state.map) {
+      console.log('FALSE');
+      this.setState({
+        map: false
+      });
+    } else {
+      console.log('TRUE');
+      this.setState({
+        map: true
+      });
     }
   }
 
@@ -192,8 +219,15 @@ export default class Dash extends React.Component {
       <main style={styles.main}>
         <SideBar dataKey={this.state.dataKey} files={this.state.files} grains={this.state.grains} ports={this.state.ports} queries={this.state.queries} colors={this.state.colors} colorsUsed={this.state.colorsUsed} initialDate={this.state.initialDate} finalDate={this.state.finalDate} addFiles={this.addFiles} addQuery={this.addQuery} removeQuery={this.removeQuery} resetQueries={this.resetQueries} updateDataKey={this.updateDataKey} updateGrains={this.updateGrains} updatePorts={this.updatePorts} updateDateRange={this.updateDateRange} addGraphData={this.addGraphData}/>
         <div className="side-bar-page">
+          <a className="waves-effect waves-light btn" onClick={this.handleClick}>Map</a>
           <div ref="graphContainer" className="tight-container" style={styles.graphContainer}>
-            <Graph colors={this.state.colors} graphData={this.state.graphData} initialDate={this.state.initialDate} finalDate={this.state.finalDate}/>
+          {function(){
+            if (!this.state.map) {
+              return <Graph colors={this.state.colors} graphData={this.state.graphData} initialDate={this.state.initialDate} finalDate={this.state.finalDate}/>;
+            } else {
+              return <Maps/>;
+            }
+          }.call(this)}
           </div>
           <div style={styles.newsContainer} className="tight-container">
             <div className="card" style={styles.newsWrapper}>
