@@ -99,7 +99,7 @@ export default class QueryForm extends React.Component {
         .query({ userID: dataKey})
         .end((err, res) => {
           var data = [];
-          var prevPrice = 0;
+          var prevPrice = null;
           for (var i = 0; i < res.body.dates.length; i++){
             // dates are formatted as DD-MMM-YYYY
             var dateParts = res.body.dates[i].split('-');
@@ -107,14 +107,13 @@ export default class QueryForm extends React.Component {
             var price = res.body.prices[i];
 
             if (price == null) {
-              if (i > 0) {
-                price = prevPrice;
+              if (prevPrice == null) {
+                continue;
               } else {
-                price = '';
+                price = prevPrice;
               }
-            } else {
-              prevPrice = price;
             }
+            prevPrice = price;
             data.push({
               date: newDate,
               value: price

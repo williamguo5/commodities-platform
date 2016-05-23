@@ -121,7 +121,8 @@ export default class Dash extends React.Component {
     // console.log('resetQueries');
     this.setState({
       queries: [],
-      graphData: []
+      graphData: [],
+      colorsUsed: [0, 0, 0, 0, 0, 0]
     });
   };
 
@@ -154,30 +155,36 @@ export default class Dash extends React.Component {
   getNewsData(startDate, endDate) {
     const topics = ['COC', 'COF', 'COR', 'COT', 'GOL', 'GRA', 'LIV', 'MEAL', 'MIN', 'OILS', 'ORJ', 'RUB', 'SUG', 'TEA', 'USDA', 'WOO'];
 
-    if (startDate !== '' && endDate !== '') {
-      // Request.get('http://localhost:3000/shipping/getNews')
+
+  
+    // uses a cached file of responses instead of their api.
     Request.get('/shipping/getNews')
       .end((err, res) => {
         // console.log('cache news: ', res.body);
+        var newsData = res.body;
+        newsData = newsData.reverse();
         this.setState({
-          newsData: res.body
+          newsData: newsData
         });
       });
-      // Request.post('http://pacificpygmyowl.herokuapp.com/api/query')
-      //   .send({ start_date: startDate, end_date: endDate, tpc_list: topics })
-      //   .set('Accept', 'application/json')
-      //   .end((err, res) => {
-      //     if (err !== null || res === undefined || res.body === []) {
-      //       console.log('The news api seems to be broken');
-      //     } else {
-      //       console.log(res.body);
-      //       this.setState({
-      //         newsData: res.body
-      //       });
-      //     }
-      //   }
-      // );
-    }
+    // if (startDate !== '' && endDate !== '') {
+    //   Request.post('http://pacificpygmyowl.herokuapp.com/api/query')
+    //     .send({ start_date: startDate, end_date: endDate, tpc_list: topics })
+    //     .set('Accept', 'application/json')
+    //     .end((err, res) => {
+    //       if (err !== null || res === undefined || res.body === []) {
+    //         console.log('The news api seems to be broken');
+    //       } else {
+    //         // console.log(res.body);
+    //         var newsData = res.body;
+    //         newsData = newsData.reverse();
+    //         this.setState({
+    //           newsData: newsData
+    //         });
+    //       }
+    //     }
+    //   );
+    // }
   }
 
   handleClick(event) {
@@ -197,7 +204,7 @@ export default class Dash extends React.Component {
   render() {
     const styles = {
       main: {
-        backgroundColor: 'rgba(0, 128, 128, 0.17)'
+        backgroundColor: 'rgba(31, 71, 147, 0.08)'
       },
       graphContainer: {
         width: '100%',
