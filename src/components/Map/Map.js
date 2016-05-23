@@ -60,7 +60,7 @@ export default class Maps extends React.Component {
         type: 'circle',
         width: 15,
         height: 15,
-        color: '#ff6600',
+        // color: dataItem.color,
         longitude: latLong[id].longitude,
         latitude: latLong[id].latitude,
         title: dataItem.name,
@@ -82,10 +82,10 @@ export default class Maps extends React.Component {
       'imagesSettings': {
         'balloonText': '[[title]]: <strong>[[value]]</strong>'
       },
-      // 'areasSettings': {
-      //   'autoZoom': true,
-      //   'balloonText': '[[title]]: <strong>[[value]]</strong>'
-      // },
+      'areasSettings': {
+        'autoZoom': true,
+        'balloonText': '[[title]]: <strong>[[value]]</strong>'
+      },
       'zoomControl': {
         'minZoomLevel': 0.9
       },
