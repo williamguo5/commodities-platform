@@ -22,12 +22,19 @@ export default class Graph extends React.Component {
       if (i == 0){
         toCompare = false;
       }
+      // console.log(this.props.graphData[i].data);
       dataToDisplay.push({
         title: title,
         'color': this.props.graphData[i].color,
         fieldMappings: [ {
           fromField: 'value',
           toField: 'value'
+        },{
+          fromField: 'percentDifference',
+          toField: 'percentDifference'
+        },{
+          fromField: 'valueDifference',
+          toField: 'valueDifference'
         } ],
         dataProvider: this.props.graphData[i].data,
         compared: toCompare,
@@ -101,6 +108,12 @@ export default class Graph extends React.Component {
         fieldMappings: [ {
           fromField: 'value',
           toField: 'value'
+        },{
+          fromField: 'percentDifference',
+          toField: 'percentDifference'
+        },{
+          fromField: 'valueDifference',
+          toField: 'valueDifference'
         } ],
         dataProvider: [{date: newSDate, value: ''}, {date: newEDate, value: ''}],
         compared: false,
@@ -131,8 +144,8 @@ export default class Graph extends React.Component {
           'comparable': true,
           'lineThickness': 2,
           'compareGraphLineThickness': 2,
-          'balloonText': '[[title]]: <b>[[value]]</b>',
-          'compareGraphBalloonText': '[[title]]:<b> [[value]]</b>',
+          'balloonText': '[[title]]: <b>[[value]]</b>  [[percentDifference]] [[valueDifference]]',
+          'compareGraphBalloonText': '[[title]]:<b> [[value]]</b> [[percentDifference]] [[valueDifference]]',
           'compareField': 'value'
         } ],
         'stockLegend': {

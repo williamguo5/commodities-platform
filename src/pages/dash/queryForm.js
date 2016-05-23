@@ -90,7 +90,6 @@ export default class QueryForm extends React.Component {
       // console.log('sendFormData: dataKey, sdata, edate, port, grain - ', dataKey, startDateString, endDateString, port, this.state.grain);
 
 
-      // Request.get('http://localhost:3000/shipping/getPrices')
       Request.get('/shipping/getPrices')
         .query({ grain: this.state.grain})
         .query({ port: port})
@@ -100,11 +99,15 @@ export default class QueryForm extends React.Component {
         .end((err, res) => {
           var data = [];
           var prevPrice = null;
+          var prevPercentageDifference = null;
+          var prevValueDifference = null;
           for (var i = 0; i < res.body.dates.length; i++){
             // dates are formatted as DD-MMM-YYYY
             var dateParts = res.body.dates[i].split('-');
             var newDate = new Date(dateParts[2], monthIndex.indexOf(dateParts[1]), dateParts[0]);
             var price = res.body.prices[i];
+            var percentDifference = res.body.percentDifference[i];
+            var valueDifference = res.body.valueDifference[i];
 
             if (price == null) {
               if (prevPrice == null) {
@@ -113,10 +116,18 @@ export default class QueryForm extends React.Component {
                 price = prevPrice;
               }
             }
+            if (percentDifference == null) {
+              percentDifference = '';
+            }
+            if (valueDifference == null) {
+              valueDifference = '';
+            }
             prevPrice = price;
             data.push({
               date: newDate,
-              value: price
+              value: price,
+              percentDifference: percentDifference,
+              valueDifference: valueDifference
             });
           }
           this.props.addGraphData({

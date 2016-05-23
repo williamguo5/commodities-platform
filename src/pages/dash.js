@@ -21,12 +21,12 @@ export default class Dash extends React.Component {
     this.addGraphData = this.addGraphData.bind(this);
     this.removeGraphData = this.removeGraphData.bind(this);
     this.getNewsData = this.getNewsData.bind(this);
-    this.handleClick = this.handleClick.bind(this);
+    this.changeMapState = this.changeMapState.bind(this);
 
     this.state = {
       dataKey: 'default',
-      grains: [{label: 'g1', value: 'g1'}, {label: 'g2', value: 'g2'}],
-      ports: [{label: 'p1', value: 'p1'}, {label: 'p2', value: 'p2'}],
+      grains: [],
+      ports: [],
       queries: [],
       files: [{label: 'testData.csv', value: 'default'}],
       initialDate: '',
@@ -187,7 +187,7 @@ export default class Dash extends React.Component {
     // }
   }
 
-  handleClick(event) {
+  changeMapState() {
     if (this.state.map) {
       console.log('FALSE');
       this.setState({
@@ -224,9 +224,8 @@ export default class Dash extends React.Component {
 
     return (
       <main style={styles.main}>
-        <SideBar dataKey={this.state.dataKey} files={this.state.files} grains={this.state.grains} ports={this.state.ports} queries={this.state.queries} colors={this.state.colors} colorsUsed={this.state.colorsUsed} initialDate={this.state.initialDate} finalDate={this.state.finalDate} addFiles={this.addFiles} addQuery={this.addQuery} removeQuery={this.removeQuery} resetQueries={this.resetQueries} updateDataKey={this.updateDataKey} updateGrains={this.updateGrains} updatePorts={this.updatePorts} updateDateRange={this.updateDateRange} addGraphData={this.addGraphData}/>
+        <SideBar dataKey={this.state.dataKey} files={this.state.files} grains={this.state.grains} ports={this.state.ports} queries={this.state.queries} colors={this.state.colors} map={this.state.map} changeMapState={this.changeMapState} colorsUsed={this.state.colorsUsed} initialDate={this.state.initialDate} finalDate={this.state.finalDate} addFiles={this.addFiles} addQuery={this.addQuery} removeQuery={this.removeQuery} resetQueries={this.resetQueries} updateDataKey={this.updateDataKey} updateGrains={this.updateGrains} updatePorts={this.updatePorts} updateDateRange={this.updateDateRange} addGraphData={this.addGraphData}/>
         <div className="side-bar-page">
-          <a className="waves-effect waves-light btn" onClick={this.handleClick}>Map</a>
           <div ref="graphContainer" className="tight-container" style={styles.graphContainer}>
           {function(){
             if (!this.state.map) {
