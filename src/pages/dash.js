@@ -219,14 +219,24 @@ export default class Dash extends React.Component {
         height: '100%',
         overflowY: 'scroll',
         margin: '0'
+      },
+      map: {
+        padding: '20px'
       }
+
     };
 
     return (
       <main style={styles.main}>
         <SideBar dataKey={this.state.dataKey} files={this.state.files} grains={this.state.grains} ports={this.state.ports} queries={this.state.queries} colors={this.state.colors} colorsUsed={this.state.colorsUsed} initialDate={this.state.initialDate} finalDate={this.state.finalDate} addFiles={this.addFiles} addQuery={this.addQuery} removeQuery={this.removeQuery} resetQueries={this.resetQueries} updateDataKey={this.updateDataKey} updateGrains={this.updateGrains} updatePorts={this.updatePorts} updateDateRange={this.updateDateRange} addGraphData={this.addGraphData}/>
         <div className="side-bar-page">
-          <a className="waves-effect waves-light btn" onClick={this.handleClick}>Map</a>
+          {function(){
+            if (!this.state.map) {
+              return <a ref="map"className="waves-effect waves-light btn" onClick={this.handleClick}>Map</a>;
+            } else {
+              return <a ref="map"className="waves-effect waves-light btn" onClick={this.handleClick}>Graph</a>;
+            }
+          }.call(this)}
           <div ref="graphContainer" className="tight-container" style={styles.graphContainer}>
           {function(){
             if (!this.state.map) {
