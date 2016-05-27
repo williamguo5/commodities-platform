@@ -199,6 +199,7 @@ router.get('/getPrices', function(req, res, next) {
 		  				} else {
 		  					
 		  					if (prev != 0) {
+		  						// Calculates the percent and value difference between current value and previous value
 		  						var tmp = parseFloat(data[allDatesBetween[i]]) - parseFloat(prev);
 		  						tmp = parseFloat(tmp).toFixed(2);
 		  						valueDiff.push(tmp);
@@ -263,7 +264,7 @@ router.post('/upload', upload.array('inputData', 1), function(req, res) {
 	}
 
 	files[dataKey] = true;
-	
+
 	res.json({
 		"filename": originalName,
 		"dataKey": dataKey,
