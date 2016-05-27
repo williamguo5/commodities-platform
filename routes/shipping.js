@@ -29,11 +29,7 @@ router.get('/', function(req, res, next) {
 		};
 
 	PythonShell.run('getGrainsAndPorts.py', options, function (err, results) {
-		// console.log(results)
-		// jsonArr = [];
-		// for (i in results) {
-			// jsonArr[i] = JSON.parse(results[i]);
-		// }
+		
 		if (results == null || results[0] == 'File not found') {
 			res.send('Invalid userID');
 		} else {
@@ -43,14 +39,15 @@ router.get('/', function(req, res, next) {
 	// res.send('Will display list of all shipping data');
 });
 
+// Gets news from a text file which contains the cached result of the news api
 router.get('/getNews', function(req, res, next) {
-	console.log('get news');
 	var fs = require('fs');
 	fs.readFile('news.txt', 'utf8', function(err, contents) {
 		res.json(JSON.parse(contents));
 	});
 });
 
+// Gets relevant news from news api
 router.get('/getRelevantNews', function(req, res, next) {
 
 	var request = require('superagent');
@@ -66,12 +63,9 @@ router.get('/getRelevantNews', function(req, res, next) {
 
 	var endDate = new Date(year, month - 1, day + 1);
 
-    // console.log (day + "-" + endDate.getMonth() + "-" + year);
-
 	var startDate;
 	// Go back 1 week
 	if (endDate.getMonth() < 11 && endDate.getFullYear() <= 2015 && endDate.getDay() < 9) {
-		// console.log("HI");
 		startDate = new Date(2015, 10 - 1, 1 + 1);
 	} else {
 		startDate = endDate;
@@ -81,39 +75,33 @@ router.get('/getRelevantNews', function(req, res, next) {
 	startDate.setUTCHours(0, 0, 0, 0);
 	endDate.setUTCHours(0, 0, 0, 0);	
 
-	console.log(startDate.toISOString());
-	console.log(endDate.toISOString());
+	// Sends a superagent request to news api
 	request.post('http://pacificpygmyowl.herokuapp.com/api/query')
 		.send({"start_date" : startDate.toISOString(), "end_date" : endDate.toISOString(),
 				"instr_list": "[GNC.AX]", 
 				"tpc_list": "[GRA, WEA, LIV, MEAL, USDA, GMO, BEV, AFE, ]"})
-  		// .set('Accept', 'application/json')
   		.end(function(err, result){
-  			// console.log(res);
     		// Calling the end function will send the request
-    			// console.log(res.body[0].body);
     		var j = 0;
     		var jsonArr = [];
     		for (i in result.body) {
     			if(/(wheat|canola|barley|grain)/.test(result.body[i].headline) ||
     			   /(wheat|canola|barley|grain)/.test(result.body[i].body)){
-    			   	// console.log()
+
     				var obj = {};
     				obj["headline"] = result.body[i].headline;
     				obj["body"] = result.body[i].body; 	
-    				console.log(obj["headline"]);
     			   	jsonArr.push(obj);
 
 				}
 
     		}
-    		// console.log(jsonArr[0].body);
     		res.json(jsonArr);
   		}
 	);
-  	// res.send("TODO CULL NEWS\n");
 });
 
+// Gets the prices given start date, end date, grain and port
 router.get('/getPrices', function(req, res, next) {
 	var userID = req.query.userID;
 	var grain = req.query.grain;
@@ -151,13 +139,10 @@ router.get('/getPrices', function(req, res, next) {
 
 		PythonShell.run('shippingAPI_v1.py', options, function (err, results) {
   			// if port flag set
-  			// console.log(port);
   			if (port != undefined){
-				// console.log(results);
   				if (results == null || results[0] == 'Invalid grain!') {
 	  				res.send("No results for given grain");
 				} else {
-					// port = port + '_Y1';
 					var portRe = new RegExp('"' + port + '":"([.\\d]*)"', 'i');
 					var dateRe = /"date":"(\d{1,2}\-[a-zA-Z]{3}\-\d{4})"/;
 
@@ -177,13 +162,11 @@ router.get('/getPrices', function(req, res, next) {
 		  				});
 					var dateEnd = end[1];
 
-					console.log(dateStart, dateEnd);
 					var allDatesBetween = datesBetween(dateStart, dateEnd);
 
 		  			var data = {};
 		  			for (i in results){
 		  				var jsonString = JSON.stringify(JSON.parse(results[i]));
-		  				// console.log(jsonString);
 		  				var date = dateRe.exec(jsonString, function(err) {
 		  					if (err){
 		  						console.log(err);
@@ -200,37 +183,29 @@ router.get('/getPrices', function(req, res, next) {
 		  				data[date] = price;
 		  			}
 		  			var dataArray = []
-		  			// console.log(allDatesBetween);
+		  			// Used for calculating percent and value change
 		  			var prev = 0;
 		  			var percentDiff = [];
 		  			var valueDiff = [];
-		  			var minMax = [];
-		  			var counter = 0;
-		  			var currMonth = 0;
-		  			var sum = 0;
-		  			var averages = [];
+		  			// ---------------
+
 		  			for (var i = 0; i < allDatesBetween.length; i++){
 		  				// if there is an entry for that date
-		  				// console.log(allDatesBetween[i]);
 		  				if (data[allDatesBetween[i]] == undefined || data[allDatesBetween[i]] == ''){
 		  					dataArray.push(null);
 		  					valueDiff.push(null);
 		  					percentDiff.push(null);
 
 		  				} else {
-		  					// var reg = new RegExp( string2);
 		  					
 		  					if (prev != 0) {
 		  						var tmp = parseFloat(data[allDatesBetween[i]]) - parseFloat(prev);
 		  						tmp = parseFloat(tmp).toFixed(2);
 		  						valueDiff.push(tmp);
-		  						// console.log(tmp);
 		  						tmp = parseFloat(tmp/parseInt(prev));
-		  						// console.log("VALUE" + tmp);
 		  						tmp = parseFloat(tmp).toFixed(4);
 		  						var p = tmp * 100;
 		  						p = parseFloat(p).toFixed(2);
-		  						// console.log("PERCENT" + p);
 		  						percentDiff.push(p);
 
 
@@ -239,13 +214,8 @@ router.get('/getPrices', function(req, res, next) {
 		  					prev = data[allDatesBetween[i]];
 		  				}
 		  			}
-		  			// console.log(dataArray);
-					// var beginDate = results[0]
 					var response = {dates: allDatesBetween, prices: dataArray, 
 									valueDifference: valueDiff, percentDifference: percentDiff};
-					// response.push(allDatesBetween);
-					// response.push(dataArray);
-					// console.log(response);
 					res.send(response);
 				}
   			}
@@ -279,19 +249,21 @@ router.get('/getPrices', function(req, res, next) {
 
 });
 
+// Endpoint to upload files
 router.post('/upload', upload.array('inputData', 1), function(req, res) {
-	// console.log(req.files[0]);
 	var dataKey = req.files[0].filename;
 	var originalName = req.files[0].originalname;
+
+	// Handles duplicate filename uploads
 	if (fileNamesToKey[originalName] == undefined) {
 		fileNamesToKey[originalName] = dataKey;
 	} else {
 		originalName = originalName+"(" + index++ + ")";
 		fileNamesToKey[originalName] = dataKey;
-		// console.log(dataKey);
 	}
+
 	files[dataKey] = true;
-	//TODO - delete uploaded files that are over 24 hours old.
+	
 	res.json({
 		"filename": originalName,
 		"dataKey": dataKey,
@@ -301,6 +273,7 @@ router.post('/upload', upload.array('inputData', 1), function(req, res) {
 
 module.exports = router;
 
+// Checks if the date is valid
 function isValidDate(dateString) {
     // First check for the pattern
     if(!/^\d{1,2}\-[a-zA-Z]{3}\-\d{4}$/.test(dateString)){
@@ -329,7 +302,7 @@ function isValidDate(dateString) {
     return day > 0 && day <= monthLength[index];
 };
 
-
+// Adds the dates between the start and end date
 function datesBetween(startDateString, endDateString){
 	var startParts = startDateString.split("-");
 	var endParts = endDateString.split("-");
@@ -355,6 +328,5 @@ function datesBetween(startDateString, endDateString){
 		var dateString = date + '-' + months[d.getMonth()] + '-' + d.getFullYear();
 		daysBetween.push(dateString);
 	}
-	// console.log(daysBetween);
 	return daysBetween;
 };
