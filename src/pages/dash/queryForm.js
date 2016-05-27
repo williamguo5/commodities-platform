@@ -21,10 +21,6 @@ export default class QueryForm extends React.Component {
     };
   }
   componentDidMount() {
-    $('.datepicker').pickadate({
-      selectMonths: true, // Creates a dropdown to control month
-      selectYears: 10 // Creates a dropdown of 15 years to control year
-    });
     $('.tooltipped').tooltip({delay: 50});
     $('select').material_select();
   };
@@ -32,10 +28,12 @@ export default class QueryForm extends React.Component {
     $('.tooltipped').tooltip('remove');
   }
 
+  // update state to the grain that is selected in the dropdown
   selectGrain(val){
     this.state.grain = val;
   };
 
+  // update state to the port that is selected in the dropdown
   selectPort(val){
     this.state.port = val;
   };
@@ -49,11 +47,14 @@ export default class QueryForm extends React.Component {
     // Prepare form data for submitting it.
     let monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
+    // does not add a query if a grain, or port is not selected or if there are already 6 queries
     if (this.state.grain != '' && this.state.port != '' && this.props.queries.length < 6){
       var currGrain = this.state.grain;
       var currPort = this.state.port;
       var currID = this.state.nextID;
       var currColor = this.props.colors[3];
+
+      // gets the next color in the rotation
       for (let i = 0; i < this.props.colorsUsed.length; i++){
         if (this.props.colorsUsed[i] == 0){
           currColor = this.props.colors[i];
@@ -89,7 +90,7 @@ export default class QueryForm extends React.Component {
 
       // console.log('sendFormData: dataKey, sdata, edate, port, grain - ', dataKey, startDateString, endDateString, port, this.state.grain);
 
-
+      // gets the data with the selected params, and formats null data
       Request.get('/shipping/getPrices')
         .query({ grain: this.state.grain})
         .query({ port: port})
@@ -143,7 +144,6 @@ export default class QueryForm extends React.Component {
   };
 
   populateList(list){
-    // console.log('printing options: ', list);
     var options = [];
     if (list != undefined){
       for (var i = 0; i < list.length; i++){

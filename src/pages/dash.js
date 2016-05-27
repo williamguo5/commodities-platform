@@ -39,8 +39,8 @@ export default class Dash extends React.Component {
     };
   }
 
+  // adds the filename and its datakey to the state
   addFiles(file) {
-    // console.log('addFiles: ' + file);
     let curr = this.state.files;
     curr.push(file);
     this.setState({
@@ -48,27 +48,28 @@ export default class Dash extends React.Component {
     });
   };
 
+  // updates the working datakey to the one that corresponds with the selected file
   updateDataKey(key) {
-    // console.log('updateDataKey: ' + key);
     this.setState({
       dataKey: key
     });
   };
 
+  // updates the list of grains to that of the selected file
   updateGrains(grains) {
-    // console.log('updateGrains: ' + grains);
     this.setState({
       grains: grains
     });
   };
 
+  // updates the list of ports to that of the selected file
   updatePorts(ports) {
-    // console.log('updatePorts: ' + ports);
     this.setState({
       ports: ports
     });
   };
 
+  // updates the date range to that of the selected file
   updateDateRange(initialDate, finalDate) {
     const monthIndex = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'],
         initialDateParts = initialDate.split('-'),
@@ -85,10 +86,8 @@ export default class Dash extends React.Component {
     });
   };
 
-
+  // add the query to the state
   addQuery(query) {
-    // console.log('addQuery - dash: ', query);
-    // this.generateChartData();
     this.state.colorsUsed[this.state.colors.indexOf(query.color)] = 1;
     let curr = this.state.queries;
     curr.push(query);
@@ -97,8 +96,8 @@ export default class Dash extends React.Component {
     });
   };
 
+  // removes the given query from the state
   removeQuery(queryID){
-    // console.log('removeQuery - dash: ', queryID);
     var index = undefined;
     for (let i = 0; i < this.state.queries.length; i++){
       if (this.state.queries[i].id == queryID){
@@ -106,7 +105,6 @@ export default class Dash extends React.Component {
         this.state.colorsUsed[this.state.colors.indexOf(this.state.queries[i].color)] = 0;
       }
     }
-    // console.log('removeQuery index: ', index);
     let curr = this.state.queries;
     if (index > -1){
       curr.splice(index, 1);
@@ -117,8 +115,8 @@ export default class Dash extends React.Component {
     this.removeGraphData(queryID);
   };
 
+  // removes all the queries and graphdata from the state
   resetQueries(){
-    // console.log('resetQueries');
     this.setState({
       queries: [],
       graphData: [],
@@ -126,8 +124,8 @@ export default class Dash extends React.Component {
     });
   };
 
+  // add the formatted dataset to the state
   addGraphData(data) {
-    // console.log('updateGraphData: ', data);
     let curr = this.state.graphData;
     curr.push(data);
     this.setState({
@@ -135,6 +133,7 @@ export default class Dash extends React.Component {
     });
   };
 
+  // remove a graph dataset from the state
   removeGraphData(id) {
     var index = undefined;
     for (let i = 0; i < this.state.graphData.length; i++){
@@ -142,7 +141,6 @@ export default class Dash extends React.Component {
         index = i;
       }
     }
-    // console.log('removeGraphData index: ', index);
     let curr = this.state.graphData;
     if (index !== undefined){
       curr.splice(index, 1);
@@ -152,11 +150,10 @@ export default class Dash extends React.Component {
     });
   };
 
+  // get news data to display in newsfeed
   getNewsData(startDate, endDate) {
     const topics = ['COC', 'COF', 'COR', 'COT', 'GOL', 'GRA', 'LIV', 'MEAL', 'MIN', 'OILS', 'ORJ', 'RUB', 'SUG', 'TEA', 'USDA', 'WOO'];
 
-
-  
     // uses a cached file of responses instead of their api.
     Request.get('/shipping/getNews')
       .end((err, res) => {
@@ -167,6 +164,8 @@ export default class Dash extends React.Component {
           newsData: newsData
         });
       });
+
+    // gets news data from news API
     // if (startDate !== '' && endDate !== '') {
     //   Request.post('http://pacificpygmyowl.herokuapp.com/api/query')
     //     .send({ start_date: startDate, end_date: endDate, tpc_list: topics })
@@ -187,14 +186,13 @@ export default class Dash extends React.Component {
     // }
   }
 
+  // change whether the map is selected or not
   changeMapState() {
     if (this.state.map) {
-      console.log('FALSE');
       this.setState({
         map: false
       });
     } else {
-      console.log('TRUE');
       this.setState({
         map: true
       });

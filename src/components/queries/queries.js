@@ -12,6 +12,7 @@ export default class SideBar extends React.Component {
     this.props.removeQuery(event.target.id);
   };
 
+  // displays the list of queries
   makeTags(queries){
     let tagHTML = [];
     if (queries != undefined) {

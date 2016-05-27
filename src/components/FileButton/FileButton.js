@@ -14,10 +14,9 @@ export default class FileButton extends React.Component {
     this.state = { message: '', selectedName: 'testData.csv'};
   };
 
+  // update datakey on dash state
+  // change selected box display
   selectFile(val) {
-    // update datakey on dash state
-    // change selected box display
-    // console.log('select file: ', this.props.files);
     for (var i = 0; i < this.props.files.length; i++){
       if (this.props.files[i].value == val){
         this.state.selectedName = this.props.files[i].label;
@@ -57,7 +56,6 @@ export default class FileButton extends React.Component {
           this.props.updateDateRange(res.body.initialDate, res.body.finalDate);
         }
         if (this.props.updateGrains){
-          // console.log(res.body);
           this.props.updateGrains(this.formatOptions(res.body.grains));
         }
         if (this.props.updatePorts){
@@ -69,22 +67,13 @@ export default class FileButton extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    console.log('This isnt useless');
     this.setState({ message: 'Uploading...' }, this.handleFile);
   };
 
+  // uploads new file, and populate grains and ports dropdown appropriately
   handleFile(event) {
-    console.log('handle file');
-    // testing
-    // var temp = [{label: 'a', value: 'b'}, {label: 'abc', value: 'abc'}];
-    // var temp2 = ['1st', 'second', 'a', 'b', 'd', 'e', , 'dsf', 'f', 'df'];
-    // this.props.updateDataKey('testDatakey');
-    // this.props.updateGrains(temp);
-    // this.props.updatePorts(this.formatOptions(temp2));
-    // end testing data
 
     const file = event.target.files[0];
-    // console.log('file: ', file);
     const fileName = file.name;
     const fileType = fileName.split('.')[fileName.split('.').length - 1].toLowerCase();
     if (fileType === 'csv') {
@@ -110,8 +99,6 @@ export default class FileButton extends React.Component {
           Request.get('/shipping')
             .query({ userID: res.body.dataKey})
             .end((err, res) => {
-              console.log('handleFile2');
-              // console.log(JSON.stringify(res.body));
               if (this.props.updateGrains){
                 this.props.updateGrains(this.formatOptions(res.body.grains));
               }
@@ -127,13 +114,10 @@ export default class FileButton extends React.Component {
         });
     } else {
       alert('Wrong file type! The file must be in csv format');
-      // TODO: Remove the incorrect file using event.target.xxxx
-      // console.log(event.target);
     }
   };
 
   formatOptions(list){
-    // console.log(list);
     var formattedList = [];
     for (var i = 0; i < list.length; i++){
       formattedList.push({label: list[i], value: list[i]});
@@ -142,7 +126,6 @@ export default class FileButton extends React.Component {
   };
 
   render() {
-    // console.log('render: ', this.props.files);
     return(
       <form onSubmit={this.handleSubmit} >
         <label className="tight-container">Select or upload a new file:</label>

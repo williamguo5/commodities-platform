@@ -10,9 +10,8 @@ export default class Graph extends React.Component {
     this.state = {};
   };
 
+  // updates and formats the datasets to the spec of AMcharts to be displayed
   updateDataSets() {
-    // console.log('generate chart', this.props.graphData.length);
-    // console.log('generate chart', this.props.graphData);
     var dataToDisplay = [];
     var trendsToDisplay = [];
     var showInLegend = true;
@@ -22,7 +21,6 @@ export default class Graph extends React.Component {
       if (i == 0){
         toCompare = false;
       }
-      // console.log(this.props.graphData[i].data);
       dataToDisplay.push({
         title: title,
         'color': this.props.graphData[i].color,
@@ -85,8 +83,6 @@ export default class Graph extends React.Component {
         showInCompare: true,
         categoryField: 'date'
       });
-      // console.log(this.state.colors[this.state.colorIndex]);
-      // console.log(this.state.colorIndex);
 
       this.state.colorIndex++;
       if (this.state.colorIndex >= this.state.colorIndex.length){
@@ -94,6 +90,7 @@ export default class Graph extends React.Component {
       }
     }
 
+    // if there is no graph data, adds an empty data set for visual completeness
     if (this.props.graphData.length == 0){
       console.log('No data to display');
       console.log('dates', this.props.initialDate, this.props.finalDate);
@@ -197,17 +194,6 @@ export default class Graph extends React.Component {
         'enabled': true
       }
     };
-    if (chartProperties.dataSets.length == 0){
-      chartProperties.panels.push({
-        allLabels: [{
-          x: 0,
-          y: '50%',
-          text: 'The chart contains no data (Will change this to look better)',
-          align: 'center',
-          size: 16
-        }]
-      });
-    }
     var chart = AmCharts.makeChart( 'chartdiv', chartProperties);
   };
 
